@@ -79,13 +79,6 @@
             </list>
           </value>
         </entry>
-        <entry key="fieldforce">
-          <value>
-            <list>
-              <option value="$PROJECT_DIR$/../lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="file_picker">
           <value>
             <list>
@@ -420,7 +413,6 @@
       <root url="file://$PROJECT_DIR$/../../../Dev/flutter/packages/flutter/lib" />
       <root url="file://$PROJECT_DIR$/../../../Dev/flutter/packages/flutter_test/lib" />
       <root url="file://$PROJECT_DIR$/../../../Dev/flutter/packages/flutter_web_plugins/lib" />
-      <root url="file://$PROJECT_DIR$/../lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

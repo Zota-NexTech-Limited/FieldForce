@@ -5,16 +5,14 @@ import 'package:fieldforce/components/text_component/input_field_title_text.dart
 import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/contact_details_screen.dart';
 import 'package:flutter/material.dart';
-
 class CustomerInformationScreen extends StatefulWidget {
   const CustomerInformationScreen({super.key});
-
   @override
   State<CustomerInformationScreen> createState() => _CustomerInformationScreenState();
 }
-
 class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   TextEditingController fullNameController=TextEditingController();
   TextEditingController contactNameController=TextEditingController();
@@ -22,9 +20,10 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   TextEditingController companyNameController=TextEditingController();
   TextEditingController companySizeController=TextEditingController();
   TextEditingController industryController=TextEditingController();
-
   String? selectedCustomerSource;
   List<String> customerSourceList=[];
+
+   NewLeadModel leadDetails=NewLeadModel();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -55,7 +54,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                       },
                       readOnly: false
                   ),
-              
                    const InputFieldTitleText(text: "Contact Name *"),
                   NormalTextFormField(
                       onChanged: (value){},
@@ -71,7 +69,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                       },
                       readOnly: false
                   ),
-              
                   const InputFieldTitleText(text: "Contact Title *"),
                   NormalTextFormField(
                       onChanged: (value){},
@@ -87,7 +84,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                       },
                       readOnly: false
                   ),
-              
                   const InputFieldTitleText(text: "Company Name"),
                   NormalTextFormField(
                       onChanged: (value){},
@@ -100,8 +96,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                       },
                       readOnly: false
                   ),
-              
-              
                   const InputFieldTitleText(text: "Company Size"),
                   NormalTextFormField(
                       onChanged: (value){},
@@ -114,8 +108,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                       },
                       readOnly: false
                   ),
-              
-              
                   const InputFieldTitleText(text: "Industry"),
                   NormalTextFormField(
                       onChanged: (value){},
@@ -127,19 +119,32 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                       },
                       readOnly: false
                   ),
-              
                   const InputFieldTitleText(text: "Customer Source *"),
                  SingleItemSelectDropdown(selectedValue: selectedCustomerSource, list: customerSourceList, onChanged: (value){
                    setState(() {
                      selectedCustomerSource=value;
                    });
                  }, hint: "Select how the customer was acquired"),
-
                   SizedBox(height: SizeConfig.blockHeight*3,),
                   NormalButtonWithIcon(title: "Next Step", onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const ContactDetailsScreen()));
+
+                    setState(() {
+                      leadDetails=NewLeadModel(
+                        leadFullName: fullNameController.text,
+                        leadContactName: contactNameController.text,
+                        leadContactTitle: contactTitleController.text,
+                        leadCompanyName: companyNameController.text,
+                        leadCompanySize: companySizeController.text,
+                        leadIndustry: industryController.text,
+                        leadSource: selectedCustomerSource
+
+                      );
+
+
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>  ContactDetailsScreen(leadDetails:leadDetails,)));
+                    });
+
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
-                  
                 ],
               ),
             ),

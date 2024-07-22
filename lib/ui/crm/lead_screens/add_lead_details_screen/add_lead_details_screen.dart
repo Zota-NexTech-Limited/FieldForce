@@ -148,7 +148,6 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                   const InputFieldTitleText(text: "Mobile Number"),
                   TextFormFieldWithSuffixIcon(
                       onChanged:  (value){
-                        
                       },
                       readOnly: false,
                       controller: mobileNumberController,
@@ -203,7 +202,6 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                       },
                       readOnly: false
                   ),
-
                   const InputFieldTitleText(text: "Financial Status"),
                   SingleItemSelectDropdown(
                       selectedValue: selectedFinancialStatus,

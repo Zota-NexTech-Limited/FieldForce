@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/new_lead_bloc/new_lead_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
@@ -6,10 +7,13 @@ import 'package:fieldforce/components/text_form_field_component/multy_line_text_
 import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/inquiry_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class ProductOrServiceDetailsScreen extends StatefulWidget {
-  const ProductOrServiceDetailsScreen({super.key});
+  final NewLeadModel leadDetails;
+  const ProductOrServiceDetailsScreen({super.key,required this.leadDetails});
 
   @override
   State<ProductOrServiceDetailsScreen> createState() => _ProductOrServiceDetailsScreenState();
@@ -22,6 +26,13 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
 
   String? selectedProduct;
   List<String> productList=[];
+  late NewLeadModel leadDetails;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    leadDetails=widget.leadDetails;
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -78,7 +89,16 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
 
                    SizedBox(height: SizeConfig.blockHeight*3,),
                   NormalButtonWithIcon(title: "Next Step", onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const InquiryDetailsScreen()));
+                    setState(() {
+                      leadDetails=NewLeadModel(
+                        leadProduct: selectedProduct,
+                        leadDetails: additionalDetailsController.text,
+                        leadQuantity: quantityController.text,
+                        leadBudget: budgetController.text
+                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>NewLeadBloc(),child:InquiryDetailsScreen(leadDetails: leadDetails,) ,) ));
+                    });
+
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
 
                 ],

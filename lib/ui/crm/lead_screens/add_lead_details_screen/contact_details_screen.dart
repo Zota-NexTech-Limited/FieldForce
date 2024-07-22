@@ -6,10 +6,12 @@ import 'package:fieldforce/components/text_form_field_component/multy_line_text_
 import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/product_or_service_details_screen.dart';
 import 'package:flutter/material.dart';
 class ContactDetailsScreen extends StatefulWidget {
-  const ContactDetailsScreen({super.key});
+  final NewLeadModel leadDetails;
+  const ContactDetailsScreen({super.key,required this.leadDetails});
 
   @override
   State<ContactDetailsScreen> createState() => _ContactDetailsScreenState();
@@ -27,6 +29,13 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
 
   String? selectedCity;
   List<String> cityList=[];
+  late NewLeadModel leadDetails;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    leadDetails=widget.leadDetails;
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -134,7 +143,20 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
 
                   SizedBox(height: SizeConfig.blockHeight*3,),
                   NormalButtonWithIcon(title: "Next Step", onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const ProductOrServiceDetailsScreen()));
+                    setState(() {
+                      leadDetails=NewLeadModel(
+                        leadPhoneNumber: phoneNumberController.text,
+                        leadEmail: emailAddressController.text,
+                        leadWebsite: websiteController.text,
+                        leadState: selectedState,
+                        leadCity: selectedCity,
+                        leadPincode: pinCodeController.text,
+                        leadAddress: addressController.text
+                      );
+
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>  ProductOrServiceDetailsScreen(leadDetails:leadDetails,)));
+                    });
+
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
 
                 ],

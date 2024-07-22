@@ -40,6 +40,9 @@ dependencies:
   percent_indicator: ^4.2.3
   dropdown_button2: ^2.3.9
   file_picker: ^8.0.6
+  http: ^1.2.1
+  flutter_bloc: ^8.1.5
+  equatable: ^2.0.5
 
 
 dev_dependencies:

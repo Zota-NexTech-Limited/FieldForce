@@ -2,7 +2,7 @@ import 'dart:io';
 
 class Config{
 
-  static String url = "";
+  static String url = "https://dev.zotanextech.com/api";
   static String accessToken ="";
   static String fountFamilyPrimary="Poppins";
 
