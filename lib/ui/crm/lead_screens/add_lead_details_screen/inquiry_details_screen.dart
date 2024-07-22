@@ -140,16 +140,14 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                       ),
                       onPressed: (){
                         setState(() {
-                          leadDetails=NewLeadModel(
-                              leadInquiryMedium: selectedInquiryMedium,
-                              leadInquirySource: selectedInquirySource,
-                              leadDescription: inquiryDescriptionController.text,
-                              leadKeywords: keywordsController.text,
-                              leadRequirements:customerRequirementsController.text,
-                              leadCompInformation: competitorInformationController.text,
-                              leadNextSteps: nextStepsController.text,
-                              leadNotes: notesController.text
-                          );
+                          leadDetails.leadInquiryMedium= selectedInquiryMedium;
+                              leadDetails.leadInquirySource= selectedInquirySource;
+                              leadDetails.leadDescription= inquiryDescriptionController.text;
+                              leadDetails.leadKeywords= keywordsController.text;
+                              leadDetails.leadRequirements=customerRequirementsController.text;
+                              leadDetails.leadCompInformation= competitorInformationController.text;
+                              leadDetails.leadNextSteps= nextStepsController.text;
+                              leadDetails.leadNotes= notesController.text;
 
                           newLeadBloc.add(PostNewLeadEvent(leadDetails: leadDetails));
                         });

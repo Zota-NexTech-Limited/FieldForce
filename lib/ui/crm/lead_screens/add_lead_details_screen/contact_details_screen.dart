@@ -10,8 +10,8 @@ import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/product_or_service_details_screen.dart';
 import 'package:flutter/material.dart';
 class ContactDetailsScreen extends StatefulWidget {
-  final NewLeadModel leadDetails;
-  const ContactDetailsScreen({super.key,required this.leadDetails});
+   NewLeadModel leadDetails;
+   ContactDetailsScreen({super.key,required this.leadDetails});
 
   @override
   State<ContactDetailsScreen> createState() => _ContactDetailsScreenState();
@@ -144,15 +144,15 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                   SizedBox(height: SizeConfig.blockHeight*3,),
                   NormalButtonWithIcon(title: "Next Step", onTap: (){
                     setState(() {
-                      leadDetails=NewLeadModel(
-                        leadPhoneNumber: phoneNumberController.text,
-                        leadEmail: emailAddressController.text,
-                        leadWebsite: websiteController.text,
-                        leadState: selectedState,
-                        leadCity: selectedCity,
-                        leadPincode: pinCodeController.text,
-                        leadAddress: addressController.text
-                      );
+                      leadDetails.leadPhoneNumber= phoneNumberController.text;
+                        leadDetails.leadEmail= emailAddressController.text;
+                        leadDetails.leadWebsite= websiteController.text;
+                        leadDetails.leadState= selectedState;
+                        leadDetails.leadCity= selectedCity;
+                        leadDetails.leadPincode= pinCodeController.text;
+                        leadDetails.leadAddress= addressController.text;
+
+
 
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>  ProductOrServiceDetailsScreen(leadDetails:leadDetails,)));
                     });

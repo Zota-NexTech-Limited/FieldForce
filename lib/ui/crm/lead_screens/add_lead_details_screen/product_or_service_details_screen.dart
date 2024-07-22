@@ -90,12 +90,10 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
                    SizedBox(height: SizeConfig.blockHeight*3,),
                   NormalButtonWithIcon(title: "Next Step", onTap: (){
                     setState(() {
-                      leadDetails=NewLeadModel(
-                        leadProduct: selectedProduct,
-                        leadDetails: additionalDetailsController.text,
-                        leadQuantity: quantityController.text,
-                        leadBudget: budgetController.text
-                      );
+                      leadDetails.leadProduct= selectedProduct;
+                      leadDetails.leadDetails= additionalDetailsController.text;
+                      leadDetails.leadQuantity= quantityController.text;
+                      leadDetails.leadBudget= budgetController.text;
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>NewLeadBloc(),child:InquiryDetailsScreen(leadDetails: leadDetails,) ,) ));
                     });
 
