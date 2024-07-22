@@ -1,14 +1,19 @@
+import 'package:fieldforce/bloc/lead_list_bloc/lead_list_bloc.dart';
 import 'package:fieldforce/components/button_component/add_new_button.dart';
 import 'package:fieldforce/components/button_component/circular_button.dart';
+import 'package:fieldforce/components/state_management_components/error_screen.dart';
+import 'package:fieldforce/components/state_management_components/loading_screen.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
 import 'package:fieldforce/components/text_form_field_component/filter_field.dart';
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/config.dart';
 import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/add_lead_details_screen.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/add_lead_screen.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/customer_information_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 class LeadScreen extends StatefulWidget {
   const LeadScreen({super.key});
@@ -19,159 +24,182 @@ class LeadScreen extends StatefulWidget {
 
 class _LeadScreenState extends State<LeadScreen> {
   TextEditingController filterController=TextEditingController();
+  List<NewLeadModel>leadList=[];
+  late LeadListBloc leadListBloc;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    leadListBloc=BlocProvider.of<LeadListBloc>(context);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-          backgroundColor: COLORS.white,
-          body: Stack(
-            children: [
-              SingleChildScrollView(
-                physics:const NeverScrollableScrollPhysics(),
-                child: SizedBox(
-                  width: SizeConfig.screenWidth,
-                  height: SizeConfig.screenHeight,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*2,horizontal: SizeConfig.blockWidth*4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            dateSelect(title: "From Date",date: "03-07-2024"),
-                            SizedBox(height: SizeConfig.blockHeight*6,child: VerticalDivider(thickness: SizeConfig.blockWidth*0.5,color: COLORS.blue,),),
-                            dateSelect(title: "To Date",date: "03-07-2024"),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*2,horizontal: SizeConfig.blockWidth*3),
-                        child: FilterTextFormField(
-                            onChanged: (value){},
-                            controller: filterController,
-                            hintText: "",
-                            inputType: TextInputType.text,
-                            validator: (value){
-                              return null;
-                            },
-                            isReadOnly: false,
-                            iconTap: (){},
+        child:BlocBuilder<LeadListBloc,LeadListState>(
+          builder: (context, state) {
+             if(state is LeadListLoadingState)
+               {
+                 return const LoadingScreen();
+               }else if (state is LeadListSuccessState)
+                 {
+                   leadList=state.leadList;
+                 }else if(state is LeadListFailedState){
+               return ErrorScreen(onPressed: (){});
+             }
+            return  Scaffold(
+              backgroundColor: COLORS.white,
+              body: Stack(
+                children: [
+                  SingleChildScrollView(
+                    physics:const NeverScrollableScrollPhysics(),
+                    child: SizedBox(
+                      width: SizeConfig.screenWidth,
+                      height: SizeConfig.screenHeight,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*2,horizontal: SizeConfig.blockWidth*4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                dateSelect(title: "From Date",date: "03-07-2024"),
+                                SizedBox(height: SizeConfig.blockHeight*6,child: VerticalDivider(thickness: SizeConfig.blockWidth*0.5,color: COLORS.blue,),),
+                                dateSelect(title: "To Date",date: "03-07-2024"),
+                              ],
+                            ),
                           ),
-                      ),
-                      Divider(
-                        thickness: SizeConfig.blockWidth*0.5,color: COLORS.blue,
-                      ),
-                      SizedBox(
-                        width: SizeConfig.screenWidth,
-                        height: SizeConfig.screenHeight*0.6,
-                        child: ListView.builder(
-                          itemCount: 13,
-                          shrinkWrap: true,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLeadDetailsScreen()));
-                                },
-                                child: Container(
-                                  width: SizeConfig.screenWidth,
-                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*2,right: SizeConfig.blockWidth*3,left: SizeConfig.blockWidth*3),
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1,horizontal: SizeConfig.blockWidth*2),
-                                  decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.3),
-                                          spreadRadius: 0.1,
-                                          blurRadius: 4,
-                                          offset: Offset(0, 1),
-                                        ),
-                                      ],
-                                      color: COLORS.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                  width: SizeConfig.screenWidth*0.6,
-                                                  child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:2, text: "Contact Name : Maheshkumara M P")),
-                                              cardSubText(title: "Enquiry",subTitle: "Franchise Inquiry",width: 0.6),
-                                              cardSubText(title: "Lead Name",subTitle: "M kumara",width: 0.6),
-                                              cardSubText(title: "Status",subTitle: "Exclusive Store",width: 0.6),
-                                              cardSubText(title: "Prospect Status",subTitle: "Hot Lead-Exclusive Store",width: 0.6),
-                                            ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*2,horizontal: SizeConfig.blockWidth*3),
+                            child: FilterTextFormField(
+                              onChanged: (value){},
+                              controller: filterController,
+                              hintText: "",
+                              inputType: TextInputType.text,
+                              validator: (value){
+                                return null;
+                              },
+                              isReadOnly: false,
+                              iconTap: (){
+                                leadListBloc.add(FetchLeadListEvent(fromDate: "", toDate: "", search:filterController.text));
+                              },
+                            ),
+                          ),
+                          Divider(
+                            thickness: SizeConfig.blockWidth*0.5,color: COLORS.blue,
+                          ),
+                          SizedBox(
+                            width: SizeConfig.screenWidth,
+                            height: SizeConfig.screenHeight*0.6,
+                            child: ListView.builder(
+                              itemCount: leadList.length,
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLeadDetailsScreen()));
+                                  },
+                                  child: Container(
+                                    width: SizeConfig.screenWidth,
+                                    margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*2,right: SizeConfig.blockWidth*3,left: SizeConfig.blockWidth*3),
+                                    padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1,horizontal: SizeConfig.blockWidth*2),
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.3),
+                                            spreadRadius: 0.1,
+                                            blurRadius: 4,
+                                            offset: Offset(0, 1),
                                           ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              SizedBox(
-                                                height: SizeConfig.blockHeight*3.5,
-                                                child: ElevatedButton(
-                                                    style: ButtonStyle(
-                                                        elevation: WidgetStatePropertyAll(0),
-                                                        backgroundColor: WidgetStatePropertyAll(COLORS.blue),
-                                                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))))
-
-                                                    ),
-                                                    onPressed: (){},
-                                                    child: NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "New")),
-                                              ),
-                                              SizedBox(height: SizeConfig.blockHeight*1,),
-                                              Stack(
-                                                children: [
-                                                  SizedBox(
-                                                    width: SizeConfig.blockWidth*13,
-                                                    child: CircularPercentIndicator(
-                                                      radius: SizeConfig.blockWidth*5.5,
-                                                      lineWidth: SizeConfig.blockWidth*0.3,
-                                                      percent: 0.4,
-                                                      progressColor: COLORS.blue,
-
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                      top: SizeConfig.blockHeight*2,
-                                                      left: SizeConfig.blockWidth*4,
-                                                      child: NormalText(color:COLORS.black ,fontSize: 1.7,fontWeight: FontWeight.w500,text: "40%",))
-                                                ],
-                                              ),
-                                            ],
-                                          )
                                         ],
-                                      ),
+                                        color: COLORS.white,
+                                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                    width: SizeConfig.screenWidth*0.6,
+                                                    child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:2, text: "Contact Name : ${leadList[index].leadContactName}")),
+                                                cardSubText(title: "Enquiry",subTitle: "${leadList[index].leadInquiryMedium}",width: 0.6),
+                                                cardSubText(title: "Lead Name",subTitle: "${leadList[index].leadFullName}",width: 0.6),
+                                                cardSubText(title: "Status",subTitle: "--",width: 0.6),
+                                                cardSubText(title: "Prospect Status",subTitle: "--",width: 0.6),
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                SizedBox(
+                                                  height: SizeConfig.blockHeight*3.5,
+                                                  child: ElevatedButton(
+                                                      style: ButtonStyle(
+                                                          elevation: WidgetStatePropertyAll(0),
+                                                          backgroundColor: WidgetStatePropertyAll(COLORS.blue),
+                                                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))))
 
-                                      cardSubText(title: "Last Updated By",subTitle: "Maheshkumara M P 03-07-2024 grgkb bhk ",width: 1),
+                                                      ),
+                                                      onPressed: (){},
+                                                      child: NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "New")),
+                                                ),
+                                                SizedBox(height: SizeConfig.blockHeight*1,),
+                                                Stack(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: SizeConfig.blockWidth*13,
+                                                      child: CircularPercentIndicator(
+                                                        radius: SizeConfig.blockWidth*5.5,
+                                                        lineWidth: SizeConfig.blockWidth*0.3,
+                                                        percent: 0.4,
+                                                        progressColor: COLORS.blue,
 
-                                    ],
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                        top: SizeConfig.blockHeight*2,
+                                                        left: SizeConfig.blockWidth*4,
+                                                        child: NormalText(color:COLORS.black ,fontSize: 1.7,fontWeight: FontWeight.w500,text: "40%",))
+                                                  ],
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+
+                                        cardSubText(title: "Last Updated By",subTitle: "Maheshkumara M P 03-07-2024 grgkb bhk ",width: 1),
+
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },),
+                                );
+                              },),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  Positioned(
+                      bottom: SizeConfig.blockHeight*2,
+                      left: SizeConfig.screenWidth*0.3,
+                      child:  Align(
+                        alignment: Alignment.bottomCenter,
+                        child: AddNewButton(title: "New Lead", onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const CustomerInformationScreen()));
+                        }),
+                      ))
+                ],
               ),
-              Positioned(
-                  bottom: SizeConfig.blockHeight*2,
-                  left: SizeConfig.screenWidth*0.3,
-                  child:  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: AddNewButton(title: "New Lead", onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const CustomerInformationScreen()));
-                    }),
-                  ))
-            ],
-          ),
-        ));
+            );
+        },)
+    );
   }
   Widget dateSelect({required String title,required String date,})
   {

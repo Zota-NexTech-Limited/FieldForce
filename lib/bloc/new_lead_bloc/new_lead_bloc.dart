@@ -25,7 +25,7 @@ class NewLeadBloc extends Bloc<NewLeadEvent, NewLeadState> {
       emit(const NewLeadLoadingState());
 
       print("------------------2--------------------");
-      var response = await cmrDao.addCustomer(leadDetails: event.leadDetails);
+      var response = await cmrDao.newLead(leadDetails: event.leadDetails);
 
       print("------------------3--------------------");
       Map<String,dynamic> jsonDecoded = jsonDecode(response.body);
@@ -51,7 +51,7 @@ class NewLeadBloc extends Bloc<NewLeadEvent, NewLeadState> {
       }
 
     }catch(error){
-      print("The error of Get Add Customer Failed State  : $error");
+      print("The error of new lead Failed State  : $error");
       emit(const NewLeadFailedState(message: "Something went wrong"));
     }
   }

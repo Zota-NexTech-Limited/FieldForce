@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 
 
 class CmrDao{
-  Future addCustomer(
+
+
+  Future newLead(
       {
         required NewLeadModel leadDetails,
       }) async {
@@ -23,6 +25,32 @@ class CmrDao{
 
     print("new lead  Response Status Code : ${response.statusCode}");
     print("new lead  Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
+
+
+
+  Future leadList(
+      {
+        required String fromDate,
+        required String toDate,
+        required String search,
+      }) async {
+    var url = '${Config.url}/feild-force/get-leads?from=$fromDate&to=$toDate&search=$search';
+    print("----------Dao 1----------");
+
+
+    final response = await http.get(Uri.parse(url),
+      headers: Config.headers(),
+    );
+
+    print("----------Dao 2-----------");
+
+    print(" lead List Response Status Code : ${response.statusCode}");
+    print(" lead List  Response body : ${response.body}");
 
     print("----------Dao 3-----------");
 
