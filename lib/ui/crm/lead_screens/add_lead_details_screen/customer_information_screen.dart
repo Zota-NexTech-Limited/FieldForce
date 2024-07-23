@@ -23,7 +23,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   TextEditingController companySizeController=TextEditingController();
   TextEditingController industryController=TextEditingController();
   String? selectedCustomerSource;
-  List<String> customerSourceList=[];
+  List<String> customerSourceList=["Existing Customer","Referral","Marketing Campaign","Other"];
 
    NewLeadModel leadDetails=NewLeadModel();
   @override

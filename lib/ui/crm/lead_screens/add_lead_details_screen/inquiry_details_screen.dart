@@ -28,10 +28,10 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
   TextEditingController notesController=TextEditingController();
 
   String? selectedInquiryMedium;
-  List<String> inquiryMediumList=[];
+  List<String> inquiryMediumList=["Web Form","Live Chat","SMS","Email","Phone Call","Other"];
 
   String? selectedInquirySource;
-  List<String> inquirySourceList=[];
+  List<String> inquirySourceList=["Website","Phone Call","Email","Social Media","Events or Trade Show","Referral","Other"];
   late NewLeadBloc newLeadBloc;
   late NewLeadModel leadDetails;
   @override
