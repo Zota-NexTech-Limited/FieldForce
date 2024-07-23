@@ -56,4 +56,26 @@ class CmrDao{
 
     return response;
   }
+
+  Future getAddressByPinCode(
+      {
+        required String pinCode,
+
+      }) async {
+    var url = 'https://api.postalpincode.in/pincode/$pinCode';
+    print("----------Dao 1----------");
+
+    final response = await http.get(Uri.parse(url),
+      headers: Config.authHeaders(),
+    );
+
+    print("----------Dao 2-----------");
+
+    print("get Address By Pincode Response Status Code : ${response.statusCode}");
+    print("get Address By Pincode Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
 }

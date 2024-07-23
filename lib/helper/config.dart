@@ -2,7 +2,8 @@ import 'dart:io';
 
 class Config{
 
-  static String url = "https://dev.zotanextech.com/api";
+  //static String url = "https://dev.zotanextech.com/api";
+  static String url = "http://localhost:8003/api";
   static String accessToken ="";
   static String fountFamilyPrimary="Poppins";
 

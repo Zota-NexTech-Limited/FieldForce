@@ -15,19 +15,19 @@ class SingleItemSelectDropdown extends StatefulWidget {
 }
 
 class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
-   String? selectedValue;
-   List<String>? list;
-   ValueChanged<String?>? onChanged;
+  // String? selectedValue;
+   //List<String>? list;
+   //ValueChanged<String?>? onChanged;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    selectedValue=widget.selectedValue;
-    list=widget.list;
-    onChanged=widget.onChanged;
+    // selectedValue=widget.selectedValue;
+    // list=widget.list;
+    // onChanged=widget.onChanged;
   }
   Widget build(BuildContext context) {
-    List<DropdownMenuItem<String>> dropdownItems = list!.map((String value) {
+    List<DropdownMenuItem<String>> dropdownItems = widget.list!.map((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Column(
@@ -40,13 +40,13 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: SizeConfig.blockWidth * 2,
-                  vertical: selectedValue == value
+                  vertical: widget.selectedValue == value
                       ? SizeConfig.blockHeight * 1.4
                       : SizeConfig.blockHeight,
                 ),
                 width: SizeConfig.screenWidth,
                 decoration: BoxDecoration(
-                  color: selectedValue == value
+                  color: widget.selectedValue == value
                       ? COLORS.blue
                       : Colors.white,
                   border: Border(
@@ -58,7 +58,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
                 child: Text(
                   value,
                   style: TextStyle(
-                      color: selectedValue == value
+                      color: widget.selectedValue == value
                           ? COLORS.whiteLight
                           : COLORS.blueLight,
                       fontWeight: FontWeight.w400,
@@ -116,19 +116,19 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
         height: SizeConfig.blockHeight * 6.5,
       ),
       isDense: true,
-      value: selectedValue,
+      value: widget.selectedValue,
       underline: Container(),
       isExpanded: true,
       onChanged: (value){
-        onChanged!(value);
+        widget.onChanged!(value);
       setState(() {
-        selectedValue=value.toString();
+        widget.selectedValue=value.toString();
 
       });
       },
       items: dropdownItems,
       selectedItemBuilder: (BuildContext context) {
-        return list!.map<Widget>((String value) {
+        return widget.list!.map<Widget>((String value) {
           return Text(
             value,
             style: TextStyle(

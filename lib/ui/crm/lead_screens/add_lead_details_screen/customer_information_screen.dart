@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/get_address-by_pincode/get_address_by_pin_code_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
@@ -8,6 +9,7 @@ import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/contact_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class CustomerInformationScreen extends StatefulWidget {
   const CustomerInformationScreen({super.key});
   @override
@@ -141,7 +143,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                       );
 
 
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>  ContactDetailsScreen(leadDetails:leadDetails,)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),child:ContactDetailsScreen(leadDetails:leadDetails,) ,) ));
                     });
 
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)

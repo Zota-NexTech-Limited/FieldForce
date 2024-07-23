@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/get_address-by_pincode/get_address_by_pin_code_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
@@ -9,6 +10,7 @@ import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/product_or_service_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class ContactDetailsScreen extends StatefulWidget {
    NewLeadModel leadDetails;
    ContactDetailsScreen({super.key,required this.leadDetails});
@@ -30,16 +32,50 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   String? selectedCity;
   List<String> cityList=[];
   late NewLeadModel leadDetails;
+  late GetAddressByPinCodeBloc getAddressByPinCodeBloc;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     leadDetails=widget.leadDetails;
+    getAddressByPinCodeBloc=BlocProvider.of<GetAddressByPinCodeBloc>(context);
   }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child:Scaffold(
+        child:BlocListener<GetAddressByPinCodeBloc,GetAddressByPinCodeState>(listener: (context, state) {
+              if(state is FetchAddressByPinCodeLoadingState)
+            {
+
+            }else if(state is FetchAddressByPinCodeSuccessState)
+              {
+                final snackBar = SnackBar(content: Text("Success"));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                setState(() {
+                  if(!state.areaList.contains(cityList))
+                    {
+
+                      selectedCity=null;
+                      selectedState=null;
+                    }
+                  cityList=state.cityList;
+                  stateList=state.stateList;
+                  if(cityList.isNotEmpty&&stateList.isNotEmpty)
+                    {
+                      selectedState=stateList[0];
+                      selectedCity=cityList[0];
+                    }
+                });
+
+              }else if(state is FetchAddressByPinCodeFailedState)
+                {
+                  final snackBar = SnackBar(content: Text(state.message));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+          setState(() {
+
+          });
+        },child: Scaffold(
           backgroundColor: COLORS.white,
           appBar: appBarComponent(title: "Contact Details",context: context),
           body: Container(
@@ -100,6 +136,28 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                   ),
 
                   const InputFieldTitleText(text: "Address"),
+
+                  const InputFieldTitleText(text: "PinCode *"),
+                  NormalTextFormField(
+                      onChanged: (value){
+                        setState(() {
+                          if(value.length==6){
+                            getAddressByPinCodeBloc.add(FetchAddressByPinCodeEvent(pinCode: pinCodeController.text));
+                          }
+                        });
+                      },
+                      controller: pinCodeController,
+                      hintText: "000 000",
+                      inputType: TextInputType.phone,
+                      validator: (value){
+                        if(value==null||value.isEmpty)
+                        {
+                          return "PinCode is Empty";
+                        }
+                        return null;
+                      },
+                      readOnly: false
+                  ),
                   const InputFieldTitleText(text: "State *"),
                   SingleItemSelectDropdown(selectedValue: selectedState, list: stateList, onChanged: (value){
                     setState(() {
@@ -116,21 +174,6 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
 
 
 
-                  const InputFieldTitleText(text: "PinCode *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: pinCodeController,
-                      hintText: "000 000",
-                      inputType: TextInputType.phone,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "PinCode is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: false
-                  ),
 
                   const InputFieldTitleText(text: "Address *"),
                   MultiLineTextFormField(onChanged: (value){}, controller: addressController, inputType: TextInputType.text, validator: (value){
@@ -145,12 +188,12 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                   NormalButtonWithIcon(title: "Next Step", onTap: (){
                     setState(() {
                       leadDetails.leadPhoneNumber= phoneNumberController.text;
-                        leadDetails.leadEmail= emailAddressController.text;
-                        leadDetails.leadWebsite= websiteController.text;
-                        leadDetails.leadState= selectedState;
-                        leadDetails.leadCity= selectedCity;
-                        leadDetails.leadPincode= pinCodeController.text;
-                        leadDetails.leadAddress= addressController.text;
+                      leadDetails.leadEmail= emailAddressController.text;
+                      leadDetails.leadWebsite= websiteController.text;
+                      leadDetails.leadState= selectedState;
+                      leadDetails.leadCity= selectedCity;
+                      leadDetails.leadPincode= pinCodeController.text;
+                      leadDetails.leadAddress= addressController.text;
 
 
 
@@ -163,6 +206,8 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
               ),
             ),
           ),
-        ));
+        ) ,)
+
+       );
   }
 }
