@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fieldforce/helper/config.dart';
+import 'package:fieldforce/models/crm_models/create_activity_model.dart';
 import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -73,6 +74,31 @@ class CmrDao{
 
     print("get Address By Pincode Response Status Code : ${response.statusCode}");
     print("get Address By Pincode Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
+
+
+  Future createActivity(
+      {
+        required CreateActivityModel activityDetails,
+      }) async {
+    var url = '${Config.url}/feild-force/activity/add';
+    print("----------Dao 1----------");
+
+    Map<String,dynamic> body=activityDetails.toJson();
+
+    final response = await http.post(Uri.parse(url),
+        headers: Config.headers(),
+        body:jsonEncode(body)
+    );
+
+    print("----------Dao 2-----------");
+
+    print("create Activity  Response Status Code : ${response.statusCode}");
+    print("create Activity Response body : ${response.body}");
 
     print("----------Dao 3-----------");
 

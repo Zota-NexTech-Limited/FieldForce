@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/create_activity_bloc/create_activity_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
@@ -7,7 +8,9 @@ import 'package:fieldforce/components/text_form_field_component/textformfield_wi
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/reuse_functions/date_picker.dart';
 import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldforce/models/crm_models/create_activity_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class ScheduleActivityScreen extends StatefulWidget {
   const ScheduleActivityScreen({super.key});
 
@@ -25,12 +28,33 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
   TextEditingController summaryController=TextEditingController();
   TextEditingController noteController=TextEditingController();
 
+  late CreateActivityBloc createActivityBloc;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    createActivityBloc=BlocProvider.of<CreateActivityBloc>(context);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
+        child:BlocListener<CreateActivityBloc,CreateActivityState>(listener: (context, state) {
+          if(state is CreateActivityLoadingState)
+            {
+
+            }else if(state is CreateActivitySuccessState)
+              {
+               Navigator.pop(context);
+              }else if(state is CreateActivityFailedState)
+                {
+
+                }
+          setState(() {
+
+          });
+        },child:  Scaffold(
           backgroundColor: COLORS.white,
-      appBar: appBarComponent(title: "Add My Activity", context: context),
+          appBar: appBarComponent(title: "Add My Activity", context: context),
           body: SingleChildScrollView(
             child: Container(
               height: SizeConfig.screenHeight,
@@ -41,7 +65,7 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 const InputFieldTitleText(text: "Activity"),
+                  const InputFieldTitleText(text: "Activity"),
                   SingleItemSelectDropdown(
                       selectedValue: selectedActivity,
                       list: activityList,
@@ -66,7 +90,7 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
                           showSingleDatePickerHelper(context: context,controller: dueDateController);
                         });
                         print("startDateController----------------${dueDateController.text}");
-            
+
                       },
                       suffixIcon: "assets/image/svg_icons/calendar.svg"),
                   const InputFieldTitleText(text: "Assigned To"),
@@ -98,12 +122,27 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
                       labelText: "Note"
                   ),
                   SizedBox(height: SizeConfig.blockHeight*3,),
-                  NormalButton(title: "Schedule", onTap: (){}, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
-            
+                  NormalButton(title: "Schedule", onTap: (){
+                    setState(() {
+                      CreateActivityModel activityDetails=CreateActivityModel(
+                        activityName: selectedActivity,
+                        activityDueDate: dueDateController.text,
+                        activityAssignTo: selectedAssignedTo,
+                        activitySummary: summaryController.text,
+                        activityNotes: noteController.text
+                      );
+                      createActivityBloc.add(CreateNewActivityEvent(activityDetails: activityDetails));
+                    });
+                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+
                 ],
               ),
             ),
           ),
-    ));
+        ),)
+
+
+
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/create_activity_bloc/create_activity_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
@@ -11,6 +12,7 @@ import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/ui/crm/lead_screens/history_screen.dart';
 import 'package:fieldforce/ui/crm/lead_screens/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 class AddOpportunityDetailsScreen extends StatefulWidget {
   const AddOpportunityDetailsScreen({super.key});
@@ -264,7 +266,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
                   SizedBox(height: SizeConfig.blockHeight*2,),
                   NormalButton(title: "Schedule Activity", onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const ScheduleActivityScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>CreateActivityBloc(),child:const ScheduleActivityScreen(),)));
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
                   SizedBox(height: SizeConfig.blockHeight*5,),
 
