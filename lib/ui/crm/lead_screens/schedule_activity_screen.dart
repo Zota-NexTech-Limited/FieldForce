@@ -44,10 +44,13 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
 
             }else if(state is CreateActivitySuccessState)
               {
+                final snackBar = SnackBar(content: Text(state.message));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                Navigator.pop(context);
               }else if(state is CreateActivityFailedState)
                 {
-
+                  final snackBar = SnackBar(content: Text(state.message));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
           setState(() {
 

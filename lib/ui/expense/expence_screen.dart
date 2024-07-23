@@ -237,7 +237,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
+                                      NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
                                       NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "AB23434543677899"),
                                       subTitleText(text: "Clime Amount : ₹ 10"),
                                       subTitleText(text: "Approve Amount : ₹ 10"),

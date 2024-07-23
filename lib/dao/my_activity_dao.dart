@@ -1,0 +1,29 @@
+import 'dart:convert';
+import 'package:fieldforce/helper/config.dart';
+import 'package:fieldforce/models/crm_models/create_activity_model.dart';
+import 'package:fieldforce/models/crm_models/new_lead_model.dart';
+import 'package:http/http.dart' as http;
+
+
+class MyActivityDao{
+
+
+  Future activityList() async {
+    var url = '${Config.url}/feild-force/get-activitys';
+    print("----------Dao 1----------");
+
+    final response = await http.get(Uri.parse(url),
+        headers: Config.headers(),
+    );
+
+    print("----------Dao 2-----------");
+
+    print("activity List  Response Status Code : ${response.statusCode}");
+    print("activity List Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
+
+}

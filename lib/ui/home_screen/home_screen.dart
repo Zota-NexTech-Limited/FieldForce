@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fieldforce/bloc/get_activity_list/activity_list_bloc.dart';
 import 'package:fieldforce/components/svg_image_component.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
 import 'package:fieldforce/helper/colors.dart';
@@ -9,6 +10,7 @@ import 'package:fieldforce/ui/expense/expence_screen.dart';
 import 'package:fieldforce/ui/my_activity/my_activity_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -85,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       homeCard(icon: "assets/image/svg_icons/calender_icon.svg", title: "My Activity", onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const MyActivityScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ActivityListBloc()..add(FetchActivityListEvent()),child: MyActivityScreen(),)));
                       }),
                       homeCard(icon: "assets/image/svg_icons/calender_icon.svg", title: "Expense", onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const ExpenceScreen()));
