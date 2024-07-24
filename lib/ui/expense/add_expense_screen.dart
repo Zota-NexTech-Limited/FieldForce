@@ -142,7 +142,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                             width: SizeConfig.blockWidth*45,
                             height: SizeConfig.blockHeight*6,
                         
-                            child: SingleItemSelectDropdown(selectedValue: selectedProduct, list: productList, onChanged: (value){
+                            child: SingleItemSelectDropdown(isError: false,selectedValue: selectedProduct, list: productList, onChanged: (value){
                               setState(() {
                                 selectedProduct=value;
                               });
@@ -157,7 +157,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                             width: SizeConfig.blockWidth*45,
                             height: SizeConfig.blockHeight*6,
                         
-                            child: SingleItemSelectDropdown(selectedValue: selectedStationType, list: stationTypeList, onChanged: (value){
+                            child: SingleItemSelectDropdown(selectedValue: selectedStationType, list: stationTypeList,isError: false, onChanged: (value){
                               setState(() {
                                 selectedStationType=value;
                               });

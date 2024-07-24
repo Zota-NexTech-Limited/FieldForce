@@ -8,7 +8,8 @@ class SingleItemSelectDropdown extends StatefulWidget {
    String? hint;
    List<String> list;
    ValueChanged<String?> onChanged;
-   SingleItemSelectDropdown({super.key,required this.selectedValue,required this.list,required this.onChanged,required this.hint});
+   bool isError;
+   SingleItemSelectDropdown({super.key,required this.selectedValue,required this.list,required this.onChanged,required this.hint,required this.isError});
 
   @override
   State<SingleItemSelectDropdown> createState() => _SingleItemSelectDropdownState();
@@ -103,7 +104,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
      buttonStyleData: ButtonStyleData(
        decoration: BoxDecoration(
          borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 2),
-         border: Border.all(color: COLORS.blue, width: SizeConfig.blockWidth*0.4),
+         border: Border.all(color:widget.isError==true? COLORS.red:COLORS.blue, width: SizeConfig.blockWidth*0.4),
        ),
        width: SizeConfig.blockWidth * 100,
        height:  SizeConfig.blockHeight * 7.3,

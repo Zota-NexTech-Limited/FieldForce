@@ -16,6 +16,7 @@ class CustomerInformationScreen extends StatefulWidget {
   State<CustomerInformationScreen> createState() => _CustomerInformationScreenState();
 }
 class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController fullNameController=TextEditingController();
   TextEditingController contactNameController=TextEditingController();
   TextEditingController contactTitleController=TextEditingController();
@@ -24,130 +25,153 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   TextEditingController industryController=TextEditingController();
   String? selectedCustomerSource;
   List<String> customerSourceList=["Existing Customer","Referral","Marketing Campaign","Other"];
-
+  bool isCustomerSourceDropdownEmpty=false;
    NewLeadModel leadDetails=NewLeadModel();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child:Scaffold(
-          backgroundColor: COLORS.white,
-          appBar: appBarComponent(title: "Customer Information",context: context),
-          body: Container(
-            height: SizeConfig.screenHeight,
-            width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const InputFieldTitleText(text: "Full Name *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: fullNameController,
-                      hintText: "Name of the inquirer or company",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Full Name is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                   const InputFieldTitleText(text: "Contact Name *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: contactNameController,
-                      hintText: "Name of the primary contact person",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Contact Name is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "Contact Title *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: contactTitleController,
-                      hintText: "Job title of the contact person",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Contact Title is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "Company Name"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: companyNameController,
-                      hintText: "Name of the company (if applicable)",
-                      inputType: TextInputType.text,
-                      validator: (value){
-              
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "Company Size"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: companySizeController,
-                      hintText: "Size of the company (if applicable)",
-                      inputType: TextInputType.text,
-                      validator: (value){
-              
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "Industry"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: industryController,
-                      hintText: "Industry the company operates in (if applicable)",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "Customer Source *"),
-                 SingleItemSelectDropdown(selectedValue: selectedCustomerSource, list: customerSourceList, onChanged: (value){
-                   setState(() {
-                     selectedCustomerSource=value;
-                   });
-                 }, hint: "Select how the customer was acquired"),
-                  SizedBox(height: SizeConfig.blockHeight*3,),
-                  NormalButtonWithIcon(title: "Next Step", onTap: (){
+        child:Form(
+          key: _formKey,
+          child: Scaffold(
+            backgroundColor: COLORS.white,
+            appBar: appBarComponent(title: "Customer Information",context: context),
+            body: Container(
+              height: SizeConfig.screenHeight,
+              width: SizeConfig.screenWidth,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const InputFieldTitleText(text: "Full Name *"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: fullNameController,
+                        hintText: "Name of the inquirer or company",
+                        inputType: TextInputType.text,
+                        validator: (value){
+                          if(value==null||value.isEmpty)
+                          {
+                            return "Full Name is Empty";
+                          }
+                          return null;
+                        },
+                        readOnly: false
+                    ),
+                     const InputFieldTitleText(text: "Contact Name *"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: contactNameController,
+                        hintText: "Name of the primary contact person",
+                        inputType: TextInputType.text,
+                        validator: (value){
+                          if(value==null||value.isEmpty)
+                          {
+                            return "Contact Name is Empty";
+                          }
+                          return null;
+                        },
+                        readOnly: false
+                    ),
+                    const InputFieldTitleText(text: "Contact Title *"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: contactTitleController,
+                        hintText: "Job title of the contact person",
+                        inputType: TextInputType.text,
+                        validator: (value){
+                          if(value==null||value.isEmpty)
+                          {
+                            return "Contact Title is Empty";
+                          }
+                          return null;
+                        },
+                        readOnly: false
+                    ),
+                    const InputFieldTitleText(text: "Company Name"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: companyNameController,
+                        hintText: "Name of the company (if applicable)",
+                        inputType: TextInputType.text,
+                        validator: (value){
 
-                    setState(() {
-                      leadDetails=NewLeadModel(
-                        leadFullName: fullNameController.text,
-                        leadContactName: contactNameController.text,
-                        leadContactTitle: contactTitleController.text,
-                        leadCompanyName: companyNameController.text,
-                        leadCompanySize: companySizeController.text,
-                        leadIndustry: industryController.text,
-                        leadSource: selectedCustomerSource
+                          return null;
+                        },
+                        readOnly: false
+                    ),
+                    const InputFieldTitleText(text: "Company Size"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: companySizeController,
+                        hintText: "Size of the company (if applicable)",
+                        inputType: TextInputType.text,
+                        validator: (value){
 
-                      );
+                          return null;
+                        },
+                        readOnly: false
+                    ),
+                    const InputFieldTitleText(text: "Industry"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: industryController,
+                        hintText: "Industry the company operates in (if applicable)",
+                        inputType: TextInputType.text,
+                        validator: (value){
+                          return null;
+                        },
+                        readOnly: false
+                    ),
+                    const InputFieldTitleText(text: "Customer Source *"),
+                   SingleItemSelectDropdown(selectedValue: selectedCustomerSource, list: customerSourceList, onChanged: (value){
+                     setState(() {
+                       selectedCustomerSource=value;
+                       isCustomerSourceDropdownEmpty=false;
+                     });
+                   },
+                       isError: isCustomerSourceDropdownEmpty,
+                       hint: "Select how the customer was acquired"),
+                    SizedBox(height: SizeConfig.blockHeight*3,),
+                    NormalButtonWithIcon(title: "Next Step", onTap: (){
+                     setState(() {
+                       if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                       {
+                         isCustomerSourceDropdownEmpty=true;
+                       }
+                     });
+          if(_formKey.currentState!.validate())
+            {
+              setState(() {
+                if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                  {
+                    isCustomerSourceDropdownEmpty=true;
+                  }else{
+                  leadDetails=NewLeadModel(
+                      leadFullName: fullNameController.text,
+                      leadContactName: contactNameController.text,
+                      leadContactTitle: contactTitleController.text,
+                      leadCompanyName: companyNameController.text,
+                      leadCompanySize: companySizeController.text,
+                      leadIndustry: industryController.text,
+                      leadSource: selectedCustomerSource
+
+                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),child:ContactDetailsScreen(leadDetails:leadDetails,) ,) ));
+
+                }
 
 
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),child:ContactDetailsScreen(leadDetails:leadDetails,) ,) ));
-                    });
 
-                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
-                ],
+
+              });
+            }
+
+
+                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                  ],
+                ),
               ),
             ),
           ),

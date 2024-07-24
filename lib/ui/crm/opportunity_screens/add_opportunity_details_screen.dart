@@ -104,6 +104,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                       selectedValue: selectedInquirySource,
                       list: inquirySourceList,
                       hint: "Select Inquiry Source",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedInquirySource=value;
@@ -115,6 +116,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                       selectedValue: selectedInquiryCategory,
                       list: inquiryCategoryList,
                       hint: "Select Inquiry Category",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedInquiryCategory=value;
@@ -209,6 +211,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                       selectedValue: selectedFinancialStatus,
                       list: financialStatusList,
                       hint: "Select Financial Status",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedFinancialStatus=value;
@@ -220,6 +223,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                       selectedValue: selectedStoreLocation,
                       list: storeLocationList,
                       hint: "Select Store Location",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedStoreLocation=value;
@@ -231,6 +235,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                       selectedValue: selectedWelcomeMessageSent,
                       list: welcomeMessageSentList,
                       hint: "Select Welcome Message",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedWelcomeMessageSent=value;
@@ -242,6 +247,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                       selectedValue: selectedStatus,
                       list: statusList,
                       hint: "Select Status",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedStatus=value;
@@ -253,6 +259,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                       selectedValue: selectedProspectStatus,
                       list: prospectStatusList,
                       hint: "Select Prospect Status",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedProspectStatus=value;

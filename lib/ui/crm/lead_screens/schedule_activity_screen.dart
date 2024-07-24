@@ -77,6 +77,7 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
                           selectedActivity=value;
                         });
                       },
+                      isError: false,
                       hint: "Select Activity"),
                   const InputFieldTitleText(text: "Due Date"),
                   TextFormFieldWithSuffixIcon(
@@ -105,6 +106,7 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
                           selectedAssignedTo=value;
                         });
                       },
+                      isError: false,
                       hint: "Assigned To"),
                   const InputFieldTitleText(text: "Summary"),
                   MultiLineTextFormField(

@@ -53,7 +53,8 @@ class _LeadFilterScreenState extends State<LeadFilterScreen> {
                      setState(() {
                        selectedStatus=value;
                      });
-                    }
+                    },
+                  isError: false,
                     ),
                 const InputFieldTitleText(text: "Prospect Status"),
                 SingleItemSelectDropdown(
@@ -64,13 +65,15 @@ class _LeadFilterScreenState extends State<LeadFilterScreen> {
                       setState(() {
                         selectedProspectStatus=value;
                       });
-                    }
+                    },
+                  isError: false,
                 ),
                 const InputFieldTitleText(text: "Sub Status"),
                 SingleItemSelectDropdown(
                     selectedValue: selectedSubStatus,
                     list: subStatusList,
                     hint: "Select Sub Status",
+                    isError: false,
                     onChanged: (value){
                       setState(() {
                         selectedSubStatus=value;
@@ -82,6 +85,7 @@ class _LeadFilterScreenState extends State<LeadFilterScreen> {
                     selectedValue: selectedRMRemark,
                     list: rmRemarkList,
                     hint: "Select RM Remark",
+                    isError: false,
                     onChanged: (value){
                       setState(() {
                         selectedRMRemark=value;

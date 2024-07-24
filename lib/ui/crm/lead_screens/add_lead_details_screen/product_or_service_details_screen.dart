@@ -20,6 +20,7 @@ class ProductOrServiceDetailsScreen extends StatefulWidget {
 }
 
 class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsScreen> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController additionalDetailsController=TextEditingController();
   TextEditingController quantityController=TextEditingController();
   TextEditingController budgetController=TextEditingController();
@@ -36,70 +37,95 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child:Scaffold(
-          backgroundColor: COLORS.white,
-          appBar: appBarComponent(title: "Product/Service Details",context: context),
-          body: Container(
-            height: SizeConfig.screenHeight,
-            width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const InputFieldTitleText(text: "Product / Service Interested *"),
-                  SingleItemSelectDropdown(selectedValue: selectedProduct, list: productList, onChanged: (value){
-                    setState(() {
-                      selectedProduct=value;
-                    });
-                  }, hint: "Product / Service customer interested in"),
+        child:Form(
+          key: _formKey,
+          child: Scaffold(
+            backgroundColor: COLORS.white,
+            appBar: appBarComponent(title: "Product/Service Details",context: context),
+            body: Container(
+              height: SizeConfig.screenHeight,
+              width: SizeConfig.screenWidth,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const InputFieldTitleText(text: "Product / Service Interested *"),
+                    SingleItemSelectDropdown(selectedValue: selectedProduct, list: productList, onChanged: (value){
+                      setState(() {
+                        selectedProduct=value;
+                      });
+                    },
+                        isError: false,hint: "Product / Service customer interested in"),
 
-                  const InputFieldTitleText(text: "Additional details "),
-                  MultiLineTextFormField(onChanged: (value){}, controller: additionalDetailsController, inputType: TextInputType.text, validator: (value){
-                    return null;
-                  }, isReadOnly: false, labelText: "Additional details about the product or service"),
+                    const InputFieldTitleText(text: "Additional details "),
+                    MultiLineTextFormField(onChanged: (value){}, controller: additionalDetailsController, inputType: TextInputType.text, validator: (value){
+                      return null;
+                    }, isReadOnly: false, labelText: "Additional details about the product or service"),
 
-                  const InputFieldTitleText(text: "Quantity "),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: quantityController,
-                      hintText: "Desired quantity of the product (if applicable)",
-                      inputType: TextInputType.phone,
-                      validator: (value){
-                        return null;
-                      },
-                      readOnly: false
-                  ),
+                    const InputFieldTitleText(text: "Quantity "),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: quantityController,
+                        hintText: "Desired quantity of the product (if applicable)",
+                        inputType: TextInputType.phone,
+                        validator: (value){
+                          if(value==null||value.isEmpty)
+                            {
+                              return null;
+                            }
+                         else{
+                            RegExp regex = RegExp(r"^[0-9]+$");
+                            if (!regex.hasMatch(value)) {
+                              return 'Numbers are allowed';
+                            }
+                          }
+                        },
+                        readOnly: false
+                    ),
 
-                  const InputFieldTitleText(text: "Budget"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: budgetController,
-                      hintText: "Customer's estimated budget (if applicable)",
-                      inputType: TextInputType.phone,
-                      validator: (value){
-                        return null;
-                      },
-                      readOnly: false
-                  ),
+                    const InputFieldTitleText(text: "Budget"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: budgetController,
+                        hintText: "Customer's estimated budget (if applicable)",
+                        inputType: TextInputType.phone,
+                        validator: (value){
+                          if(value==null||value.isEmpty)
+                          {
+                            return null;
+                          }
+                          else{
+                            RegExp regex = RegExp(r'^[-+]?\d*\.?\d+$');
+                            if (!regex.hasMatch(value)) {
+                              return 'Numbers are allowed';
+                            }
+                          }
+                        },
+                        readOnly: false
+                    ),
 
 
 
 
-                   SizedBox(height: SizeConfig.blockHeight*3,),
-                  NormalButtonWithIcon(title: "Next Step", onTap: (){
-                    setState(() {
-                      leadDetails.leadProduct= selectedProduct;
-                      leadDetails.leadDetails= additionalDetailsController.text;
-                      leadDetails.leadQuantity= quantityController.text;
-                      leadDetails.leadBudget= budgetController.text;
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>NewLeadBloc(),child:InquiryDetailsScreen(leadDetails: leadDetails,) ,) ));
-                    });
+                     SizedBox(height: SizeConfig.blockHeight*3,),
+                    NormalButtonWithIcon(title: "Next Step", onTap: (){
+                      if(_formKey.currentState!.validate())
+                        {
+                          setState(() {
+                            leadDetails.leadProduct= selectedProduct;
+                            leadDetails.leadDetails= additionalDetailsController.text;
+                            leadDetails.leadQuantity= quantityController.text.isEmpty?"0":quantityController.text;
+                            leadDetails.leadBudget= budgetController.text.isEmpty?"0":budgetController.text;
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>NewLeadBloc(),child:InquiryDetailsScreen(leadDetails: leadDetails,) ,) ));
+                          });
+                        }
 
-                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
 
-                ],
+                  ],
+                ),
               ),
             ),
           ),

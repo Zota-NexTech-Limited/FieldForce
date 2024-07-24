@@ -32,6 +32,9 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
 
   String? selectedInquirySource;
   List<String> inquirySourceList=["Website","Phone Call","Email","Social Media","Events or Trade Show","Referral","Other"];
+
+  bool isInquirySourceIsEmpty=false;
+  bool isInquiryMediumEmpty=false;
   late NewLeadBloc newLeadBloc;
   late NewLeadModel leadDetails;
   @override
@@ -83,15 +86,21 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                   SingleItemSelectDropdown(selectedValue: selectedInquiryMedium, list: inquiryMediumList, onChanged: (value){
                     setState(() {
                       selectedInquiryMedium=value;
+                      isInquiryMediumEmpty=false;
                     });
-                  }, hint: "Channel inquiry came in"),
+                  },
+                      isError: isInquiryMediumEmpty,
+                      hint: "Channel inquiry came in"),
 
                   const InputFieldTitleText(text: "Inquiry Source *"),
                   SingleItemSelectDropdown(selectedValue: selectedInquirySource, list: inquirySourceList, onChanged: (value){
                     setState(() {
-                      selectedInquiryMedium=value;
+                      selectedInquirySource=value;
+                      isInquirySourceIsEmpty=false;
                     });
-                  }, hint: "How the inquiry came in"),
+                  },
+                      isError: isInquirySourceIsEmpty,
+                      hint: "How the inquiry came in"),
 
                   const InputFieldTitleText(text: "Inquiry Description"),
                   MultiLineTextFormField(onChanged: (value){}, controller: inquiryDescriptionController, inputType: TextInputType.text, validator: (value){
@@ -139,18 +148,32 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                           shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
                       ),
                       onPressed: (){
-                        setState(() {
-                          leadDetails.leadInquiryMedium= selectedInquiryMedium;
-                              leadDetails.leadInquirySource= selectedInquirySource;
-                              leadDetails.leadDescription= inquiryDescriptionController.text;
-                              leadDetails.leadKeywords= keywordsController.text;
-                              leadDetails.leadRequirements=customerRequirementsController.text;
-                              leadDetails.leadCompInformation= competitorInformationController.text;
-                              leadDetails.leadNextSteps= nextStepsController.text;
-                              leadDetails.leadNotes= notesController.text;
+                    setState(() {
+                      if(selectedInquirySource==null||selectedInquirySource!.isEmpty)
+                      {
+                        isInquirySourceIsEmpty=true;
+                      }
+                      if(selectedInquiryMedium==null||selectedInquiryMedium!.isEmpty)
+                      {
+                        isInquiryMediumEmpty=true;
+                      }
+                      if(isInquirySourceIsEmpty==false&& isInquiryMediumEmpty==false)
+                        {
+                          setState(() {
+                            leadDetails.leadInquiryMedium= selectedInquiryMedium;
+                            leadDetails.leadInquirySource= selectedInquirySource;
+                            leadDetails.leadDescription= inquiryDescriptionController.text;
+                            leadDetails.leadKeywords= keywordsController.text;
+                            leadDetails.leadRequirements=customerRequirementsController.text;
+                            leadDetails.leadCompInformation= competitorInformationController.text;
+                            leadDetails.leadNextSteps= nextStepsController.text;
+                            leadDetails.leadNotes= notesController.text;
 
-                          newLeadBloc.add(PostNewLeadEvent(leadDetails: leadDetails));
-                        });
+                            newLeadBloc.add(PostNewLeadEvent(leadDetails: leadDetails));
+                          });
+                        }
+
+                    });
                       },
                     ),
                   )

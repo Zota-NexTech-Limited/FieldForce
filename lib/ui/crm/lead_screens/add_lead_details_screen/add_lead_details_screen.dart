@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/create_activity_bloc/create_activity_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
@@ -12,6 +13,7 @@ import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/ui/crm/lead_screens/history_screen.dart';
 import 'package:fieldforce/ui/crm/lead_screens/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 class AddLeadDetailsScreen extends StatefulWidget {
   const AddLeadDetailsScreen({super.key});
@@ -104,6 +106,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                       selectedValue: selectedInquirySource,
                       list: inquirySourceList,
                       hint: "Select Inquiry Source",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedInquirySource=value;
@@ -115,6 +118,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                       selectedValue: selectedInquiryCategory,
                       list: inquiryCategoryList,
                       hint: "Select Inquiry Category",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedInquiryCategory=value;
@@ -207,6 +211,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                       selectedValue: selectedFinancialStatus,
                       list: financialStatusList,
                       hint: "Select Financial Status",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedFinancialStatus=value;
@@ -218,6 +223,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                       selectedValue: selectedStoreLocation,
                       list: storeLocationList,
                       hint: "Select Store Location",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedStoreLocation=value;
@@ -229,6 +235,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                       selectedValue: selectedWelcomeMessageSent,
                       list: welcomeMessageSentList,
                       hint: "Select Welcome Message",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedWelcomeMessageSent=value;
@@ -240,6 +247,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                       selectedValue: selectedStatus,
                       list: statusList,
                       hint: "Select Status",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedStatus=value;
@@ -251,6 +259,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                       selectedValue: selectedProspectStatus,
                       list: prospectStatusList,
                       hint: "Select Prospect Status",
+                      isError: false,
                       onChanged: (value){
                         setState(() {
                           selectedProspectStatus=value;
@@ -268,7 +277,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                   NormalButton(title: "Convert to Opportunity", onTap: (){}, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
                   SizedBox(height: SizeConfig.blockHeight*2,),
                   NormalButton(title: "Schedule Activity", onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const ScheduleActivityScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>CreateActivityBloc(),child:const ScheduleActivityScreen(),)));
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
                   SizedBox(height: SizeConfig.blockHeight*5,),
 

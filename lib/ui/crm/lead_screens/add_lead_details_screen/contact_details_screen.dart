@@ -20,11 +20,13 @@ class ContactDetailsScreen extends StatefulWidget {
 }
 
 class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController phoneNumberController=TextEditingController();
   TextEditingController emailAddressController=TextEditingController();
   TextEditingController websiteController=TextEditingController();
   TextEditingController pinCodeController=TextEditingController();
   TextEditingController addressController=TextEditingController();
+
 
   String? selectedState;
   List<String> stateList=[];
@@ -33,6 +35,9 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   List<String> cityList=[];
   late NewLeadModel leadDetails;
   late GetAddressByPinCodeBloc getAddressByPinCodeBloc;
+
+  bool isStateDropdownIsEmpty=false;
+  bool isCityDropdownIsEmpty=false;
   @override
   void initState() {
     // TODO: implement initState
@@ -64,6 +69,8 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                     {
                       selectedState=stateList[0];
                       selectedCity=cityList[0];
+                         isStateDropdownIsEmpty=false;
+                          isCityDropdownIsEmpty=false;
                     }
                 });
 
@@ -71,138 +78,177 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                 {
                   final snackBar = SnackBar(content: Text(state.message));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  setState(() {
+                   selectedCity=null;
+                   selectedState=null;
+                   cityList=[];
+                   stateList=[];
+                  });
                 }
           setState(() {
 
           });
-        },child: Scaffold(
-          backgroundColor: COLORS.white,
-          appBar: appBarComponent(title: "Contact Details",context: context),
-          body: Container(
-            height: SizeConfig.screenHeight,
-            width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const InputFieldTitleText(text: "Phone Number *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: phoneNumberController,
-                      hintText: "Enter Customer Mobile Number",
-                      inputType: TextInputType.phone,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Phone Number is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-
-                  const InputFieldTitleText(text: "Email address *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: emailAddressController,
-                      hintText: "Enter Customer Email Address",
-                      inputType: TextInputType.emailAddress,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Email address is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-
-                  const InputFieldTitleText(text: "Website *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: websiteController,
-                      hintText: "Website URL here",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Website is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-
-                  const InputFieldTitleText(text: "Address"),
-
-                  const InputFieldTitleText(text: "PinCode *"),
-                  NormalTextFormField(
-                      onChanged: (value){
-                        setState(() {
-                          if(value.length==6){
-                            getAddressByPinCodeBloc.add(FetchAddressByPinCodeEvent(pinCode: pinCodeController.text));
+        },child: Form(
+          key: _formKey,
+          child: Scaffold(
+            backgroundColor: COLORS.white,
+            appBar: appBarComponent(title: "Contact Details",context: context),
+            body: Container(
+              height: SizeConfig.screenHeight,
+              width: SizeConfig.screenWidth,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const InputFieldTitleText(text: "Phone Number *"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: phoneNumberController,
+                        hintText: "Enter Customer Mobile Number",
+                        inputType: TextInputType.phone,
+                        validator: (value){
+                          RegExp regex = RegExp(r"^\d{10}$");
+                          if (!regex.hasMatch(value!)) {
+                            return 'Phone Number is not valid';
                           }
-                        });
-                      },
-                      controller: pinCodeController,
-                      hintText: "000 000",
-                      inputType: TextInputType.phone,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
+                          return null;
+                        },
+                        readOnly: false
+                    ),
+
+                    const InputFieldTitleText(text: "Email address *"),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: emailAddressController,
+                        hintText: "Enter Customer Email Address",
+                        inputType: TextInputType.emailAddress,
+                        validator: (value){
+                          String pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+                          RegExp regex = RegExp(pattern);
+                          if (value!.trim().isEmpty) {
+                            return 'Email is Empty';
+                          } else if (!regex.hasMatch(value)) {
+                            return 'Email is not valid';
+                          }
+                          return null;
+                        },
+                        readOnly: false
+                    ),
+
+                    const InputFieldTitleText(text: "Website "),
+                    NormalTextFormField(
+                        onChanged: (value){},
+                        controller: websiteController,
+                        hintText: "Website URL here",
+                        inputType: TextInputType.text,
+                        validator: (value){
+                          // if(value==null||value.isEmpty)
+                          // {
+                          //   return "Website is Empty";
+                          // }
+                           return null;
+                        },
+                        readOnly: false
+                    ),
+
+                    const InputFieldTitleText(text: "Address"),
+
+                    const InputFieldTitleText(text: "PinCode *"),
+                    NormalTextFormField(
+                        onChanged: (value){
+                          setState(() {
+                            if(value.length==6){
+                              getAddressByPinCodeBloc.add(FetchAddressByPinCodeEvent(pinCode: pinCodeController.text));
+                            }
+                          });
+                        },
+                        controller: pinCodeController,
+                        hintText: "000 000",
+                        inputType: TextInputType.phone,
+                        validator: (value){
+                          RegExp regex = RegExp(r"^\d{6}$");
+                          if (!regex.hasMatch(value!)) {
+                            return 'PinCode is Not Valid';
+                          }
+                          return null;
+
+                        },
+                        readOnly: false
+                    ),
+                    const InputFieldTitleText(text: "State *"),
+                    SingleItemSelectDropdown(selectedValue: selectedState, list: stateList,
+                        isError: isStateDropdownIsEmpty,
+                        onChanged: (value){
+                      setState(() {
+                        selectedState=value;
+                        isStateDropdownIsEmpty=false;
+                      });
+                    }, hint: "State"),
+
+                    const InputFieldTitleText(text: "City *"),
+                    SingleItemSelectDropdown(selectedValue: selectedCity, list: cityList,
+                        isError: isCityDropdownIsEmpty,
+                        onChanged: (value){
+                      setState(() {
+                        selectedCity=value;
+                        isCityDropdownIsEmpty=false;
+
+                      });
+                    }, hint: "City"),
+
+
+
+
+                    const InputFieldTitleText(text: "Address *"),
+                    MultiLineTextFormField(onChanged: (value){}, controller: addressController, inputType: TextInputType.text, validator: (value){
+                      if(value==null||value.isEmpty)
+                      {
+                        return " Address is Empty";
+                      }
+                      return null;
+                    }, isReadOnly: false, labelText: "Address"),
+
+                    SizedBox(height: SizeConfig.blockHeight*3,),
+                    NormalButtonWithIcon(title: "Next Step", onTap: (){
+
+                    setState(() {
+                      if(selectedState==null)
+                      {
+                        isStateDropdownIsEmpty=true;
+                      }
+
+                      if(selectedCity==null)
+                      {
+                        isCityDropdownIsEmpty=true;
+                      }
+
+                      if(_formKey.currentState!.validate())
                         {
-                          return "PinCode is Empty";
+                          if(isStateDropdownIsEmpty==false&&isCityDropdownIsEmpty==false){
+                            setState(() {
+                              leadDetails.leadPhoneNumber= phoneNumberController.text;
+                              leadDetails.leadEmail= emailAddressController.text;
+                              leadDetails.leadWebsite= websiteController.text;
+                              leadDetails.leadState= selectedState;
+                              leadDetails.leadCity= selectedCity;
+                              leadDetails.leadPincode= pinCodeController.text;
+                              leadDetails.leadAddress= addressController.text;
+
+
+
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>  ProductOrServiceDetailsScreen(leadDetails:leadDetails,)));
+                            });
+                          }
+
                         }
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "State *"),
-                  SingleItemSelectDropdown(selectedValue: selectedState, list: stateList, onChanged: (value){
-                    setState(() {
-                      selectedState=value;
-                    });
-                  }, hint: "State"),
-
-                  const InputFieldTitleText(text: "City *"),
-                  SingleItemSelectDropdown(selectedValue: selectedCity, list: cityList, onChanged: (value){
-                    setState(() {
-                      selectedCity=value;
-                    });
-                  }, hint: "City"),
-
-
-
-
-                  const InputFieldTitleText(text: "Address *"),
-                  MultiLineTextFormField(onChanged: (value){}, controller: addressController, inputType: TextInputType.text, validator: (value){
-                    if(value==null||value.isEmpty)
-                    {
-                      return " Address is Empty";
-                    }
-                    return null;
-                  }, isReadOnly: false, labelText: "Address"),
-
-                  SizedBox(height: SizeConfig.blockHeight*3,),
-                  NormalButtonWithIcon(title: "Next Step", onTap: (){
-                    setState(() {
-                      leadDetails.leadPhoneNumber= phoneNumberController.text;
-                      leadDetails.leadEmail= emailAddressController.text;
-                      leadDetails.leadWebsite= websiteController.text;
-                      leadDetails.leadState= selectedState;
-                      leadDetails.leadCity= selectedCity;
-                      leadDetails.leadPincode= pinCodeController.text;
-                      leadDetails.leadAddress= addressController.text;
-
-
-
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>  ProductOrServiceDetailsScreen(leadDetails:leadDetails,)));
                     });
 
-                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
 
-                ],
+                  ],
+                ),
               ),
             ),
           ),
