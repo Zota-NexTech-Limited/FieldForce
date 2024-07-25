@@ -9,6 +9,7 @@ NewLeadModel newLeadModelFromJson(String str) => NewLeadModel.fromJson(json.deco
 String newLeadModelToJson(NewLeadModel data) => json.encode(data.toJson());
 
 class NewLeadModel {
+  String? leadId;
   String? leadFullName;
   String? leadContactName;
   String? leadContactTitle;
@@ -63,9 +64,11 @@ class NewLeadModel {
      this.leadCompInformation,
      this.leadNextSteps,
      this.leadNotes,
+     this.leadId,
   });
 
   factory NewLeadModel.fromJson(Map<String, dynamic> json) => NewLeadModel(
+    leadId: json["lead_id"]==null?"":json["lead_id"].toString(),
     leadFullName: json["lead_full_name"]==null?"":json["lead_full_name"].toString(),
     leadContactName: json["lead_contact_name"]==null?"":json["lead_contact_name"].toString(),
     leadContactTitle: json["lead_contact_title"]==null?"":json["lead_contact_title"].toString(),
@@ -95,6 +98,7 @@ class NewLeadModel {
   );
 
   Map<String, dynamic> toJson() => {
+    "lead_id": leadId,
     "lead_full_name": leadFullName,
     "lead_contact_name": leadContactName,
     "lead_contact_title": leadContactTitle,

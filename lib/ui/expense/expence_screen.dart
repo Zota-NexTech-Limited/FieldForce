@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/add_expense/add_expense_bloc.dart';
 import 'package:fieldforce/components/button_component/circular_button.dart';
 import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
@@ -8,6 +9,7 @@ import 'package:fieldforce/ui/expense/add_expense_screen.dart';
 import 'package:fieldforce/ui/expense/demo_screen.dart';
 import 'package:fieldforce/ui/my_activity/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 class ExpenceScreen extends StatefulWidget {
   const ExpenceScreen({super.key});
@@ -321,7 +323,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                         ),
                       ),
                       CircularButtonComponent(icon: Icons.add,onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddExpenseScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>AddExpenseBloc(),child: const AddExpenseScreen(),)));
                       },),
 
                     ],
