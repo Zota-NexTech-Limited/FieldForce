@@ -6,7 +6,7 @@ import 'dart:collection';
 
 import 'package:table_calendar/table_calendar.dart';
 
-/// Example event class.
+/*/// Example event class.
 class Event {
   final String title;
 
@@ -39,7 +39,7 @@ final _kEventSource = Map.fromIterable(
       Event('Today\'s Event 1'),
 
     ],
-  });
+  });*/
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;

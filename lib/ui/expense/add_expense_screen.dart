@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fieldforce/bloc/add_expense/add_expense_bloc.dart';
+import 'package:fieldforce/bloc/expense_list_bloc/expense_list_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
@@ -13,6 +14,7 @@ import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/reuse_functions/date_picker.dart';
 import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/models/expense/add_ecpense_model.dart';
+import 'package:fieldforce/ui/expense/expence_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -148,6 +150,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               final snackBar = SnackBar(content: Text(state.message));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
               Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ExpenseListBloc()..add(const FetchExpenseListEvent()),child: const ExpenceScreen(),)));
+
             }
           else if(state is AddExpenseFailedState)
             {
@@ -440,7 +445,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                     expenseClaimPrice: claimPriceController.text,
                                     expenseClaimQuantity: claimQuantityController.text,
                                     expenseTotalPrice: totalController.text,
-                                    expenseDate: dateController.text,
+                                    expenseDate: dateController.text.isEmpty?null:dateController.text,
                                     expenseBillReference: billReferenceController.text,
                                     expenseDescription: descriptionController.text,
                                     expenseAttachDocuments: []

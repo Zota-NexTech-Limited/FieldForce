@@ -93,7 +93,7 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
                   ),
                   tabs: const [
                     Tab(text: "LEAD"),
-                    Tab(text: "OPPERTUNITY"),
+                    Tab(text: "OPPORTUNITY"),
                   ],
                 ),
               ],

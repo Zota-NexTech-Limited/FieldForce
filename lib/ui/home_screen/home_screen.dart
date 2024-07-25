@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fieldforce/bloc/expense_list_bloc/expense_list_bloc.dart';
 import 'package:fieldforce/bloc/get_activity_list/activity_list_bloc.dart';
 import 'package:fieldforce/components/svg_image_component.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
@@ -87,10 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       homeCard(icon: "assets/image/svg_icons/calender_icon.svg", title: "My Activity", onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ActivityListBloc()..add(FetchActivityListEvent()),child: MyActivityScreen(),)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ActivityListBloc()..add(const FetchActivityListEvent()),child: MyActivityScreen(),)));
                       }),
                       homeCard(icon: "assets/image/svg_icons/calender_icon.svg", title: "Expense", onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const ExpenceScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ExpenseListBloc()..add(const FetchExpenseListEvent()),child: const ExpenceScreen(),)));
                       }),
                     ],
                   ),
