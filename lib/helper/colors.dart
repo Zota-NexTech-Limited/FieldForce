@@ -15,4 +15,6 @@ class COLORS{
   static const Color whiteDark = Color(0xffFFFFFF);
   static const Color yellow = Color(0xffFFFF00);
   static const Color green = Color(0xff00AA07);
+  static const Color grayLight = Color(0xffD7D7D7);
+  static const Color whiteExtraLight = Color(0xffF2F2F2);
 }

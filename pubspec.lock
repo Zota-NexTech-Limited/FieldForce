@@ -208,6 +208,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  lint:
+    dependency: transitive
+    description:
+      name: lint
+      sha256: d758a5211fce7fd3f5e316f804daefecdc34c7e53559716125e6da7388ae8565
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   lints:
     dependency: transitive
     description:
@@ -248,6 +256,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.0"
+  multi_dropdown:
+    dependency: "direct main"
+    description:
+      name: multi_dropdown
+      sha256: b63ff339fcc875d667f8688c8ef62853545b580dd2b6fe78b73339783268afd8
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
+  multiple_search_selection:
+    dependency: "direct main"
+    description:
+      name: multiple_search_selection
+      sha256: ab7875cdfc77e989cde250be4a13994a499403bdae2752cb115debbd6a919fb1
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.5"
   nested:
     dependency: transitive
     description:
@@ -349,6 +373,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "5de7df5e372ad476c144327f06503190b940b84d5bcfa407ee49b24f1c42e14d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "26.2.5"
+  syncfusion_flutter_sliders:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_sliders
+      sha256: "6aadc17675d99ca12df22bd0352a077157c758f565834785625ad2d9248eb1b1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "26.2.5"
   table_calendar:
     dependency: "direct main"
     description:

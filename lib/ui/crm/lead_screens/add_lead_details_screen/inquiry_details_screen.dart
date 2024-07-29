@@ -1,6 +1,7 @@
 import 'package:fieldforce/bloc/new_lead_bloc/new_lead_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
+import 'package:fieldforce/components/button_component/submit_button_component.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldforce/components/text_component/input_field_title_text.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
@@ -138,16 +139,7 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
 
 
                   SizedBox(height: SizeConfig.blockHeight*3,),
-                  SizedBox(
-                    width: SizeConfig.screenWidth,
-                    height:SizeConfig.blockHeight*7,
-                    child:  ElevatedButton(
-                      child: NormalText(fontWeight: FontWeight.w500, color: COLORS.white, fontSize:2.3, text: "Submit") ,
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(COLORS.green),
-                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
-                      ),
-                      onPressed: (){
+                  SubmitButtonComponent(onTap:(){
                     setState(() {
                       if(selectedInquirySource==null||selectedInquirySource!.isEmpty)
                       {
@@ -158,25 +150,24 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                         isInquiryMediumEmpty=true;
                       }
                       if(isInquirySourceIsEmpty==false&& isInquiryMediumEmpty==false)
-                        {
-                          setState(() {
-                            leadDetails.leadInquiryMedium= selectedInquiryMedium;
-                            leadDetails.leadInquirySource= selectedInquirySource;
-                            leadDetails.leadDescription= inquiryDescriptionController.text;
-                            leadDetails.leadKeywords= keywordsController.text;
-                            leadDetails.leadRequirements=customerRequirementsController.text;
-                            leadDetails.leadCompInformation= competitorInformationController.text;
-                            leadDetails.leadNextSteps= nextStepsController.text;
-                            leadDetails.leadNotes= notesController.text;
+                      {
+                        setState(() {
+                          leadDetails.leadInquiryMedium= selectedInquiryMedium;
+                          leadDetails.leadInquirySource= selectedInquirySource;
+                          leadDetails.leadDescription= inquiryDescriptionController.text;
+                          leadDetails.leadKeywords= keywordsController.text;
+                          leadDetails.leadRequirements=customerRequirementsController.text;
+                          leadDetails.leadCompInformation= competitorInformationController.text;
+                          leadDetails.leadNextSteps= nextStepsController.text;
+                          leadDetails.leadNotes= notesController.text;
 
-                            newLeadBloc.add(PostNewLeadEvent(leadDetails: leadDetails));
-                          });
-                        }
+                          newLeadBloc.add(PostNewLeadEvent(leadDetails: leadDetails));
+                        });
+                      }
 
                     });
-                      },
-                    ),
-                  )
+                  },)
+
 
                 ],
               ),

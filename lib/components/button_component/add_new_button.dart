@@ -10,7 +10,7 @@ class AddNewButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: SizeConfig.blockWidth*40,
+     // width: SizeConfig.blockWidth*40,
       height: SizeConfig.blockHeight*6,
       child: ElevatedButton(
         child:Row(
