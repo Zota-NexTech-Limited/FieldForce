@@ -1,4 +1,5 @@
 import 'package:fieldforce/bloc/lead_list_bloc/lead_list_bloc.dart';
+import 'package:fieldforce/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/config.dart';
@@ -21,7 +22,8 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
   late TabController _tabController;
   final List<Widget> _tabs=[
      BlocProvider(create: (context)=>LeadListBloc()..add(const FetchLeadListEvent(fromDate: "", toDate: "", search: "")),child:const  LeadScreen(),),
-    const OpportunityScreen(),
+    BlocProvider(create: (context)=>OpportunityListBloc()..add(const GetOpportunityListEvent()),child:const  OpportunityScreen(),),
+
 
   ];
   @override

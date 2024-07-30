@@ -13,7 +13,7 @@ class ExpenseDao{
       {
         required AddExpenseModel expenseDetails,
       }) async {
-    var url = '${Config.url}/feild-force/expense/add';
+    var url = '${Config.url}/field-force/expense/add';
     print("----------Dao 1----------");
 
     Map<String,dynamic> body=expenseDetails.toJson();
@@ -35,7 +35,7 @@ class ExpenseDao{
 
 
   Future expenseList() async {
-    var url = '${Config.url}/feild-force/get-expense-list';
+    var url = '${Config.url}/field-force/get-expense-list';
     print("----------Dao 1----------");
 
     final response = await http.get(Uri.parse(url),

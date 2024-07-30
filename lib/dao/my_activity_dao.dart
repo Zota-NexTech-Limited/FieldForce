@@ -9,7 +9,7 @@ class MyActivityDao{
 
 
   Future activityList() async {
-    var url = '${Config.url}/feild-force/get-activitys';
+    var url = '${Config.url}/field-force/get-activitys';
     print("----------Dao 1----------");
 
     final response = await http.get(Uri.parse(url),

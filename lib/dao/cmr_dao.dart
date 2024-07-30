@@ -12,7 +12,7 @@ class CmrDao{
       {
         required NewLeadModel leadDetails,
       }) async {
-    var url = '${Config.url}/feild-force/lead/add';
+    var url = '${Config.url}/field-force/lead/add';
     print("----------Dao 1----------");
 
     Map<String,dynamic> body=leadDetails.toJson();
@@ -40,7 +40,7 @@ class CmrDao{
         required String toDate,
         required String search,
       }) async {
-    var url = '${Config.url}/feild-force/get-leads?from=$fromDate&to=$toDate&search=$search';
+    var url = '${Config.url}/field-force/get-leads?from=$fromDate&to=$toDate&search=$search';
     print("----------Dao 1----------");
 
 
@@ -85,7 +85,7 @@ class CmrDao{
       {
         required CreateActivityModel activityDetails,
       }) async {
-    var url = '${Config.url}/feild-force/activity/add';
+    var url = '${Config.url}/field-force/activity/add';
     print("----------Dao 1----------");
 
     Map<String,dynamic> body=activityDetails.toJson();
@@ -103,5 +103,24 @@ class CmrDao{
     print("----------Dao 3-----------");
 
     return response;
+  }
+
+
+  Future opportunityList() async {
+    var url='${Config.url}/field-force/opportunity/get-list';
+
+    final response = await http.get(Uri.parse(url),
+        headers: Config.headers(),
+    );
+
+    print("----------Dao 2-----------");
+
+    print("get Opportunity List  Response Status Code : ${response.statusCode}");
+    print("get Opportunity List Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+
   }
 }
