@@ -8,11 +8,13 @@ import 'package:fieldforce/components/text_form_field_component/textformfield_wi
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/reuse_functions/date_picker.dart';
 import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldforce/models/crm_models/opportinuty_model.dart';
 import 'package:fieldforce/ui/crm/opportunity_screens/add_new_opportunity_screens/opportunity_contact_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 class AddOpportunityScreen extends StatefulWidget {
-  const AddOpportunityScreen({super.key});
+  final VoidCallback pageRefreshFunction;
+  const AddOpportunityScreen({super.key,required this.pageRefreshFunction});
 
   @override
   State<AddOpportunityScreen> createState() => _AddOpportunityScreenState();
@@ -26,7 +28,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
   TextEditingController probabilityOfCloseController=TextEditingController();
   String ? selectedStage;
   List<String> stageList=[];
-  double _value = 0.0;
+  double probabilityOfClose = 0.0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -130,7 +132,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                         child: SfSlider(
                           min: 0,
                           max: 10,
-                          value: _value,
+                          value: probabilityOfClose,
                           interval: 1,
                           showTicks: false,
                           showLabels: true,
@@ -141,7 +143,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                           activeColor: COLORS.blue,
                           onChanged: (dynamic value){
                             setState(() {
-                              _value = value;
+                              probabilityOfClose = value;
                             });
                           },
 
@@ -151,7 +153,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                         height: SizeConfig.blockHeight*3.5,
                         width: SizeConfig.blockWidth*10,
                         color: COLORS.grayLight,
-                        child: Center(child: NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2, text: "${(_value.toInt())}")),
+                        child: Center(child: NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2, text: "${(probabilityOfClose.toInt())}")),
                       )
 
                     ],
@@ -162,7 +164,15 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
 
                     if(_formKey.currentState!.validate())
                     {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const OpportunityContactInformationScreen()));
+                      OpportunityDetailsModel opportunityDetails=OpportunityDetailsModel(
+                      opportunityName: opportunityNameController.text,
+                          opportunityValue: opportunityValueController.text,
+                          opportunityCloseDate: closeDateController.text,
+                          opportunityStage: selectedStage,
+                          opportunityProbabilityOfClose:probabilityOfClose.toString(),
+
+                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
                     }
                         
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)

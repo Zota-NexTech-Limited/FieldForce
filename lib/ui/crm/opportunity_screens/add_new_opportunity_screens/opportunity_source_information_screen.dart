@@ -1,3 +1,5 @@
+import 'package:fieldforce/bloc/add_opportunity_bloc/add_opportunity_bloc.dart';
+import 'package:fieldforce/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/submit_button_component.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
@@ -7,12 +9,16 @@ import 'package:fieldforce/components/text_form_field_component/normal_textform_
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/config.dart';
 import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldforce/models/crm_models/opportinuty_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:multiple_search_selection/multiple_search_selection.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 class OpportunitySourceInformationScreen extends StatefulWidget {
-  const OpportunitySourceInformationScreen({super.key});
+  final OpportunityDetailsModel opportunityDetails;
+  final VoidCallback pageRefreshFunction;
+  const OpportunitySourceInformationScreen({super.key,required this.opportunityDetails,required this.pageRefreshFunction});
 
   @override
   State<OpportunitySourceInformationScreen> createState() => _OpportunitySourceInformationScreenState();
@@ -25,20 +31,54 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
   TextEditingController nextStepsController=TextEditingController();
   TextEditingController notesController=TextEditingController();
   final MultiSelectController<String> _controller = MultiSelectController();
-
-
-
-
   String? selectedSource;
   List<String> sourceList=[];
   List<String> competitorsList=["val1",'val2',"val3", "val4",];
   List<String> selectedCompetitorsList=[];
   bool isMultiDropdownOpen=false;
+  late OpportunityDetailsModel opportunityDetails;
+  late AddOpportunityBloc addOpportunityBloc;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    opportunityDetails=widget.opportunityDetails;
+    addOpportunityBloc=BlocProvider.of<AddOpportunityBloc>(context);
+  }
+  updateValues()
+  {
+    setState(() {
+      opportunityDetails.opportunitySource=selectedSource;
+      opportunityDetails.opportunitySourceDetails=sourceDetailsController.text;
+      opportunityDetails.opportunityProducts=productQuantityController.text;
+      opportunityDetails.opportunityCompetitors=selectedCompetitorsList;
+      opportunityDetails.opportunityNextStep=nextStepsController.text;
+      opportunityDetails.opportunityNotes=notesController.text;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
+        child: BlocListener<AddOpportunityBloc,AddOpportunityState>(listener: (context, state) {
+          if(state is AddOpportunityLoadingState)
+            {
+
+            }else if(state is AddOpportunitySuccessState)
+              {
+                setState(() {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  widget.pageRefreshFunction();
+                  final snackBar = SnackBar(content: Text(state.message));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                });
+              }else if(state is AddOpportunityFailedState)
+                {
+
+                }
+        },child:  Scaffold(
           backgroundColor: COLORS.white,
           appBar: appBarComponent(title: "Source Information", context: context),
           body: Container(
@@ -78,24 +118,24 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                   ),
                   const InputFieldTitleText(text: "Products/Services Involved"),
                   NormalTextFormField(
-                   onChanged:(value){
-                   },
-                   controller: productQuantityController,
-                   hintText: "Desired quantity of the product (if applicable)",
-                   inputType: TextInputType.number,
-                   validator: (value){
-                     if(value==null||value.isEmpty)
-                     {
-                       return null;
-                     }
-                     else{
-                       RegExp regex = RegExp(r"^[0-9]+$");
-                       if (!regex.hasMatch(value)) {
-                         return 'Numbers are allowed';
-                       }
-                     }
-                   },
-                   readOnly: false),
+                      onChanged:(value){
+                      },
+                      controller: productQuantityController,
+                      hintText: "Desired quantity of the product (if applicable)",
+                      inputType: TextInputType.number,
+                      validator: (value){
+                        if(value==null||value.isEmpty)
+                        {
+                          return null;
+                        }
+                        else{
+                          RegExp regex = RegExp(r"^[0-9]+$");
+                          if (!regex.hasMatch(value)) {
+                            return 'Numbers are allowed';
+                          }
+                        }
+                      },
+                      readOnly: false),
                   const InputFieldTitleText(text: "Competitors"),
                   /* MultipleSearchSelection<String>(
                     searchField: TextField(
@@ -165,7 +205,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
 
                   MultiSelectDropDown<String>(
                     controller: _controller,
-                   // clearIcon: const Icon(CupertinoIcons.multiply),
+                    // clearIcon: const Icon(CupertinoIcons.multiply),
                     onOptionSelected: (options) {},
                     searchEnabled: true,
                     searchLabel: "search",
@@ -222,7 +262,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                   MultiLineTextFormField(onChanged: (value){}, controller: nextStepsController, inputType: TextInputType.text, validator: (value){
                     return null;
                   }, isReadOnly: false, labelText: "Enter Next Steps Here"),
-              
+
                   const InputFieldTitleText(text: "Notes "),
                   MultiLineTextFormField(onChanged: (value){}, controller: notesController, inputType: TextInputType.text, validator: (value){
                     return null;
@@ -233,21 +273,24 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                     setState(() {
                       selectedCompetitorsList.clear();
                       for(ValueItem item in _controller.selectedOptions)
-                        {
-                          selectedCompetitorsList.add(item.value.toString());
-                        }
-
+                      {
+                        selectedCompetitorsList.add(item.value.toString());
+                      }
+                      updateValues();
+                      addOpportunityBloc.add(AddNewOpportunityEvent(opportunityDetails: opportunityDetails));
                       print("selectedCompetitorsList----------------$selectedCompetitorsList");
                     });
 
                   },)
-              
+
                 ],
               ),
             ),
 
           ),
-        )
+        ),)
+
+
     );
   }
 }

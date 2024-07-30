@@ -91,7 +91,7 @@ class OpportunityDetailsModel {
     "opportunity_compitetors": List<dynamic>.from(opportunityCompetitors!.map((x) => x)),
     "opportunity_next_step": opportunityNextStep,
     "opportunity_notes": opportunityNotes,
-    "update_date": updateDate!.toIso8601String(),
-    "created_date": createdDate!.toIso8601String(),
+    //"update_date": updateDate!.toIso8601String(),
+    //"created_date": createdDate!.toIso8601String(),
   };
 }

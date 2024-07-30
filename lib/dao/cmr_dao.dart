@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:fieldforce/helper/config.dart';
 import 'package:fieldforce/models/crm_models/create_activity_model.dart';
 import 'package:fieldforce/models/crm_models/new_lead_model.dart';
+import 'package:fieldforce/models/crm_models/opportinuty_model.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -122,5 +123,30 @@ class CmrDao{
 
     return response;
 
+  }
+
+
+  Future addOpportunity(
+      {
+        required OpportunityDetailsModel opportunityDetails,
+      }) async {
+    var url = '${Config.url}/field-force/opportunity/add';
+    print("----------Dao 1----------");
+
+    Map<String,dynamic> body=opportunityDetails.toJson();
+
+    final response = await http.post(Uri.parse(url),
+        headers: Config.headers(),
+        body:jsonEncode(body)
+    );
+
+    print("----------Dao 2-----------");
+
+    print("add opportunity  Response Status Code : ${response.statusCode}");
+    print("add opportunity  Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
   }
 }

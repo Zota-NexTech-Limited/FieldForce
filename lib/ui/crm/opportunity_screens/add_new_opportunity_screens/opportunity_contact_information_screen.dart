@@ -1,13 +1,18 @@
+import 'package:fieldforce/bloc/add_opportunity_bloc/add_opportunity_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldforce/components/text_component/input_field_title_text.dart';
 import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
 import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldforce/models/crm_models/opportinuty_model.dart';
 import 'package:fieldforce/ui/crm/opportunity_screens/add_new_opportunity_screens/opportunity_source_information_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class OpportunityContactInformationScreen extends StatefulWidget {
-  const OpportunityContactInformationScreen({super.key});
+  final OpportunityDetailsModel opportunityDetails;
+  final VoidCallback pageRefreshFunction;
+  const OpportunityContactInformationScreen({super.key,required this.opportunityDetails,required this.pageRefreshFunction});
 
   @override
   State<OpportunityContactInformationScreen> createState() => _OpportunityContactInformationScreenState();
@@ -21,6 +26,23 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
   TextEditingController companyNameController=TextEditingController();
   String? selectedIndustry;
   List<String> industryList=[];
+  late OpportunityDetailsModel opportunityDetails;
+  modelUpdate()
+  {
+    setState(() {
+      opportunityDetails.opportunityContactName=contactNameController.text;
+      opportunityDetails.opportunityEmail=emailAddressController.text;
+      opportunityDetails.opportunityNumber=phoneNumberController.text;
+      opportunityDetails.opportunityCompanyName=companyNameController.text;
+      opportunityDetails.opportunityIndustry=selectedIndustry;
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    opportunityDetails=widget.opportunityDetails;
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -117,7 +139,9 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
 
                   if(_formKey.currentState!.validate())
                   {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const OpportunitySourceInformationScreen()));
+
+                    modelUpdate();
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>AddOpportunityBloc(),child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)));
                     print('hgjn');
                   }
 
