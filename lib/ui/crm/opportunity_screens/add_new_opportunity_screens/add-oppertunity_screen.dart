@@ -35,7 +35,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
   TextEditingController closeDateController=TextEditingController();
   TextEditingController probabilityOfCloseController=TextEditingController();
   String ? selectedStage;
-  List<String> stageList=[];
+  List<String> stageList=["Qualification","Proposal","Negotiation","Closed Won","Closed Lost"];
   double probabilityOfClose = 0.0;
 
   ///************************* view screen or edit screen or add opportunity screen condition variables//////////////////
@@ -72,7 +72,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
       opportunityNameController.text=opportunityDetails.opportunityName.toString();
       opportunityValueController.text=opportunityDetails.opportunityValue.toString();
       closeDateController.text=opportunityDetails.opportunityCloseDate.toString();
-      selectedStage=opportunityDetails.opportunityStage.toString();
+      selectedStage=opportunityDetails.opportunityStage!.isEmpty?null:opportunityDetails.opportunityStage;
       probabilityOfCloseController.text=opportunityDetails.opportunityProbabilityOfClose.toString();
       probabilityOfClose=double.parse(opportunityDetails.opportunityProbabilityOfClose.toString());
 
@@ -118,7 +118,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
               isView=true;
               readOnly=true;
               isEdit=false;
-              updateInputFields(opportunityDetails: state.opportunityDetails);
+             // updateInputFields(opportunityDetails: state.opportunityDetails);
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
             });
           }
@@ -198,7 +198,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                       suffixIcon: "assets/image/svg_icons/calendar.svg"),
                   const InputFieldTitleText(text: "Stage"),
                   if(readOnly==true)...[
-                    NotEditableDropdownComponent(text: selectedStage.toString()),
+                    NotEditableDropdownComponent(text: selectedStage==null?"--":selectedStage!),
                   ]else...[
                     SingleItemSelectDropdown(selectedValue: selectedStage, list: stageList, onChanged: (value){setState(() {
                       selectedStage=value!;

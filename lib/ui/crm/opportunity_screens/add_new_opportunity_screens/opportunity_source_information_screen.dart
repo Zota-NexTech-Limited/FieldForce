@@ -150,7 +150,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                 isView=true;
                 readOnly=true;
                 isEdit=false;
-                updateInputFields(opportunityDetails: state.opportunityDetails);
+               // updateInputFields(opportunityDetails: state.opportunityDetails);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
               });
             }
