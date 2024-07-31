@@ -1,9 +1,15 @@
 import 'package:fieldforce/bloc/add_opportunity_bloc/add_opportunity_bloc.dart';
+import 'package:fieldforce/bloc/edit_opportunity_bloc/edit_opportunity_bloc.dart';
 import 'package:fieldforce/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldforce/components/button_component/edit_button.dart';
+import 'package:fieldforce/components/button_component/normal_button.dart';
+import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
 import 'package:fieldforce/components/button_component/submit_button_component.dart';
+import 'package:fieldforce/components/dropdown_component/not_editable_dropdown.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldforce/components/text_component/input_field_title_text.dart';
+import 'package:fieldforce/components/text_component/normal_text.dart';
 import 'package:fieldforce/components/text_form_field_component/multy_line_text_form_field.dart';
 import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
 import 'package:fieldforce/helper/colors.dart';
@@ -33,19 +39,59 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
   final MultiSelectController<String> _controller = MultiSelectController();
   String? selectedSource;
   List<String> sourceList=[];
-  List<String> competitorsList=["val1",'val2',"val3", "val4",];
+  List<ValueItem<String>> competitorsList=[
+    ValueItem(
+      label: 'Option 1',
+      value: 'User 1',),
+    ValueItem(
+      label: 'Option 2',
+      value: 'User 2',),
+    ValueItem(
+      label: 'Option 3',
+      value: 'User 3',),
+    ValueItem(
+      label: 'Option 4',
+      value: 'User 4',),
+    ValueItem(
+      label: 'Option 5',
+      value: 'User 5',),
+  ];
   List<String> selectedCompetitorsList=[];
   bool isMultiDropdownOpen=false;
+
+
+  ///************************* view screen or edit screen or add opportunity screen condition variables//////////////////
+  bool isView=false;
+  bool isEdit=false;
+  bool readOnly=false;
+
   late OpportunityDetailsModel opportunityDetails;
   late AddOpportunityBloc addOpportunityBloc;
+  late EditOpportunityBloc editOpportunityBloc;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     opportunityDetails=widget.opportunityDetails;
     addOpportunityBloc=BlocProvider.of<AddOpportunityBloc>(context);
+    editOpportunityBloc=BlocProvider.of<EditOpportunityBloc>(context);
+    setState(() {
+      if(widget.opportunityDetails.opportunityId!=null&&widget.opportunityDetails.opportunityId!.isNotEmpty)
+      {
+        isView=true;
+        readOnly=true;
+        updateInputFields(opportunityDetails: widget.opportunityDetails);
+        for(ValueItem<String> item in competitorsList)
+          {
+            if(widget.opportunityDetails.opportunityCompetitors!.contains(item.value))
+              {
+                _controller.selectedOptions.add(item);
+              }
+          }
+      }
+    });
   }
-  updateValues()
+  updateOpportunityDetailsModel()
   {
     setState(() {
       opportunityDetails.opportunitySource=selectedSource;
@@ -57,28 +103,64 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
     });
   }
 
+  updateInputFields({required OpportunityDetailsModel opportunityDetails})
+  {
+    setState(() {
+      selectedSource= opportunityDetails.opportunitySource.toString();
+      sourceDetailsController.text=opportunityDetails.opportunitySourceDetails.toString();
+      productQuantityController.text=opportunityDetails.opportunityProducts.toString();
+      selectedCompetitorsList=opportunityDetails.opportunityCompetitors!;
+      nextStepsController.text=opportunityDetails.opportunityNextStep.toString();
+      notesController.text=opportunityDetails.opportunityNotes.toString();
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: BlocListener<AddOpportunityBloc,AddOpportunityState>(listener: (context, state) {
-          if(state is AddOpportunityLoadingState)
+        child:MultiBlocListener(listeners: [
+          BlocListener<AddOpportunityBloc,AddOpportunityState>(listener: (context, state) {
+            if(state is AddOpportunityLoadingState)
             {
 
             }else if(state is AddOpportunitySuccessState)
-              {
-                setState(() {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  widget.pageRefreshFunction();
-                  final snackBar = SnackBar(content: Text(state.message));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                });
-              }else if(state is AddOpportunityFailedState)
-                {
+            {
+              setState(() {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                widget.pageRefreshFunction();
+                final snackBar = SnackBar(content: Text(state.message));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              });
+            }else if(state is AddOpportunityFailedState)
+            {
+              final snackBar = SnackBar(content: Text(state.message));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
+          }),
+          BlocListener<EditOpportunityBloc,EditOpportunityState>(listener: (context, state) {
+            if(state is EditOpportunityLoadingState){
 
-                }
-        },child:  Scaffold(
+            }
+            else if(state is EditOpportunitySuccessState)
+            {
+              setState(() {
+                isView=true;
+                readOnly=true;
+                isEdit=false;
+                updateInputFields(opportunityDetails: state.opportunityDetails);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+              });
+            }
+            else if (state is EditOpportunityFailedState)
+            {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+            }
+          })
+
+        ], child:  Scaffold(
           backgroundColor: COLORS.white,
           appBar: appBarComponent(title: "Source Information", context: context),
           body: Container(
@@ -90,17 +172,22 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const InputFieldTitleText(text: "Source *"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedSource,
-                      list: sourceList,
-                      onChanged: (value)
-                      {
-                        setState(() {
-                          selectedSource=value!;
-                        });
-                      },
-                      hint: "Select Source",
-                      isError: false),
+                  if(readOnly==true)...[
+                    NotEditableDropdownComponent(text: selectedSource.toString())
+                   ]else...[
+                    SingleItemSelectDropdown(
+                        selectedValue: selectedSource,
+                        list: sourceList,
+                        onChanged: (value)
+                        {
+                          setState(() {
+                            selectedSource=value!;
+                          });
+                        },
+                        hint: "Select Source",
+                        isError: false),
+                  ],
+
                   const InputFieldTitleText(text: "Source Details"),
                   MultiLineTextFormField(
                       onChanged:  (value){},
@@ -113,7 +200,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                         }
                         return null;
                       },
-                      isReadOnly: false,
+                      isReadOnly: readOnly,
                       labelText: "Source Details Details Here"
                   ),
                   const InputFieldTitleText(text: "Products/Services Involved"),
@@ -135,7 +222,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                           }
                         }
                       },
-                      readOnly: false),
+                      readOnly: readOnly),
                   const InputFieldTitleText(text: "Competitors"),
                   /* MultipleSearchSelection<String>(
                     searchField: TextField(
@@ -203,85 +290,150 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                     maximumShowItemsHeight: 200,
                   ),*/
 
-                  MultiSelectDropDown<String>(
-                    controller: _controller,
-                    // clearIcon: const Icon(CupertinoIcons.multiply),
-                    onOptionSelected: (options) {},
-                    searchEnabled: true,
-                    searchLabel: "search",
-                    options: <ValueItem<String>>[
-                      ValueItem(
-                        label: 'Option 1',
-                        value: 'User 1',),
-                      ValueItem(
-                        label: 'Option 2',
-                        value: 'User 2',),
-                      ValueItem(
-                        label: 'Option 3',
-                        value: 'User 3',),
-                      ValueItem(
-                        label: 'Option 4',
-                        value: 'User 4',),
-                      ValueItem(
-                        label: 'Option 5',
-                        value: 'User 5',),
-                    ],
-                    //maxItems: 4,
-                    singleSelectItemStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
-                    chipConfig: const ChipConfig(
-                      radius:6 ,
+                  if(readOnly==true)...[
+                   Container(
+                     width: SizeConfig.screenWidth,
+                     height: SizeConfig.blockHeight*7,
+                     decoration: BoxDecoration(
+                       border: Border.all(color: COLORS.blue,width: 1.5),
+                       borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5))
+                     ),
+                     child: ListView.builder(
+                       scrollDirection: Axis.horizontal,
+                       itemCount: _controller.selectedOptions.length,
+                       itemBuilder: (context, index) {
+                       return Container(
+                         margin: EdgeInsets.symmetric(
+                             horizontal: SizeConfig.blockWidth*1,
+                             vertical: SizeConfig.blockHeight*1
+                         ),
+                         padding: EdgeInsets.symmetric(
+                             horizontal: SizeConfig.blockWidth*2,
+                             vertical: SizeConfig.blockHeight*1
+                         ),
+                         decoration: BoxDecoration(
+                             border: Border.all(color: COLORS.gray,width: 1.5),
+                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5))
+                         ),
+                         child: NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.5, text: _controller.selectedOptions[index].label),
+                       );
+                     },),
+                   )
+                  ]else...[
+                    MultiSelectDropDown<String>(
+                      controller: _controller,
+                      // clearIcon: const Icon(CupertinoIcons.multiply),
+                      onOptionSelected: (options) {
 
-                      wrapType: WrapType.scroll,
-                      backgroundColor: COLORS.whiteExtraLight,
-                      labelColor: COLORS.black,
-                      deleteIcon: const Icon(CupertinoIcons.multiply,color: COLORS.black,),
+                      },
+                      searchEnabled: true,
+                      searchLabel: "search",
+                      options: competitorsList,
+                      //maxItems: 4,
+                      singleSelectItemStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
+                      chipConfig: const ChipConfig(
+                        radius:6 ,
+
+                        wrapType: WrapType.scroll,
+                        backgroundColor: COLORS.whiteExtraLight,
+                        labelColor: COLORS.black,
+                        deleteIcon: const Icon(CupertinoIcons.multiply,color: COLORS.black,),
+                      ),
+                      optionTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
+                      // selectedOptionIcon: const Icon(
+                      //   CupertinoIcons.multiply,
+                      //   color: Colors.pink,
+                      // ),
+                      selectedOptionBackgroundColor: COLORS.gray,
+                      selectedOptionTextColor: COLORS.blue,
+                      dropdownMargin: 2,
+                      onOptionRemoved: (index, option) {},
+                      optionBuilder: (context, valueItem, isSelected) {
+                        return ListTile(
+                          title: Text(valueItem.label),
+                          //subtitle: Text(valueItem.value.toString()),
+                          trailing: isSelected
+                              ? const Icon(Icons.check_circle)
+                              : const Icon(Icons.radio_button_unchecked),
+                        );
+                      },
+                      borderColor: COLORS.blue,
+                      borderWidth: 1.5,
+                      borderRadius:SizeConfig.blockWidth * 1.5,
                     ),
-                    optionTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
-                    // selectedOptionIcon: const Icon(
-                    //   CupertinoIcons.multiply,
-                    //   color: Colors.pink,
-                    // ),
-                    selectedOptionBackgroundColor: COLORS.gray,
-                    selectedOptionTextColor: COLORS.blue,
-                    dropdownMargin: 2,
-                    onOptionRemoved: (index, option) {},
-                    optionBuilder: (context, valueItem, isSelected) {
-                      return ListTile(
-                        title: Text(valueItem.label),
-                        //subtitle: Text(valueItem.value.toString()),
-                        trailing: isSelected
-                            ? const Icon(Icons.check_circle)
-                            : const Icon(Icons.radio_button_unchecked),
-                      );
-                    },
-                    borderColor: COLORS.blue,
-                    borderWidth: 1.5,
-                    borderRadius:SizeConfig.blockWidth * 1.5,
-                  ),
+                  ],
+
                   const InputFieldTitleText(text: "Next Steps "),
                   MultiLineTextFormField(onChanged: (value){}, controller: nextStepsController, inputType: TextInputType.text, validator: (value){
                     return null;
-                  }, isReadOnly: false, labelText: "Enter Next Steps Here"),
+                  }, isReadOnly: readOnly, labelText: "Enter Next Steps Here"),
 
                   const InputFieldTitleText(text: "Notes "),
                   MultiLineTextFormField(onChanged: (value){}, controller: notesController, inputType: TextInputType.text, validator: (value){
                     return null;
-                  }, isReadOnly: false, labelText: "Enter Notes Here"),
+                  }, isReadOnly: readOnly, labelText: "Enter Notes Here"),
 
                   SizedBox(height: SizeConfig.blockHeight*3,),
-                  SubmitButtonComponent(onTap:(){
-                    setState(() {
-                      selectedCompetitorsList.clear();
-                      for(ValueItem item in _controller.selectedOptions)
-                      {
-                        selectedCompetitorsList.add(item.value.toString());
-                      }
-                      updateValues();
-                      addOpportunityBloc.add(AddNewOpportunityEvent(opportunityDetails: opportunityDetails));
-                      print("selectedCompetitorsList----------------$selectedCompetitorsList");
-                    });
+                  if(isView==false)...[
+                    SubmitButtonComponent(onTap:(){
+                      setState(() {
+                        selectedCompetitorsList.clear();
+                        for(ValueItem item in _controller.selectedOptions)
+                        {
+                          selectedCompetitorsList.add(item.value.toString());
+                        }
+                        updateOpportunityDetailsModel();
+                        addOpportunityBloc.add(AddNewOpportunityEvent(opportunityDetails: opportunityDetails));
+                        print("selectedCompetitorsList----------------$selectedCompetitorsList");
+                      });
 
-                  },)
+                    },)
+                  ]else...[
+                    if(isEdit==false)...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          EditButtonComponent(onTap: (){
+                            setState(() {
+                              isEdit=true;
+                              readOnly=false;
+                            });
+                          },),
+                          NormalButton(title: "Close", onTap: (){
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                        ],
+                      )
+                    ]else...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          NormalButton(title: "Cancel", onTap: (){
+                            setState(() {
+                              isEdit=false;
+                              readOnly=true;
+                              updateInputFields(opportunityDetails:opportunityDetails);
+                            });
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                          NormalButton(title: "Update", onTap: (){
+                            setState(() {
+                              selectedCompetitorsList.clear();
+                              for(ValueItem item in _controller.selectedOptions)
+                              {
+                                selectedCompetitorsList.add(item.value.toString());
+                              }
+                              updateOpportunityDetailsModel();
+                              editOpportunityBloc.add(TriggerEditOpportunityEvent(opportunityDetails: opportunityDetails));
+
+                            });
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                        ],
+                      )
+                    ]
+                  ],
+
 
                 ],
               ),
@@ -289,6 +441,12 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
 
           ),
         ),)
+
+
+
+
+
+
 
 
     );

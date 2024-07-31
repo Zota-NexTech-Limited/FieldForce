@@ -95,7 +95,8 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
         {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
         }
-      },child: Scaffold(
+      },child:
+      Scaffold(
         appBar: appBarComponent(title: "contact Information", context: context),
         body: Form(
           key: _formKey,
@@ -194,7 +195,11 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                   if(_formKey.currentState!.validate())
                   {
                     updateOpportunityDetailsModel();
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>AddOpportunityBloc(),child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                      BlocProvider(create: (context)=>AddOpportunityBloc(),),
+                      BlocProvider(create: (context)=>EditOpportunityBloc(),),
+                    ],child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)
+                       ));
 
                   }
 
@@ -211,7 +216,11 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                           });
                         },),
                         NormalButtonWithIcon(title: "Next Step", onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>AddOpportunityBloc(),child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                            BlocProvider(create: (context)=>AddOpportunityBloc(),),
+                            BlocProvider(create: (context)=>EditOpportunityBloc(),),
+                          ],child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)
+                          ));
                         }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
                       ],
                     )
@@ -243,7 +252,8 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
             ),
           ),
         ),
-      ),)
+      ),
+      )
 
 
     );
