@@ -49,7 +49,10 @@ class _LeadScreenState extends State<LeadScreen> {
                  {
                    leadList=state.leadList;
                  }else if(state is LeadListFailedState){
-               return ErrorScreen(onPressed: (){});
+
+               return ErrorScreen(onPressed: (){
+                 leadListBloc.add(FetchLeadListEvent(fromDate: "", toDate: "", search: ""));
+               });
              }
             return  Scaffold(
               backgroundColor: COLORS.white,

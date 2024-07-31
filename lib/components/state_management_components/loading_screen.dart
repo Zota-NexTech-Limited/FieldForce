@@ -16,7 +16,7 @@ class LoadingScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth * 4),
             child: Center(
               child: LoadingAnimationWidget.horizontalRotatingDots(
-                color: COLORS.lightBlue,
+                color: COLORS.blue,
                 size: SizeConfig.blockHeight * 7,
               ),
             ),

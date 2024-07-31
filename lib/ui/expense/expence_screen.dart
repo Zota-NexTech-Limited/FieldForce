@@ -394,7 +394,9 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
             }else if(state is ExpenseListFailedState)
             {
 
-              return ErrorScreen(onPressed: (){});
+              return ErrorScreen(onPressed: (){
+                expenseListBloc.add(const FetchExpenseListEvent());
+              });
             }
 
             return  Container();
