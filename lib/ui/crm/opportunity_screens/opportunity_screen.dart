@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/edit_opportunity_bloc/edit_opportunity_bloc.dart';
 import 'package:fieldforce/bloc/get_opportunity_by_id_bloc/get_opportunity_by_id_bloc.dart';
 import 'package:fieldforce/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
 import 'package:fieldforce/components/state_management_components/error_screen.dart';
@@ -76,7 +77,11 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                               return InkWell(
                                 onTap: (){
                                   //Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddOpportunityDetailsScreen()));
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetOpportunityByIdBloc()..add(TriggerGetOpportunityByIdEvent(id: state.opportunityList[index].opportunityId.toString())),child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                    BlocProvider(create: (context)=>GetOpportunityByIdBloc()..add(TriggerGetOpportunityByIdEvent(id: state.opportunityList[index].opportunityId.toString()))),
+                                    BlocProvider(create: (context)=>EditOpportunityBloc()),
+                                  ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
+                                  ));
 
                                 },
                                 child: Container(
@@ -186,7 +191,11 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                           child:  Align(
                             alignment: Alignment.bottomCenter,
                             child: AddNewButton(title: "New Opportunity", onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetOpportunityByIdBloc(),child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                BlocProvider(create: (context)=>GetOpportunityByIdBloc()),
+                                BlocProvider(create: (context)=>EditOpportunityBloc()),
+                              ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
+                                  ));
                             }),
                           )
                       )

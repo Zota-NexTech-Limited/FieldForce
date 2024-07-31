@@ -172,5 +172,29 @@ class CmrDao{
     return response;
   }
 
+  Future editOpportunity(
+      {
+        required OpportunityDetailsModel opportunityDetails,
+      }) async {
+    var url = '${Config.url}/field-force/opportunity/edit-opportunity';
+    print("----------Dao 1----------");
+
+    Map<String,dynamic> body=opportunityDetails.toJson();
+
+    final response = await http.post(Uri.parse(url),
+        headers: Config.headers(),
+        body:jsonEncode(body)
+    );
+
+    print("----------Dao 2-----------");
+
+    print("edit Opportunity  Response Status Code : ${response.statusCode}");
+    print("edit Opportunity  Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
+
 
 }

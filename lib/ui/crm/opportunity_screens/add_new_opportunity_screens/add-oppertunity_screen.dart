@@ -1,3 +1,4 @@
+import 'package:fieldforce/bloc/edit_opportunity_bloc/edit_opportunity_bloc.dart';
 import 'package:fieldforce/bloc/get_opportunity_by_id_bloc/get_opportunity_by_id_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldforce/components/button_component/edit_button.dart';
@@ -44,12 +45,14 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
  bool isLoading=false;
  bool isError=false;
   late GetOpportunityByIdBloc getOpportunityByIdBloc;
+  late EditOpportunityBloc editOpportunityBloc;
   OpportunityDetailsModel opportunityDetails=OpportunityDetailsModel();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getOpportunityByIdBloc=BlocProvider.of<GetOpportunityByIdBloc>(context);
+    editOpportunityBloc=BlocProvider.of<EditOpportunityBloc>(context);
   }
 
   updateOpportunityDetailsModel()
@@ -78,32 +81,54 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocListener<GetOpportunityByIdBloc,GetOpportunityByIdState>(listener: (context, state) {
-        if(state is GetOpportunityByIdLoadingState){
-       setState(() {
-         isLoading=true;
-         isError=false;
-       });
-        }
-        else if(state is GetOpportunityByIdSuccessState)
-          {
-              setState(() {
-                opportunityDetails=state.opportunityDetails;
-                isView=true;
-                readOnly=true;
-                isLoading=false;
-                isError=false;
-               updateInputFields(opportunityDetails: state.opportunityDetails);
-              });
-          }
-        else if (state is GetOpportunityByIdFailedState)
-          {
+      child: MultiBlocListener(listeners: [
+        BlocListener<GetOpportunityByIdBloc,GetOpportunityByIdState>(listener: (context, state) {
+          if(state is GetOpportunityByIdLoadingState){
             setState(() {
-               isLoading=false;
-                 isError=false;
+              isLoading=true;
+              isError=false;
             });
           }
-      },child:isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){}): Scaffold(
+          else if(state is GetOpportunityByIdSuccessState)
+          {
+            setState(() {
+              opportunityDetails=state.opportunityDetails;
+              isView=true;
+              readOnly=true;
+              isLoading=false;
+              isError=false;
+              updateInputFields(opportunityDetails: state.opportunityDetails);
+            });
+          }
+          else if (state is GetOpportunityByIdFailedState)
+          {
+            setState(() {
+              isLoading=false;
+              isError=false;
+            });
+          }
+        },),
+        BlocListener<EditOpportunityBloc,EditOpportunityState>(listener: (context, state) {
+          if(state is EditOpportunityLoadingState){
+
+          }
+          else if(state is EditOpportunitySuccessState)
+          {
+            setState(() {
+              isView=true;
+              readOnly=true;
+              isEdit=false;
+              updateInputFields(opportunityDetails: state.opportunityDetails);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+            });
+          }
+          else if (state is GetOpportunityByIdFailedState)
+          {
+
+          }
+        },)
+      ],
+        child: isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){}): Scaffold(
         appBar: appBarComponent(title: "Add Opportunity", context: context),
         body:Form(
           key: _formKey,
@@ -161,12 +186,12 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                       },
                       onTap:(){
                         if(readOnly==false)
-                          {
-                            setState(() {
-                              showSingleDatePickerHelper(context: context,controller: closeDateController);
-                            });
-                            print("closeDateController----------------${closeDateController.text}");
-                          }
+                        {
+                          setState(() {
+                            showSingleDatePickerHelper(context: context,controller: closeDateController);
+                          });
+                          print("closeDateController----------------${closeDateController.text}");
+                        }
 
 
                       },
@@ -174,12 +199,12 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                   const InputFieldTitleText(text: "Stage"),
                   if(readOnly==true)...[
                     NotEditableDropdownComponent(text: selectedStage.toString()),
-                   ]else...[
+                  ]else...[
                     SingleItemSelectDropdown(selectedValue: selectedStage, list: stageList, onChanged: (value){setState(() {
                       selectedStage=value!;
                     });}, hint: "Select stage", isError: false),
                   ],
-                /*  const InputFieldTitleText(text: "Probability of Close"),
+                  /*  const InputFieldTitleText(text: "Probability of Close"),
                   NormalTextFormField(
                       onChanged: (value){
 
@@ -223,9 +248,9 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                           onChanged: (dynamic value){
                             setState(() {
                               if(readOnly==false)
-                                {
-                                  probabilityOfClose = value;
-                                }
+                              {
+                                probabilityOfClose = value;
+                              }
                             });
                           },
 
@@ -241,58 +266,60 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                     ],
                   ),
                   SizedBox(height: SizeConfig.blockHeight*9,),
-                 if(isView==false)...[
+                  if(isView==false)...[
 
-                   NormalButtonWithIcon(title: "Next Step", onTap: (){
-                     if(_formKey.currentState!.validate())
-                     {
-                       updateOpportunityDetailsModel();
-                       Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
-                     }
-                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
-                 ]else...[
-                   if(isEdit==false)...[
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: [
-                         EditButtonComponent(onTap: (){
-                           setState(() {
-                             isEdit=true;
-                             readOnly=false;
-                           });
-                         },),
-                         NormalButtonWithIcon(title: "Next Step", onTap: (){
-                           Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
-                         }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
-                       ],
-                     )
-                   ]else...[
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: [
-                         NormalButton(title: "Cancel", onTap: (){
-                           setState(() {
-                             isEdit=false;
-                             readOnly=true;
-                             updateInputFields(opportunityDetails:opportunityDetails);
-                           });
-                         }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
-                         NormalButton(title: "Update", onTap: (){
-                           setState(() {
-                             updateOpportunityDetailsModel();
+                    NormalButtonWithIcon(title: "Next Step", onTap: (){
+                      if(_formKey.currentState!.validate())
+                      {
+                        updateOpportunityDetailsModel();
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
+                      }
+                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                  ]else...[
+                    if(isEdit==false)...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          EditButtonComponent(onTap: (){
+                            setState(() {
+                              isEdit=true;
+                              readOnly=false;
+                            });
+                          },),
+                          NormalButtonWithIcon(title: "Next Step", onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                        ],
+                      )
+                    ]else...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          NormalButton(title: "Cancel", onTap: (){
+                            setState(() {
+                              isEdit=false;
+                              readOnly=true;
+                              updateInputFields(opportunityDetails:opportunityDetails);
+                            });
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                          NormalButton(title: "Update", onTap: (){
+                            setState(() {
+                              updateOpportunityDetailsModel();
+                              editOpportunityBloc.add(TriggerEditOpportunityEvent(opportunityDetails: opportunityDetails));
 
-                           });
-                         }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
-                       ],
-                     )
-                   ]
-                 ]
+                            });
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                        ],
+                      )
+                    ]
+                  ]
                 ],
               ),
             ),
           ),
         ) ,
       ),)
+
     );
   }
 }
