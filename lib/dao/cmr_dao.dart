@@ -149,4 +149,28 @@ class CmrDao{
 
     return response;
   }
+
+  Future getOpportunityById(
+      {
+        required String id,
+      }) async {
+    var url = '${Config.url}/field-force/opportunity/get-opportunity-by-id?id=$id';
+    print("----------Dao 1----------");
+
+
+    final response = await http.get(Uri.parse(url),
+        headers: Config.headers(),
+    );
+
+    print("----------Dao 2-----------");
+
+    print("get Opportunity By Id  Response Status Code : ${response.statusCode}");
+    print("get Opportunity By Id  Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
+
+
 }

@@ -1,6 +1,12 @@
+import 'package:fieldforce/bloc/get_opportunity_by_id_bloc/get_opportunity_by_id_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldforce/components/button_component/edit_button.dart';
+import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
+import 'package:fieldforce/components/dropdown_component/not_editable_dropdown.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
+import 'package:fieldforce/components/state_management_components/error_screen.dart';
+import 'package:fieldforce/components/state_management_components/loading_screen.dart';
 import 'package:fieldforce/components/text_component/input_field_title_text.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
 import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
@@ -11,6 +17,7 @@ import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/models/crm_models/opportinuty_model.dart';
 import 'package:fieldforce/ui/crm/opportunity_screens/add_new_opportunity_screens/opportunity_contact_information_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 class AddOpportunityScreen extends StatefulWidget {
   final VoidCallback pageRefreshFunction;
@@ -29,10 +36,74 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
   String ? selectedStage;
   List<String> stageList=[];
   double probabilityOfClose = 0.0;
+
+  ///************************* view screen or edit screen or add opportunity screen condition variables//////////////////
+ bool isView=false;
+ bool isEdit=false;
+ bool readOnly=false;
+ bool isLoading=false;
+ bool isError=false;
+  late GetOpportunityByIdBloc getOpportunityByIdBloc;
+  OpportunityDetailsModel opportunityDetails=OpportunityDetailsModel();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getOpportunityByIdBloc=BlocProvider.of<GetOpportunityByIdBloc>(context);
+  }
+
+  updateOpportunityDetailsModel()
+  {
+    setState(() {
+      opportunityDetails.opportunityName= opportunityNameController.text;
+      opportunityDetails.opportunityValue= opportunityValueController.text;
+      opportunityDetails.opportunityCloseDate= closeDateController.text;
+      opportunityDetails.opportunityStage= selectedStage;
+      opportunityDetails.opportunityProbabilityOfClose= probabilityOfClose.toString();
+    });
+  }
+
+  updateInputFields({required OpportunityDetailsModel opportunityDetails})
+  {
+    setState(() {
+      opportunityNameController.text=opportunityDetails.opportunityName.toString();
+      opportunityValueController.text=opportunityDetails.opportunityValue.toString();
+      closeDateController.text=opportunityDetails.opportunityCloseDate.toString();
+      selectedStage=opportunityDetails.opportunityStage.toString();
+      probabilityOfCloseController.text=opportunityDetails.opportunityProbabilityOfClose.toString();
+      probabilityOfClose=double.parse(opportunityDetails.opportunityProbabilityOfClose.toString());
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: BlocListener<GetOpportunityByIdBloc,GetOpportunityByIdState>(listener: (context, state) {
+        if(state is GetOpportunityByIdLoadingState){
+       setState(() {
+         isLoading=true;
+         isError=false;
+       });
+        }
+        else if(state is GetOpportunityByIdSuccessState)
+          {
+              setState(() {
+                opportunityDetails=state.opportunityDetails;
+                isView=true;
+                readOnly=true;
+                isLoading=false;
+                isError=false;
+               updateInputFields(opportunityDetails: state.opportunityDetails);
+              });
+          }
+        else if (state is GetOpportunityByIdFailedState)
+          {
+            setState(() {
+               isLoading=false;
+                 isError=false;
+            });
+          }
+      },child:isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){}): Scaffold(
         appBar: appBarComponent(title: "Add Opportunity", context: context),
         body:Form(
           key: _formKey,
@@ -44,7 +115,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 const InputFieldTitleText(text: "Opportunity Name *"),
+                  const InputFieldTitleText(text: "Opportunity Name *"),
                   NormalTextFormField(
                       onChanged: (value){},
                       controller: opportunityNameController,
@@ -57,7 +128,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                         }
                         return null;
                       },
-                      readOnly: false
+                      readOnly: readOnly
                   ),
                   const InputFieldTitleText(text: "Opportunity Value *"),
                   NormalTextFormField(
@@ -72,7 +143,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                         }
                         return null;
                       },
-                      readOnly: false
+                      readOnly: readOnly
                   ),
                   const InputFieldTitleText(text: "Close Date *"),
                   TextFormFieldWithSuffixIcon(
@@ -88,22 +159,30 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                         }
                         return null;
                       },
-                      onTap: (){
-                        setState(() {
-                          showSingleDatePickerHelper(context: context,controller: closeDateController);
-                        });
-                        print("closeDateController----------------${closeDateController.text}");
-                        
+                      onTap:(){
+                        if(readOnly==false)
+                          {
+                            setState(() {
+                              showSingleDatePickerHelper(context: context,controller: closeDateController);
+                            });
+                            print("closeDateController----------------${closeDateController.text}");
+                          }
+
+
                       },
                       suffixIcon: "assets/image/svg_icons/calendar.svg"),
                   const InputFieldTitleText(text: "Stage"),
-                  SingleItemSelectDropdown(selectedValue: selectedStage, list: stageList, onChanged: (value){setState(() {
-                    selectedStage=value!;
-                  });}, hint: "Select stage", isError: false),
-                  const InputFieldTitleText(text: "Probability of Close"),
+                  if(readOnly==true)...[
+                    NotEditableDropdownComponent(text: selectedStage.toString()),
+                   ]else...[
+                    SingleItemSelectDropdown(selectedValue: selectedStage, list: stageList, onChanged: (value){setState(() {
+                      selectedStage=value!;
+                    });}, hint: "Select stage", isError: false),
+                  ],
+                /*  const InputFieldTitleText(text: "Probability of Close"),
                   NormalTextFormField(
                       onChanged: (value){
-                        
+
                       },
                       controller: probabilityOfCloseController,
                       hintText: "Size of the company (if applicable)",
@@ -120,8 +199,8 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                           }
                         }
                       },
-                      readOnly: false
-                  ),
+                      readOnly: readOnly
+                  ),*/
                   const InputFieldTitleText(text: "Probability of Close"),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,7 +222,10 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                           activeColor: COLORS.blue,
                           onChanged: (dynamic value){
                             setState(() {
-                              probabilityOfClose = value;
+                              if(readOnly==false)
+                                {
+                                  probabilityOfClose = value;
+                                }
                             });
                           },
 
@@ -158,30 +240,59 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
 
                     ],
                   ),
-                        
-                 SizedBox(height: SizeConfig.blockHeight*5,),
-                  NormalButtonWithIcon(title: "Next Step", onTap: (){
+                  SizedBox(height: SizeConfig.blockHeight*9,),
+                 if(isView==false)...[
 
-                    if(_formKey.currentState!.validate())
-                    {
-                      OpportunityDetailsModel opportunityDetails=OpportunityDetailsModel(
-                      opportunityName: opportunityNameController.text,
-                          opportunityValue: opportunityValueController.text,
-                          opportunityCloseDate: closeDateController.text,
-                          opportunityStage: selectedStage,
-                          opportunityProbabilityOfClose:probabilityOfClose.toString(),
+                   NormalButtonWithIcon(title: "Next Step", onTap: (){
+                     if(_formKey.currentState!.validate())
+                     {
+                       updateOpportunityDetailsModel();
+                       Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
+                     }
+                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                 ]else...[
+                   if(isEdit==false)...[
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         EditButtonComponent(onTap: (){
+                           setState(() {
+                             isEdit=true;
+                             readOnly=false;
+                           });
+                         },),
+                         NormalButtonWithIcon(title: "Next Step", onTap: (){
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
+                         }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                       ],
+                     )
+                   ]else...[
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         NormalButton(title: "Cancel", onTap: (){
+                           setState(() {
+                             isEdit=false;
+                             readOnly=true;
+                             updateInputFields(opportunityDetails:opportunityDetails);
+                           });
+                         }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                         NormalButton(title: "Update", onTap: (){
+                           setState(() {
+                             updateOpportunityDetailsModel();
 
-                      );
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
-                    }
-                        
-                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                           });
+                         }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                       ],
+                     )
+                   ]
+                 ]
                 ],
               ),
             ),
           ),
         ) ,
-      ),
+      ),)
     );
   }
 }
