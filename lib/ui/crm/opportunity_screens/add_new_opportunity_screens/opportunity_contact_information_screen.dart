@@ -1,6 +1,10 @@
 import 'package:fieldforce/bloc/add_opportunity_bloc/add_opportunity_bloc.dart';
+import 'package:fieldforce/bloc/edit_opportunity_bloc/edit_opportunity_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldforce/components/button_component/edit_button.dart';
+import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
+import 'package:fieldforce/components/dropdown_component/not_editable_dropdown.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldforce/components/text_component/input_field_title_text.dart';
 import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
@@ -26,8 +30,14 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
   TextEditingController companyNameController=TextEditingController();
   String? selectedIndustry;
   List<String> industryList=[];
+
+  ///************************* view screen or edit screen or add opportunity screen condition variables//////////////////
+  bool isView=false;
+  bool isEdit=false;
+  bool readOnly=false;
+  late EditOpportunityBloc editOpportunityBloc;
   late OpportunityDetailsModel opportunityDetails;
-  modelUpdate()
+  updateOpportunityDetailsModel()
   {
     setState(() {
       opportunityDetails.opportunityContactName=contactNameController.text;
@@ -37,16 +47,55 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
       opportunityDetails.opportunityIndustry=selectedIndustry;
     });
   }
+
+  updateInputFields({required OpportunityDetailsModel opportunityDetails})
+  {
+    setState(() {
+      contactNameController.text=opportunityDetails.opportunityContactName.toString();
+      emailAddressController.text=opportunityDetails.opportunityEmail.toString();
+      phoneNumberController.text=opportunityDetails.opportunityNumber.toString();
+      companyNameController.text=opportunityDetails.opportunityCompanyName.toString();
+      selectedIndustry=opportunityDetails.opportunityIndustry;
+
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     opportunityDetails=widget.opportunityDetails;
+    editOpportunityBloc=BlocProvider.of<EditOpportunityBloc>(context);
+    setState(() {
+      if(widget.opportunityDetails.opportunityId!=null&&widget.opportunityDetails.opportunityId!.isNotEmpty)
+        {
+          isView=true;
+          readOnly=true;
+          updateInputFields(opportunityDetails: widget.opportunityDetails);
+        }
+    });
   }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child:  BlocListener<EditOpportunityBloc,EditOpportunityState>(listener: (context, state) {
+        if(state is EditOpportunityLoadingState){
+
+        }
+        else if(state is EditOpportunitySuccessState)
+        {
+          setState(() {
+            isView=true;
+            readOnly=true;
+            isEdit=false;
+            updateInputFields(opportunityDetails: state.opportunityDetails);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+          });
+        }
+        else if (state is EditOpportunityFailedState)
+        {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+        }
+      },child: Scaffold(
         appBar: appBarComponent(title: "contact Information", context: context),
         body: Form(
           key: _formKey,
@@ -71,7 +120,7 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                       }
                       return null;
                     },
-                    readOnly: false
+                    readOnly: readOnly
                 ),
                 const InputFieldTitleText(text: "Email address *"),
                 NormalTextFormField(
@@ -89,7 +138,7 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                       }
                       return null;
                     },
-                    readOnly: false
+                    readOnly: readOnly
                 ),
                 const InputFieldTitleText(text: "Phone Number *"),
                 NormalTextFormField(
@@ -104,7 +153,7 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                       }
                       return null;
                     },
-                    readOnly: false
+                    readOnly: readOnly
                 ),
                 const InputFieldTitleText(text: "Company  Name *"),
                 NormalTextFormField(
@@ -120,39 +169,83 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                       }
                       return null;
                     },
-                    readOnly: false
+                    readOnly: readOnly
                 ),
                 const InputFieldTitleText(text: "Industry"),
-                SingleItemSelectDropdown(
-                    selectedValue: selectedIndustry,
-                    list: industryList,
-                    onChanged: (value)
-                    {
-                      setState(() {
-                        selectedIndustry=value!;
-                      });
-                    },
-                    hint: "Select Industry",
-                    isError: false),
-                const Spacer(),
-                NormalButtonWithIcon(title: "Next Step", onTap: (){
+                if(readOnly==true)...[
+                  NotEditableDropdownComponent(text: selectedIndustry.toString())
+                ]else...[
+                  SingleItemSelectDropdown(
+                      selectedValue: selectedIndustry,
+                      list: industryList,
+                      onChanged: (value)
+                      {
+                        setState(() {
+                          selectedIndustry=value!;
+                        });
+                      },
+                      hint: "Select Industry",
+                      isError: false),
+                ],
 
+                const Spacer(),
+                if(isView==false)...[
+                   NormalButtonWithIcon(title: "Next Step", onTap: (){
                   if(_formKey.currentState!.validate())
                   {
-
-                    modelUpdate();
+                    updateOpportunityDetailsModel();
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>AddOpportunityBloc(),child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)));
-                    print('hgjn');
+
                   }
 
                 }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
+                ]else...[
+                  if(isEdit==false)...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        EditButtonComponent(onTap: (){
+                          setState(() {
+                            isEdit=true;
+                            readOnly=false;
+                          });
+                        },),
+                        NormalButtonWithIcon(title: "Next Step", onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>AddOpportunityBloc(),child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)));
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                      ],
+                    )
+                  ]else...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        NormalButton(title: "Cancel", onTap: (){
+                          setState(() {
+                            isEdit=false;
+                            readOnly=true;
+                            updateInputFields(opportunityDetails:opportunityDetails);
+                          });
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                        NormalButton(title: "Update", onTap: (){
+                          setState(() {
+                            updateOpportunityDetailsModel();
+                            editOpportunityBloc.add(TriggerEditOpportunityEvent(opportunityDetails: opportunityDetails));
+
+                          });
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                      ],
+                    )
+                  ]
+                ],
                 SizedBox(height: SizeConfig.blockHeight*3,),
 
               ],
             ),
           ),
         ),
-      ),
+      ),)
+
+
     );
   }
 }

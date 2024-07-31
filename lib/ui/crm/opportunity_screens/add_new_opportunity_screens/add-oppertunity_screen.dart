@@ -122,9 +122,9 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
             });
           }
-          else if (state is GetOpportunityByIdFailedState)
+          else if (state is EditOpportunityFailedState)
           {
-
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },)
       ],
@@ -272,7 +272,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                       if(_formKey.currentState!.validate())
                       {
                         updateOpportunityDetailsModel();
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>EditOpportunityBloc(),child: OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)));
                       }
                     }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
                   ]else...[
@@ -287,7 +287,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                             });
                           },),
                           NormalButtonWithIcon(title: "Next Step", onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>EditOpportunityBloc(),child: OpportunityContactInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)));
                           }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
                         ],
                       )
