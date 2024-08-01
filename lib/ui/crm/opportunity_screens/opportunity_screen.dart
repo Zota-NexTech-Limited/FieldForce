@@ -1,6 +1,7 @@
 import 'package:fieldforce/bloc/edit_opportunity_bloc/edit_opportunity_bloc.dart';
 import 'package:fieldforce/bloc/get_opportunity_by_id_bloc/get_opportunity_by_id_bloc.dart';
 import 'package:fieldforce/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
+import 'package:fieldforce/components/state_management_components/empty_screen_component.dart';
 import 'package:fieldforce/components/state_management_components/error_screen.dart';
 import 'package:fieldforce/components/state_management_components/loading_screen.dart';
 import 'package:fieldforce/helper/config.dart';
@@ -69,7 +70,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                           margin: EdgeInsets.only(top: SizeConfig.blockHeight*3),
                           width: SizeConfig.screenWidth,
                           height: SizeConfig.screenHeight,
-                          child: ListView.builder(
+                          child:state.opportunityList.isNotEmpty? ListView.builder(
                             itemCount: state.opportunityList.length,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
@@ -182,7 +183,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                                   ),
                                 ),
                               );
-                            },),
+                            },):EmptyScreen(text: "Opportunity Not Found!"),
                         ),
                       ),
                       Positioned(

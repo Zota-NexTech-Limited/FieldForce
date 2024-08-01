@@ -1,14 +1,19 @@
+import 'dart:ui';
+
 import 'package:fieldforce/bloc/edit_lead_bloc/edit_lead_bloc.dart';
 import 'package:fieldforce/bloc/get_lead_by_id_bloc/get_lead_by_id_bloc.dart';
 import 'package:fieldforce/bloc/lead_list_bloc/lead_list_bloc.dart';
 import 'package:fieldforce/components/button_component/add_new_button.dart';
 import 'package:fieldforce/components/button_component/circular_button.dart';
+import 'package:fieldforce/components/state_management_components/empty_screen_component.dart';
 import 'package:fieldforce/components/state_management_components/error_screen.dart';
 import 'package:fieldforce/components/state_management_components/loading_screen.dart';
+import 'package:fieldforce/components/svg_image_component.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
 import 'package:fieldforce/components/text_form_field_component/filter_field.dart';
 import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/config.dart';
+import 'package:fieldforce/helper/reuse_functions/date_picker.dart';
 import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/models/crm_models/new_lead_model.dart';
 import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/add_lead_details_screen.dart';
@@ -28,6 +33,8 @@ class _LeadScreenState extends State<LeadScreen> {
   TextEditingController filterController=TextEditingController();
   List<NewLeadModel>leadList=[];
   late LeadListBloc leadListBloc;
+  String fromDate="";
+  String toDate="";
   @override
   void initState() {
     // TODO: implement initState
@@ -72,9 +79,28 @@ class _LeadScreenState extends State<LeadScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                dateSelect(title: "From Date",date: "03-07-2024"),
+                                dateSelect(title: "From Date",date: fromDate.isEmpty?"":fromDate,onTap: (){
+                                 setState(() {
+                                   showSingleDatePickerHelper2(context: context,onDateSelected: (selectedDate){
+                                    setState(() {
+                                      fromDate=selectedDate;
+                                      leadListBloc.add(FetchLeadListEvent(fromDate: fromDate, toDate: toDate, search:filterController.text));
+                                    });
+                                   });
+                                 });
+                                }),
                                 SizedBox(height: SizeConfig.blockHeight*6,child: VerticalDivider(thickness: SizeConfig.blockWidth*0.5,color: COLORS.blue,),),
-                                dateSelect(title: "To Date",date: "03-07-2024"),
+                                dateSelect(title: "To Date",date: toDate.isEmpty?"":toDate,onTap: (){
+                                 setState(() {
+                                   showSingleDatePickerHelper2(context: context,onDateSelected: (selectedDate){
+                                     setState(() {
+                                       toDate=selectedDate;
+                                       leadListBloc.add(FetchLeadListEvent(fromDate: fromDate, toDate: toDate, search:filterController.text));
+                                     });
+                                   });
+                                   print("from date---------------------$fromDate");
+                                 });
+                                }),
                               ],
                             ),
                           ),
@@ -90,7 +116,7 @@ class _LeadScreenState extends State<LeadScreen> {
                               },
                               isReadOnly: false,
                               iconTap: (){
-                                leadListBloc.add(FetchLeadListEvent(fromDate: "", toDate: "", search:filterController.text));
+                                leadListBloc.add(FetchLeadListEvent(fromDate: fromDate, toDate: toDate, search:filterController.text));
                               },
                             ),
                           ),
@@ -106,12 +132,18 @@ class _LeadScreenState extends State<LeadScreen> {
                                 return Future.delayed(
                                     const Duration(milliseconds: 200),
                                         (){
+
                                       _refreshPage();
+                                      setState(() {
+                                        fromDate="";
+                                        toDate="";
+                                        filterController.clear();
+                                      });
 
                                     }
                                 );
                               },
-                              child: ListView.builder(
+                              child:leadList.isNotEmpty?ListView.builder(
                                 itemCount: leadList.length,
                                 shrinkWrap: true,
                                 physics: BouncingScrollPhysics(),
@@ -205,7 +237,11 @@ class _LeadScreenState extends State<LeadScreen> {
                                       ),
                                     ),
                                   );
-                                },),
+                                },):ListView(
+                                physics:const BouncingScrollPhysics(),
+                                children:const [
+                                EmptyScreen(text: "Lead Not Found!     ")
+                              ], ),
                             ),
                           ),
                         ],
@@ -230,27 +266,30 @@ class _LeadScreenState extends State<LeadScreen> {
         },)
     );
   }
-  Widget dateSelect({required String title,required String date,})
+  Widget dateSelect({required String title,required String date,required VoidCallback onTap})
   {
-    return Row(
-      children: [
-        Icon(Icons.date_range,color: COLORS.blue,size: SizeConfig.blockHeight*3.8,),
-        SizedBox(width: SizeConfig.blockWidth*5,),
-         Column(
-          children: [
-            NormalText(
-                fontWeight: FontWeight.w400,
-                color: COLORS.blue,
-                fontSize: 2,
-                text: title),
-            NormalText(
-                fontWeight: FontWeight.w400,
-                color: COLORS.black,
-                fontSize: 2.5,
-                text: date),
-          ],
-        )
-      ],
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Icon(Icons.date_range,color: COLORS.blue,size: SizeConfig.blockHeight*3.8,),
+          SizedBox(width: SizeConfig.blockWidth*5,),
+           Column(
+            children: [
+              NormalText(
+                  fontWeight: FontWeight.w400,
+                  color: COLORS.blue,
+                  fontSize: 2,
+                  text: title),
+              NormalText(
+                  fontWeight: FontWeight.w400,
+                  color: COLORS.black,
+                  fontSize: 2.5,
+                  text: date),
+            ],
+          )
+        ],
+      ),
     );
   }
   Widget cardSubText({required String title,required String subTitle,required double width})

@@ -13,7 +13,7 @@ InputDecoration filterFieldDecoration({required String labelText,required VoidCa
       labelStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.4,color:COLORS.gray,fontWeight: FontWeight.w500,fontFamily:Config.fountFamilyPrimary),
       contentPadding: EdgeInsets.only(
         top: SizeConfig.blockHeight * 1.8,
-        bottom: SizeConfig.blockHeight * 1.8,
+        bottom: SizeConfig.blockHeight * 1.4,
         left: SizeConfig.blockWidth * 4,
         right: SizeConfig.blockWidth * 3,
       ),
