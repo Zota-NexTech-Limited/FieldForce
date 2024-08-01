@@ -260,7 +260,12 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                               isCustomerSourceDropdownEmpty=true;
                             }else{
                              updateLeadDetailsModel();
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),child:ContactDetailsScreen(leadDetails:leadDetails,) ,) ));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                  MultiBlocProvider(providers: [
+                                    BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),),
+                                    BlocProvider(create: (context)=>EditLeadBloc(),),
+                                  ], child:ContactDetailsScreen(leadDetails:leadDetails,) ,)
+                                  ));
 
                             }
 
@@ -285,7 +290,12 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                               });
                             },),
                             NormalButtonWithIcon(title: "Next Step", onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),child:ContactDetailsScreen(leadDetails:leadDetails,) ,) ));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),),
+                                BlocProvider(create: (context)=>EditLeadBloc(),),
+                              ],child:ContactDetailsScreen(leadDetails:leadDetails,) )
+
+                                  ));
                             }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
                           ],
                         )
