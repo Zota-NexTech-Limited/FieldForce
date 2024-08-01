@@ -1,7 +1,14 @@
+import 'package:fieldforce/bloc/edit_lead_bloc/edit_lead_bloc.dart';
 import 'package:fieldforce/bloc/get_address-by_pincode/get_address_by_pin_code_bloc.dart';
+import 'package:fieldforce/bloc/get_lead_by_id_bloc/get_lead_by_id_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldforce/components/button_component/edit_button.dart';
+import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
+import 'package:fieldforce/components/dropdown_component/not_editable_dropdown.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
+import 'package:fieldforce/components/state_management_components/error_screen.dart';
+import 'package:fieldforce/components/state_management_components/loading_screen.dart';
 import 'package:fieldforce/components/text_component/input_field_title_text.dart';
 import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
 import 'package:fieldforce/helper/colors.dart';
@@ -11,7 +18,8 @@ import 'package:fieldforce/ui/crm/lead_screens/add_lead_details_screen/contact_d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class CustomerInformationScreen extends StatefulWidget {
-  const CustomerInformationScreen({super.key});
+  final String id;
+  const CustomerInformationScreen({super.key,required this.id});
   @override
   State<CustomerInformationScreen> createState() => _CustomerInformationScreenState();
 }
@@ -24,13 +32,110 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   TextEditingController companySizeController=TextEditingController();
   TextEditingController industryController=TextEditingController();
   String? selectedCustomerSource;
-  List<String> customerSourceList=["Existing Customer","Referral","Marketing Campaign","Other"];
+  List<String> customerSourceList=["LinkedIn","Existing Customer","Referral","Marketing Campaign","Other"];
   bool isCustomerSourceDropdownEmpty=false;
-   NewLeadModel leadDetails=NewLeadModel();
+
+
+
+  ///************************* view screen or edit screen or add opportunity screen condition variables//////////////////
+  bool isView=false;
+  bool isEdit=false;
+  bool readOnly=false;
+  bool isLoading=false;
+  bool isError=false;
+  late GetLeadByIdBloc getLeadByIdBloc;
+  late EditLeadBloc editLeadBloc;
+  NewLeadModel leadDetails=NewLeadModel();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLeadByIdBloc=BlocProvider.of<GetLeadByIdBloc>(context);
+    editLeadBloc=BlocProvider.of<EditLeadBloc>(context);
+
+  }
+
+  updateLeadDetailsModel()
+  {
+    setState(() {
+      leadDetails.leadFullName= fullNameController.text;
+      leadDetails.leadContactName= contactNameController.text;
+      leadDetails.leadContactTitle= contactTitleController.text;
+      leadDetails.leadCompanyName= companyNameController.text;
+      leadDetails.leadCompanySize= companySizeController.text;
+      leadDetails.leadIndustry= industryController.text;
+      leadDetails.leadSource= selectedCustomerSource;
+
+
+    });
+  }
+
+  updateInputFields({required NewLeadModel leadDetails})
+  {
+    setState(() {
+      fullNameController.text=leadDetails.leadFullName.toString();
+       contactNameController.text=leadDetails.leadContactName.toString();
+      contactTitleController.text=leadDetails.leadContactTitle.toString();
+      companyNameController.text=leadDetails.leadCompanyName.toString();
+       companySizeController.text=leadDetails.leadCompanySize.toString();
+       industryController.text=leadDetails.leadIndustry.toString();
+       selectedCustomerSource=leadDetails.leadSource!.isEmpty?null:leadDetails.leadSource.toString();
+       print("selected value is--------------------${leadDetails.leadSource}");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child:Form(
+        child:MultiBlocListener(listeners: [
+          BlocListener<GetLeadByIdBloc,GetLeadByIdState>(listener: (context, state) {
+            if(state is GetLeadByIdLoadingState){
+              setState(() {
+                isLoading=true;
+                isError=false;
+              });
+            }
+            else if(state is GetLeadByIdSuccessState)
+            {
+              setState(() {
+                leadDetails=state.leadDetails;
+                isView=true;
+                readOnly=true;
+                isLoading=false;
+                isError=false;
+                updateInputFields(leadDetails: state.leadDetails);
+              });
+            }
+            else if (state is GetLeadByIdFailedState)
+            {
+              setState(() {
+                isLoading=false;
+                isError=false;
+              });
+            }
+          },),
+          BlocListener<EditLeadBloc,EditLeadState>(listener: (context, state) {
+            if(state is EditLeadLoadingState){
+
+            }
+            else if(state is EditLeadSuccessState)
+            {
+              setState(() {
+                isView=true;
+                readOnly=true;
+                isEdit=false;
+                // updateInputFields(opportunityDetails: state.opportunityDetails);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+              });
+            }
+            else if (state is EditLeadFailedState)
+            {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+            }
+          },)
+
+        ], child:  isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){
+          getLeadByIdBloc.add(TriggerGetLeadByIdEvent(id: widget.id));
+        }): Form(
           key: _formKey,
           child: Scaffold(
             backgroundColor: COLORS.white,
@@ -57,9 +162,9 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                           }
                           return null;
                         },
-                        readOnly: false
+                        readOnly: readOnly
                     ),
-                     const InputFieldTitleText(text: "Contact Name *"),
+                    const InputFieldTitleText(text: "Contact Name *"),
                     NormalTextFormField(
                         onChanged: (value){},
                         controller: contactNameController,
@@ -72,7 +177,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                           }
                           return null;
                         },
-                        readOnly: false
+                        readOnly: readOnly
                     ),
                     const InputFieldTitleText(text: "Contact Title *"),
                     NormalTextFormField(
@@ -87,7 +192,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                           }
                           return null;
                         },
-                        readOnly: false
+                        readOnly: readOnly
                     ),
                     const InputFieldTitleText(text: "Company Name"),
                     NormalTextFormField(
@@ -99,7 +204,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
 
                           return null;
                         },
-                        readOnly: false
+                        readOnly: readOnly
                     ),
                     const InputFieldTitleText(text: "Company Size"),
                     NormalTextFormField(
@@ -111,7 +216,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
 
                           return null;
                         },
-                        readOnly: false
+                        readOnly: readOnly
                     ),
                     const InputFieldTitleText(text: "Industry"),
                     NormalTextFormField(
@@ -122,59 +227,113 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                         validator: (value){
                           return null;
                         },
-                        readOnly: false
+                        readOnly: readOnly
                     ),
                     const InputFieldTitleText(text: "Customer Source *"),
-                   SingleItemSelectDropdown(selectedValue: selectedCustomerSource, list: customerSourceList, onChanged: (value){
-                     setState(() {
-                       selectedCustomerSource=value;
-                       isCustomerSourceDropdownEmpty=false;
-                     });
-                   },
-                       isError: isCustomerSourceDropdownEmpty,
-                       hint: "Select how the customer was acquired"),
+                    if(readOnly==true)...[
+                      NotEditableDropdownComponent(text: selectedCustomerSource==null?"--":selectedCustomerSource!)
+                    ]else...[
+                      SingleItemSelectDropdown(selectedValue: selectedCustomerSource, list: customerSourceList, onChanged: (value){
+                        setState(() {
+                          selectedCustomerSource=value;
+                          isCustomerSourceDropdownEmpty=false;
+                        });
+                      },
+                          isError: isCustomerSourceDropdownEmpty,
+                          hint: "Select how the customer was acquired"),
+                    ],
+
                     SizedBox(height: SizeConfig.blockHeight*3,),
-                    NormalButtonWithIcon(title: "Next Step", onTap: (){
-                     setState(() {
-                       if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
-                       {
-                         isCustomerSourceDropdownEmpty=true;
-                       }
-                     });
-          if(_formKey.currentState!.validate())
-            {
-              setState(() {
-                if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
-                  {
-                    isCustomerSourceDropdownEmpty=true;
-                  }else{
-                  leadDetails=NewLeadModel(
-                      leadFullName: fullNameController.text,
-                      leadContactName: contactNameController.text,
-                      leadContactTitle: contactTitleController.text,
-                      leadCompanyName: companyNameController.text,
-                      leadCompanySize: companySizeController.text,
-                      leadIndustry: industryController.text,
-                      leadSource: selectedCustomerSource
+                    if(isView==false)...[
+                      NormalButtonWithIcon(title: "Next Step", onTap: (){
+                        setState(() {
+                          if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                          {
+                            isCustomerSourceDropdownEmpty=true;
+                          }
+                        });
+                        if(_formKey.currentState!.validate())
+                        {
+                          setState(() {
+                            if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                            {
+                              isCustomerSourceDropdownEmpty=true;
+                            }else{
+                             updateLeadDetailsModel();
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),child:ContactDetailsScreen(leadDetails:leadDetails,) ,) ));
 
-                  );
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),child:ContactDetailsScreen(leadDetails:leadDetails,) ,) ));
-
-                }
+                            }
 
 
 
 
-              });
-            }
+                          });
+                        }
 
 
-                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
-                  ],
+                      }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                    ]
+                    else...[
+                      if(isEdit==false)...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            EditButtonComponent(onTap: (){
+                              setState(() {
+                                isEdit=true;
+                                readOnly=false;
+                              });
+                            },),
+                            NormalButtonWithIcon(title: "Next Step", onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),child:ContactDetailsScreen(leadDetails:leadDetails,) ,) ));
+                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                          ],
+                        )
+                      ]else...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            NormalButton(title: "Cancel", onTap: (){
+                              setState(() {
+                                isEdit=false;
+                                readOnly=true;
+                                updateInputFields(leadDetails:leadDetails);
+                              });
+                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                            NormalButton(title: "Update", onTap: (){
+                              setState(() {
+                                if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                                {
+                                  isCustomerSourceDropdownEmpty=true;
+                                }
+                              });
+                              if(_formKey.currentState!.validate())
+                              {
+                                setState(() {
+                                  if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                                  {
+                                    isCustomerSourceDropdownEmpty=true;
+                                  }else{
+                                    updateLeadDetailsModel();
+                                    editLeadBloc.add(TriggerEditLeadEvent(leadDetails: leadDetails));
+                                  }
+
+                                });
+                              }
+
+                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                          ],
+                        )
+                      ]
+                    ]
+                    ],
                 ),
               ),
             ),
           ),
-        ));
+        ))
+
+
+    );
   }
 }

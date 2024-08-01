@@ -27,7 +27,7 @@ class NotEditableDropdownComponent extends StatelessWidget {
           Text(
             text,
             style: TextStyle(
-              color:  COLORS.gray,
+              color:  COLORS.blackMedium,
               fontWeight: FontWeight.w400,
               fontSize: SizeConfig.blockWidth * 4,
               fontFamily: "Poppins",

@@ -59,6 +59,54 @@ class CmrDao{
     return response;
   }
 
+
+  Future getLeadById(
+      {
+        required String id,
+      }) async {
+    var url = '${Config.url}/field-force/view-leads?id=$id';
+    print("----------Dao 1----------");
+
+
+    final response = await http.get(Uri.parse(url),
+      headers: Config.headers(),
+    );
+
+    print("----------Dao 2-----------");
+
+    print("get Lead By Id  Response Status Code : ${response.statusCode}");
+    print("get Lead By Id  Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
+
+  Future editLead(
+      {
+        required NewLeadModel leadDetails,
+      }) async {
+    var url = '${Config.url}/field-force/edit-leads';
+    print("----------Dao 1----------");
+
+    Map<String,dynamic> body=leadDetails.toJson();
+
+    final response = await http.post(Uri.parse(url),
+        headers: Config.headers(),
+        body:jsonEncode(body)
+    );
+
+    print("----------Dao 2-----------");
+
+    print("edit Lead  Response Status Code : ${response.statusCode}");
+    print("edit Lead  Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
+
+
   Future getAddressByPinCode(
       {
         required String pinCode,

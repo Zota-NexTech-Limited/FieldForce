@@ -1,3 +1,5 @@
+import 'package:fieldforce/bloc/edit_lead_bloc/edit_lead_bloc.dart';
+import 'package:fieldforce/bloc/get_lead_by_id_bloc/get_lead_by_id_bloc.dart';
 import 'package:fieldforce/bloc/lead_list_bloc/lead_list_bloc.dart';
 import 'package:fieldforce/components/button_component/add_new_button.dart';
 import 'package:fieldforce/components/button_component/circular_button.dart';
@@ -116,7 +118,11 @@ class _LeadScreenState extends State<LeadScreen> {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLeadDetailsScreen()));
+                                     // Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLeadDetailsScreen()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                        BlocProvider(create: (context)=>GetLeadByIdBloc()..add(TriggerGetLeadByIdEvent(id: leadList[index].leadId!))),
+                                        BlocProvider(create: (context)=>EditLeadBloc()),
+                                      ], child: CustomerInformationScreen(id:leadList[index].leadId!,))));
                                     },
                                     child: Container(
                                       width: SizeConfig.screenWidth,
@@ -212,7 +218,10 @@ class _LeadScreenState extends State<LeadScreen> {
                       child:  Align(
                         alignment: Alignment.bottomCenter,
                         child: AddNewButton(title: "New Lead", onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const CustomerInformationScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                            BlocProvider(create: (context)=>GetLeadByIdBloc()),
+                            BlocProvider(create: (context)=>EditLeadBloc()),
+                          ], child: CustomerInformationScreen(id:"",))));
                         }),
                       ))
                 ],
