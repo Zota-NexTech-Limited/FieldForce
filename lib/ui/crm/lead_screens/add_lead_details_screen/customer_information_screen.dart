@@ -37,7 +37,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
 
 
 
-  ///************************* view screen or edit screen or add opportunity screen condition variables//////////////////
+  ///************************* view screen or edit screen or add lead screen condition variables//////////////////
   bool isView=false;
   bool isEdit=false;
   bool readOnly=false;

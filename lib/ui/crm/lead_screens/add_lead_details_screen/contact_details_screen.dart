@@ -43,12 +43,12 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   bool isStateDropdownIsEmpty=false;
   bool isCityDropdownIsEmpty=false;
 
-  ///************************* view screen or edit screen or add opportunity screen condition variables//////////////////
+  ///************************* view screen or edit screen or add lead screen condition variables//////////////////
   bool isView=false;
   bool isEdit=false;
   bool readOnly=false;
   late EditLeadBloc editLeadBloc;
-  updateOpportunityDetailsModel()
+  updateLeadDetailsModel()
   {
     setState(() {
       leadDetails.leadPhoneNumber=phoneNumberController.text;
@@ -299,8 +299,8 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                           {
                             if(isStateDropdownIsEmpty==false&&isCityDropdownIsEmpty==false){
                               setState(() {
-                             updateOpportunityDetailsModel();
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>  ProductOrServiceDetailsScreen(leadDetails:leadDetails,)));
+                             updateLeadDetailsModel();
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>EditLeadBloc(),child:ProductOrServiceDetailsScreen(leadDetails:leadDetails,) ,)  ));
                               });
                             }
 
@@ -320,7 +320,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                               });
                             },),
                             NormalButtonWithIcon(title: "Next Step", onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>  ProductOrServiceDetailsScreen(leadDetails:leadDetails,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>EditLeadBloc(),child:ProductOrServiceDetailsScreen(leadDetails:leadDetails,) ,)  ));
                             }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
                           ],
                         )
@@ -337,30 +337,26 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                             }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
                             NormalButton(title: "Update", onTap: (){
                               setState(() {
-                                setState(() {
-                                  if(selectedState==null)
-                                  {
-                                    isStateDropdownIsEmpty=true;
+                                if(selectedState==null)
+                                {
+                                  isStateDropdownIsEmpty=true;
+                                }
+
+                                if(selectedCity==null)
+                                {
+                                  isCityDropdownIsEmpty=true;
+                                }
+
+                                if(_formKey.currentState!.validate())
+                                {
+                                  if(isStateDropdownIsEmpty==false&&isCityDropdownIsEmpty==false){
+                                    setState(() {
+                                      updateLeadDetailsModel();
+                                      editLeadBloc.add(TriggerEditLeadEvent(leadDetails: leadDetails));
+                                    });
                                   }
 
-                                  if(selectedCity==null)
-                                  {
-                                    isCityDropdownIsEmpty=true;
-                                  }
-
-                                  if(_formKey.currentState!.validate())
-                                  {
-                                    if(isStateDropdownIsEmpty==false&&isCityDropdownIsEmpty==false){
-                                      setState(() {
-                                        updateOpportunityDetailsModel();
-                                        editLeadBloc.add(TriggerEditLeadEvent(leadDetails: leadDetails));
-                                      });
-                                    }
-
-                                  }
-                                });
-
-
+                                }
                               });
                             }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
                           ],

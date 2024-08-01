@@ -1,6 +1,10 @@
+import 'package:fieldforce/bloc/edit_lead_bloc/edit_lead_bloc.dart';
 import 'package:fieldforce/bloc/new_lead_bloc/new_lead_bloc.dart';
 import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldforce/components/button_component/edit_button.dart';
+import 'package:fieldforce/components/button_component/normal_button.dart';
 import 'package:fieldforce/components/button_component/normal_button_with_icon.dart';
+import 'package:fieldforce/components/dropdown_component/not_editable_dropdown.dart';
 import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldforce/components/text_component/input_field_title_text.dart';
 import 'package:fieldforce/components/text_form_field_component/multy_line_text_form_field.dart';
@@ -28,16 +32,69 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
   String? selectedProduct;
   List<String> productList=[];
   late NewLeadModel leadDetails;
+  ///************************* view screen or edit screen or add lead screen condition variables//////////////////
+  bool isView=false;
+  bool isEdit=false;
+  bool readOnly=false;
+  late EditLeadBloc editLeadBloc;
+  updateLeadDetailsModel()
+  {
+    setState(() {
+      leadDetails.leadProduct= selectedProduct;
+      leadDetails.leadDetails= additionalDetailsController.text;
+      leadDetails.leadQuantity= quantityController.text.isEmpty?"0":quantityController.text;
+      leadDetails.leadBudget= budgetController.text.isEmpty?"0":budgetController.text;
+    });
+  }
+
+  updateInputFields({required NewLeadModel leadDetails})
+  {
+    setState(() {
+      selectedProduct=leadDetails.leadProduct==null||leadDetails.leadProduct!.isEmpty?null:leadDetails.leadProduct;
+       additionalDetailsController.text=leadDetails.leadDetails.toString();
+      quantityController.text=leadDetails.leadQuantity.toString();
+      budgetController.text= leadDetails.leadBudget.toString();
+
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     leadDetails=widget.leadDetails;
+    editLeadBloc=BlocProvider.of<EditLeadBloc>(context);
+    setState(() {
+      if(widget.leadDetails.leadId!=null&&widget.leadDetails.leadId!.isNotEmpty)
+      {
+        isView=true;
+        readOnly=true;
+        updateInputFields(leadDetails: widget.leadDetails);
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child:Form(
+        child: BlocListener<EditLeadBloc,EditLeadState>(listener: (context, state) {
+          if(state is EditLeadLoadingState){
+
+          }
+          else if(state is EditLeadSuccessState)
+          {
+            setState(() {
+              isView=true;
+              readOnly=true;
+              isEdit=false;
+              // updateInputFields(opportunityDetails: state.opportunityDetails);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+            });
+          }
+          else if (state is EditLeadFailedState)
+          {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+          }
+        },child: Form(
           key: _formKey,
           child: Scaffold(
             backgroundColor: COLORS.white,
@@ -52,17 +109,21 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const InputFieldTitleText(text: "Product / Service Interested *"),
-                    SingleItemSelectDropdown(selectedValue: selectedProduct, list: productList, onChanged: (value){
-                      setState(() {
-                        selectedProduct=value;
-                      });
-                    },
-                        isError: false,hint: "Product / Service customer interested in"),
+                    if(readOnly==true)...[
+                      NotEditableDropdownComponent(text: selectedProduct==null?"--":selectedProduct!)
+                    ]else...[
+                      SingleItemSelectDropdown(selectedValue: selectedProduct, list: productList, onChanged: (value){
+                        setState(() {
+                          selectedProduct=value;
+                        });
+                      },
+                          isError: false,hint: "Product / Service customer interested in"),
+                    ],
 
                     const InputFieldTitleText(text: "Additional details "),
                     MultiLineTextFormField(onChanged: (value){}, controller: additionalDetailsController, inputType: TextInputType.text, validator: (value){
                       return null;
-                    }, isReadOnly: false, labelText: "Additional details about the product or service"),
+                    }, isReadOnly: readOnly, labelText: "Additional details about the product or service"),
 
                     const InputFieldTitleText(text: "Quantity "),
                     NormalTextFormField(
@@ -72,17 +133,17 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
                         inputType: TextInputType.phone,
                         validator: (value){
                           if(value==null||value.isEmpty)
-                            {
-                              return null;
-                            }
-                         else{
+                          {
+                            return null;
+                          }
+                          else{
                             RegExp regex = RegExp(r"^[0-9]+$");
                             if (!regex.hasMatch(value)) {
                               return 'Numbers are allowed';
                             }
                           }
                         },
-                        readOnly: false
+                        readOnly: readOnly
                     ),
 
                     const InputFieldTitleText(text: "Budget"),
@@ -103,32 +164,77 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
                             }
                           }
                         },
-                        readOnly: false
+                        readOnly: readOnly
                     ),
 
 
 
 
-                     SizedBox(height: SizeConfig.blockHeight*3,),
-                    NormalButtonWithIcon(title: "Next Step", onTap: (){
-                      if(_formKey.currentState!.validate())
+                    SizedBox(height: SizeConfig.blockHeight*3,),
+
+                    if(isView==false)...[
+                      NormalButtonWithIcon(title: "Next Step", onTap: (){
+                        if(_formKey.currentState!.validate())
                         {
                           setState(() {
-                            leadDetails.leadProduct= selectedProduct;
-                            leadDetails.leadDetails= additionalDetailsController.text;
-                            leadDetails.leadQuantity= quantityController.text.isEmpty?"0":quantityController.text;
-                            leadDetails.leadBudget= budgetController.text.isEmpty?"0":budgetController.text;
+                            updateLeadDetailsModel();
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>NewLeadBloc(),child:InquiryDetailsScreen(leadDetails: leadDetails,) ,) ));
                           });
                         }
 
-                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                      }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                    ]
+                    else...[
+                      if(isEdit==false)...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            EditButtonComponent(onTap: (){
+                              setState(() {
+                                isEdit=true;
+                                readOnly=false;
+                              });
+                            },),
+                            NormalButtonWithIcon(title: "Next Step", onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>NewLeadBloc(),child:InquiryDetailsScreen(leadDetails: leadDetails,) ,) ));
+                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                          ],
+                        )
+                      ] else...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            NormalButton(title: "Cancel", onTap: (){
+                              setState(() {
+                                isEdit=false;
+                                readOnly=true;
+                                updateInputFields(leadDetails:leadDetails);
+                              });
+                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                            NormalButton(title: "Update", onTap: (){
+                              if(_formKey.currentState!.validate())
+                              {
+                                setState(() {
+                                  updateLeadDetailsModel();
+                                  editLeadBloc.add(TriggerEditLeadEvent(leadDetails: leadDetails));
+                                });
+                              }
+                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                          ],
+                        )
+                      ]
+                    ],
+
 
                   ],
                 ),
               ),
             ),
           ),
-        ));
+        ) ,)
+
+
+
+    );
   }
 }
