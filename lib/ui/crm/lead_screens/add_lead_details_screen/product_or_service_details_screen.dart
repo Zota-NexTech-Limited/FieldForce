@@ -178,7 +178,11 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
                         {
                           setState(() {
                             updateLeadDetailsModel();
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>NewLeadBloc(),child:InquiryDetailsScreen(leadDetails: leadDetails,) ,) ));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                              BlocProvider(create: (context)=>NewLeadBloc(),),
+                              BlocProvider(create: (context)=>EditLeadBloc(),),
+                            ], child:InquiryDetailsScreen(leadDetails: leadDetails,) ,)
+                            ));
                           });
                         }
 
@@ -196,7 +200,11 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
                               });
                             },),
                             NormalButtonWithIcon(title: "Next Step", onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>NewLeadBloc(),child:InquiryDetailsScreen(leadDetails: leadDetails,) ,) ));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                BlocProvider(create: (context)=>NewLeadBloc(),),
+                                BlocProvider(create: (context)=>EditLeadBloc(),),
+                              ], child:InquiryDetailsScreen(leadDetails: leadDetails,) ,)
+                              ));
                             }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
                           ],
                         )
