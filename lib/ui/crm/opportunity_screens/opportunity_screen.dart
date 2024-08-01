@@ -70,7 +70,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                           margin: EdgeInsets.only(top: SizeConfig.blockHeight*3),
                           width: SizeConfig.screenWidth,
                           height: SizeConfig.screenHeight,
-                          child:state.opportunityList.isNotEmpty? ListView.builder(
+                          child:state.opportunityList.isNotEmpty?EmptyScreen(text: "Opportunity Not Found!",distanceFromTop: 10,): ListView.builder(
                             itemCount: state.opportunityList.length,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
@@ -183,7 +183,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                                   ),
                                 ),
                               );
-                            },):EmptyScreen(text: "Opportunity Not Found!"),
+                            },),
                         ),
                       ),
                       Positioned(

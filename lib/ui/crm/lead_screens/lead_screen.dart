@@ -240,7 +240,7 @@ class _LeadScreenState extends State<LeadScreen> {
                                 },):ListView(
                                 physics:const BouncingScrollPhysics(),
                                 children:const [
-                                EmptyScreen(text: "Lead Not Found!     ")
+                                EmptyScreen(text: "Lead Not Found!     ",distanceFromTop: 10)
                               ], ),
                             ),
                           ),

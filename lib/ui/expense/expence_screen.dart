@@ -18,6 +18,8 @@ import 'package:fieldforce/ui/my_activity/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../components/state_management_components/empty_screen_component.dart';
 class ExpenceScreen extends StatefulWidget {
   const ExpenceScreen({super.key});
 
@@ -262,11 +264,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                             child: ValueListenableBuilder<List<Expense>>(
                               valueListenable: _selectedEvents,
                               builder: (context, value, _) {
-                                return value.length==0?Container(
-                                  width: SizeConfig.screenWidth,
-                                  padding: EdgeInsets.only(left: SizeConfig.blockWidth*25,top: SizeConfig.blockHeight*10),
-                                  child: const NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 3.3, text: "No Record Found"),
-                                ): ListView.builder(
+                                return value.length==0?EmptyScreen(text: "Expense Not Found!",distanceFromTop: 0): ListView.builder(
                                   itemCount: value.length,
                                   itemBuilder: (context, index) {
                                     return Container(

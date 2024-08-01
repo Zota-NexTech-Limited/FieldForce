@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:fieldforce/bloc/get_activity_list/activity_list_bloc.dart';
+import 'package:fieldforce/components/state_management_components/empty_screen_component.dart';
 import 'package:fieldforce/components/state_management_components/error_screen.dart';
 import 'package:fieldforce/components/state_management_components/loading_screen.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
@@ -219,11 +220,7 @@ bool isSelectedEventsInitialized=false;
                     child: ValueListenableBuilder<List<Activity>>(
                       valueListenable: _selectedEvents,
                       builder: (context, value, _) {
-                        return value.length==0?Container(
-                          width: SizeConfig.screenWidth,
-                          padding: EdgeInsets.only(left: SizeConfig.blockWidth*25,top: SizeConfig.blockHeight*10),
-                          child: const NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 3.3, text: "No Record Found"),
-                        ): ListView.builder(
+                        return value.length==0?EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10): ListView.builder(
                           itemCount: value.length,
                           itemBuilder: (context, index) {
                             return Container(
