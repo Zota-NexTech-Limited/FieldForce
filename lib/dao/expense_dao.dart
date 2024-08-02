@@ -19,7 +19,7 @@ class ExpenseDao{
     Map<String,dynamic> body=expenseDetails.toJson();
 
     final response = await http.post(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
         body:jsonEncode(body)
     );
 
@@ -39,7 +39,7 @@ class ExpenseDao{
     print("----------Dao 1----------");
 
     final response = await http.get(Uri.parse(url),
-      headers: Config.headers(),
+      headers: Config.authHeaders(),
     );
 
     print("----------Dao 2-----------");

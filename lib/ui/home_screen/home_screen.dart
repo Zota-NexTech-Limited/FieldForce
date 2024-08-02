@@ -1,10 +1,13 @@
 import 'dart:ui';
 
+import 'package:fieldforce/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:fieldforce/bloc/expense_list_bloc/expense_list_bloc.dart';
 import 'package:fieldforce/bloc/get_activity_list/activity_list_bloc.dart';
 import 'package:fieldforce/components/svg_image_component.dart';
 import 'package:fieldforce/components/text_component/normal_text.dart';
 import 'package:fieldforce/helper/colors.dart';
+import 'package:fieldforce/helper/config.dart';
+import 'package:fieldforce/helper/global_handler.dart';
 import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/ui/crm/crm_screen.dart';
 import 'package:fieldforce/ui/expense/expence_screen.dart';
@@ -39,7 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
                  children: [
                    SizedBox(width: SizeConfig.blockWidth*7,),
                    NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3, text: "Dashboard"),
-                   Icon(CupertinoIcons.power,color: COLORS.white,)
+                   InkWell(
+                     onTap: (){
+                       setState(() {
+
+                         GlobalBlocClass.authenticationBloc!.add(AuthenticationLogoutEvent());
+                       });
+                     },
+                       child: Icon(CupertinoIcons.power,color: COLORS.white,))
                  ],
                ),
                SizedBox(height: SizeConfig.blockHeight*2,),
@@ -51,10 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
                  border: Border.all(color: COLORS.white)
                ),
                  padding: EdgeInsets.all(SizeConfig.blockWidth*2),
-                 child: SvgImageHelper(image: "assets/image/svg_icons/profile_icon.svg"),
+                 child:Center(child: NormalText(text: Config.userName[0].toUpperCase(),color: COLORS.white,fontWeight:FontWeight.w600,fontSize: 4,))//SvgImageHelper(image: "assets/image/svg_icons/profile_icon.svg"),
                ),
                SizedBox(height: SizeConfig.blockHeight*2,),
-               NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3.3, text: "MAHESHKUMARA M P"),
+               NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3.3, text: Config.userName.toUpperCase()),
                SizedBox(height: SizeConfig.blockHeight*1,),
                NormalText(fontWeight: FontWeight.w300, color: COLORS.white, fontSize: 2, text: "15-07-2001"),
 
@@ -134,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Stack(
             children: [
               Container(
-                padding: EdgeInsets.all(SizeConfig.blockHeight*1),
+                padding: EdgeInsets.all(SizeConfig.blockHeight*0.5),
                 height: SizeConfig.blockHeight*19,
                 width: SizeConfig.blockHeight*25,
                 decoration: BoxDecoration(

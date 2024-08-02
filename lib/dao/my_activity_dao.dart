@@ -13,7 +13,7 @@ class MyActivityDao{
     print("----------Dao 1----------");
 
     final response = await http.get(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
     );
 
     print("----------Dao 2-----------");

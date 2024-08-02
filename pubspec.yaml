@@ -47,6 +47,7 @@ dependencies:
   syncfusion_flutter_sliders: ^26.2.5
   multiple_search_selection: ^2.6.5
   multi_dropdown: ^2.1.4
+  shared_preferences: ^2.2.3
 
 
 

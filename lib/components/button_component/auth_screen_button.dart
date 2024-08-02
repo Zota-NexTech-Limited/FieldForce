@@ -1,0 +1,33 @@
+import 'package:fieldforce/components/text_component/normal_text.dart';
+import 'package:fieldforce/helper/colors.dart';
+import 'package:fieldforce/helper/size_config.dart';
+import 'package:flutter/material.dart';
+
+class AuthScreenButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final String text;
+  final bool isLoding;
+  const AuthScreenButton({super.key,required this.onPressed,required this.text,required this.isLoding});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: SizeConfig.screenWidth,
+      height: SizeConfig.blockHeight*6,
+      child: ElevatedButton(
+        onPressed:onPressed,
+        style: ButtonStyle(
+          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)))),
+          backgroundColor: MaterialStatePropertyAll(COLORS.darkBlue)
+
+        ),
+        child:isLoding==false? NormalText(fontWeight: FontWeight.w500, color: COLORS.white, fontSize: 2.3, text: text):
+        CircularProgressIndicator(
+          color: COLORS.white,
+          strokeWidth: SizeConfig.blockWidth*1,
+          strokeAlign:SizeConfig.blockWidth*-1,
+        ),
+      ),
+    );
+  }
+}

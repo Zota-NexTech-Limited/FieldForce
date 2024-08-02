@@ -19,7 +19,7 @@ class CmrDao{
     Map<String,dynamic> body=leadDetails.toJson();
 
     final response = await http.post(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
         body:jsonEncode(body)
     );
 
@@ -46,7 +46,7 @@ class CmrDao{
 
 
     final response = await http.get(Uri.parse(url),
-      headers: Config.headers(),
+      headers: Config.authHeaders(),
     );
 
     print("----------Dao 2-----------");
@@ -69,7 +69,7 @@ class CmrDao{
 
 
     final response = await http.get(Uri.parse(url),
-      headers: Config.headers(),
+      headers: Config.authHeaders(),
     );
 
     print("----------Dao 2-----------");
@@ -92,7 +92,7 @@ class CmrDao{
     Map<String,dynamic> body=leadDetails.toJson();
 
     final response = await http.post(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
         body:jsonEncode(body)
     );
 
@@ -140,7 +140,7 @@ class CmrDao{
     Map<String,dynamic> body=activityDetails.toJson();
 
     final response = await http.post(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
         body:jsonEncode(body)
     );
 
@@ -159,7 +159,7 @@ class CmrDao{
     var url='${Config.url}/field-force/opportunity/get-list';
 
     final response = await http.get(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
     );
 
     print("----------Dao 2-----------");
@@ -184,7 +184,7 @@ class CmrDao{
     Map<String,dynamic> body=opportunityDetails.toJson();
 
     final response = await http.post(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
         body:jsonEncode(body)
     );
 
@@ -207,7 +207,7 @@ class CmrDao{
 
 
     final response = await http.get(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
     );
 
     print("----------Dao 2-----------");
@@ -230,7 +230,7 @@ class CmrDao{
     Map<String,dynamic> body=opportunityDetails.toJson();
 
     final response = await http.post(Uri.parse(url),
-        headers: Config.headers(),
+        headers: Config.authHeaders(),
         body:jsonEncode(body)
     );
 
