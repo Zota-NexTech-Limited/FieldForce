@@ -10,18 +10,21 @@ class AuthDao{
         required String password,
       }) async {
     var url = '${Config.url}/field-force/user/login';
+    print('login  url in dao :----------------------${Config.url}');
     print("----------Dao 1----------");
     Map<String, dynamic> body ={
       "user_email"  : userEmail,
       "password"  : password
     };
-
+    print("url---------------------------------${url}");
+    print("body---------------------------------${body}");
     final response = await http.post(Uri.parse(url),
         headers: Config.headers(),
         body: jsonEncode(body)
     );
 
     print("----------Dao 2-----------");
+
 
     print("login  Response Status Code : ${response.statusCode}");
     print("login  Response body : ${response.body}");

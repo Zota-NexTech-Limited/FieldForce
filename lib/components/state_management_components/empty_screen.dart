@@ -1,5 +1,6 @@
 
 import 'package:fieldforce/helper/colors.dart';
+import 'package:fieldforce/helper/config.dart';
 import 'package:fieldforce/helper/size_config.dart';
 import 'package:flutter/material.dart';
 class EmptyScreen extends StatelessWidget {
@@ -21,7 +22,7 @@ class EmptyScreen extends StatelessWidget {
                 title,
                 style: TextStyle(
                     color: COLORS.black,
-                    fontFamily: "Poppins",
+                    fontFamily:Config.fountFamilyPrimary,
                     fontSize: SizeConfig.blockWidth * 4.5,
                     letterSpacing: 0.5,
                     fontWeight: FontWeight.w400),

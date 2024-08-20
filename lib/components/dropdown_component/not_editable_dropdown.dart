@@ -1,5 +1,6 @@
 
 import 'package:fieldforce/helper/colors.dart';
+import 'package:fieldforce/helper/config.dart';
 import 'package:fieldforce/helper/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class NotEditableDropdownComponent extends StatelessWidget {
               color:  COLORS.blackMedium,
               fontWeight: FontWeight.w400,
               fontSize: SizeConfig.blockWidth * 4,
-              fontFamily: "Poppins",
+              fontFamily: Config.fountFamilyPrimary,
             ),
           ),
           Icon(

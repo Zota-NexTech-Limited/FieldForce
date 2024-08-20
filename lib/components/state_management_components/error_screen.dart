@@ -1,5 +1,6 @@
 
 import 'package:fieldforce/helper/colors.dart';
+import 'package:fieldforce/helper/config.dart';
 import 'package:fieldforce/helper/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class ErrorScreen extends StatelessWidget {
                 "Oops!",
                 style: TextStyle(
                     color: COLORS.black,
-                    fontFamily: "Poppins",
+                    fontFamily: Config.fountFamilyPrimary,
                     fontSize: SizeConfig.blockWidth * 9.5,
                     letterSpacing: 0.5,
                     fontWeight: FontWeight.bold),
@@ -36,7 +37,7 @@ class ErrorScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: COLORS.black,
-                    fontFamily: "Poppins",
+                    fontFamily: Config.fountFamilyPrimary,
                     fontSize: SizeConfig.blockWidth * 4.5,
                     fontWeight: FontWeight.w500),
               ),
@@ -60,7 +61,7 @@ class ErrorScreen extends StatelessWidget {
                     style: TextStyle(
                         color: COLORS.white,
                         fontWeight: FontWeight.w600,
-                        fontFamily: "Poppins",
+                        fontFamily:Config.fountFamilyPrimary,
                         fontSize: SizeConfig.blockWidth * 4.5),
                   ),
                 ),

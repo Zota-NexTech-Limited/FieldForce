@@ -1,4 +1,5 @@
 import 'package:fieldforce/bloc/authentication_bloc/authentication_bloc.dart';
+import 'package:fieldforce/helper/colors.dart';
 import 'package:fieldforce/helper/size_config.dart';
 import 'package:fieldforce/ui/auth_screens/authentication_screen.dart';
 import 'package:fieldforce/ui/crm/crm_screen.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        scaffoldBackgroundColor: COLORS.white
       ),
       home: BlocProvider(
         create: (context) => AuthenticationBloc()..add(const InitializeApp()),
