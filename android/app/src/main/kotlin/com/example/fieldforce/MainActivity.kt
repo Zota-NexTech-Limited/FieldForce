@@ -1,4 +1,4 @@
-package com.example.fieldforce
+package com.example.fieldsales
 
 import io.flutter.embedding.android.FlutterActivity
 

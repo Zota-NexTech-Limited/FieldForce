@@ -1,14 +1,14 @@
-import 'package:fieldforce/bloc/lead_list_bloc/lead_list_bloc.dart';
-import 'package:fieldforce/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
-import 'package:fieldforce/components/text_component/normal_text.dart';
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/config.dart';
-import 'package:fieldforce/helper/size_config.dart';
-import 'package:fieldforce/ui/crm/lead_screens/lead_filter_screen.dart';
-import 'package:fieldforce/ui/crm/lead_screens/lead_screen.dart';
-import 'package:fieldforce/ui/crm/opportunity_screens/add_opportunity_details_screen.dart';
-import 'package:fieldforce/ui/crm/opportunity_screens/opportunity_screen.dart';
-import 'package:fieldforce/ui/my_activity/my_activity_screen.dart';
+import 'package:fieldsales/bloc/lead_list_bloc/lead_list_bloc.dart';
+import 'package:fieldsales/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
+import 'package:fieldsales/components/text_component/normal_text.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/size_config.dart';
+import 'package:fieldsales/ui/crm/lead_screens/lead_filter_screen.dart';
+import 'package:fieldsales/ui/crm/lead_screens/lead_screen.dart';
+import 'package:fieldsales/ui/crm/opportunity_screens/add_opportunity_details_screen.dart';
+import 'package:fieldsales/ui/crm/opportunity_screens/opportunity_screen.dart';
+import 'package:fieldsales/ui/my_activity/my_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class CRMScreen extends StatefulWidget {

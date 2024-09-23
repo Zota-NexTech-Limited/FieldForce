@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fieldforce/dao/expense_dao.dart';
-import 'package:fieldforce/models/expense/add_ecpense_model.dart';
+import 'package:fieldsales/dao/expense_dao.dart';
+import 'package:fieldsales/models/expense/add_ecpense_model.dart';
 import 'package:meta/meta.dart';
 
 part 'add_expense_event.dart';

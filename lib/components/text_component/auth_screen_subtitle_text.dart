@@ -1,6 +1,6 @@
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/config.dart';
-import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

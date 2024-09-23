@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fieldforce/dao/cmr_dao.dart';
+import 'package:fieldsales/dao/cmr_dao.dart';
 import 'package:meta/meta.dart';
 
 part 'get_address_by_pin_code_event.dart';

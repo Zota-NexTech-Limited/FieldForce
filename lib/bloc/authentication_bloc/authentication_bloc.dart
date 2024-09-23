@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fieldforce/helper/config.dart';
-import 'package:fieldforce/helper/global_handler.dart';
-import 'package:fieldforce/helper/local_constant.dart';
-import 'package:fieldforce/ui/auth_screens/authentication_screen.dart';
-import 'package:fieldforce/ui/auth_screens/host_url_screen.dart';
+import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/global_handler.dart';
+import 'package:fieldsales/helper/local_constant.dart';
+import 'package:fieldsales/ui/auth_screens/authentication_screen.dart';
+import 'package:fieldsales/ui/auth_screens/host_url_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

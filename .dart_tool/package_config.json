@@ -452,13 +452,13 @@
       "languageVersion": "3.2"
     },
     {
-      "name": "fieldforce",
+      "name": "fieldsales",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-08-20T09:47:39.482130Z",
+  "generated": "2024-09-23T08:24:11.456950Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/maheshkumar/Documents/Dev/flutter",

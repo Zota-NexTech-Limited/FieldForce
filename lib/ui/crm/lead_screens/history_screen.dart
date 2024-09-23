@@ -1,7 +1,7 @@
-import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
-import 'package:fieldforce/components/text_component/normal_text.dart';
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldsales/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldsales/components/text_component/normal_text.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/material.dart';
 class LeadHistoryScreen extends StatefulWidget {
   const LeadHistoryScreen({super.key});

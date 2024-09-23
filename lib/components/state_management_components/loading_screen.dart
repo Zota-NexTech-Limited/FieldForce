@@ -1,5 +1,5 @@
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 class LoadingScreen extends StatelessWidget {

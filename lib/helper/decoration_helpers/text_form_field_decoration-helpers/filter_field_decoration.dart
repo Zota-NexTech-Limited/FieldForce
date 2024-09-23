@@ -1,8 +1,8 @@
 import 'dart:ui';
-import 'package:fieldforce/components/text_component/normal_text.dart';
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/config.dart';
-import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldsales/components/text_component/normal_text.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/material.dart';
 InputDecoration filterFieldDecoration({required String labelText,required VoidCallback suffixIconTap}) {
   return InputDecoration(

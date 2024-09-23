@@ -1,14 +1,14 @@
-import 'package:fieldforce/bloc/create_activity_bloc/create_activity_bloc.dart';
-import 'package:fieldforce/components/app_bar_component/app_bar_component.dart';
-import 'package:fieldforce/components/button_component/normal_button.dart';
-import 'package:fieldforce/components/dropdown_component/single_item_select_dropdown.dart';
-import 'package:fieldforce/components/text_component/input_field_title_text.dart';
-import 'package:fieldforce/components/text_form_field_component/multy_line_text_form_field.dart';
-import 'package:fieldforce/components/text_form_field_component/textformfield_with_suffix_icon.dart';
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/reuse_functions/date_picker.dart';
-import 'package:fieldforce/helper/size_config.dart';
-import 'package:fieldforce/models/crm_models/create_activity_model.dart';
+import 'package:fieldsales/bloc/create_activity_bloc/create_activity_bloc.dart';
+import 'package:fieldsales/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldsales/components/button_component/normal_button.dart';
+import 'package:fieldsales/components/dropdown_component/single_item_select_dropdown.dart';
+import 'package:fieldsales/components/text_component/input_field_title_text.dart';
+import 'package:fieldsales/components/text_form_field_component/multy_line_text_form_field.dart';
+import 'package:fieldsales/components/text_form_field_component/textformfield_with_suffix_icon.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/reuse_functions/date_picker.dart';
+import 'package:fieldsales/helper/size_config.dart';
+import 'package:fieldsales/models/crm_models/create_activity_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class ScheduleActivityScreen extends StatefulWidget {

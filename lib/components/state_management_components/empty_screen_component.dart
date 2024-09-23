@@ -1,7 +1,7 @@
-import 'package:fieldforce/components/svg_image_component.dart';
-import 'package:fieldforce/components/text_component/normal_text.dart';
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldsales/components/svg_image_component.dart';
+import 'package:fieldsales/components/text_component/normal_text.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/material.dart';
 class EmptyScreen extends StatelessWidget {
   final String text;

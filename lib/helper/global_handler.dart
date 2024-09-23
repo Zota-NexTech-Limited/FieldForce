@@ -1,4 +1,4 @@
-import 'package:fieldforce/bloc/authentication_bloc/authentication_bloc.dart';
+import 'package:fieldsales/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 
 

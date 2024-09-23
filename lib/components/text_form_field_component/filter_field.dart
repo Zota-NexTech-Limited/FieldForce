@@ -1,9 +1,9 @@
 import 'dart:ui';
 
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/config.dart';
-import 'package:fieldforce/helper/decoration_helpers/text_form_field_decoration-helpers/filter_field_decoration.dart';
-import 'package:fieldforce/helper/size_config.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/decoration_helpers/text_form_field_decoration-helpers/filter_field_decoration.dart';
+import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/material.dart';
 
 

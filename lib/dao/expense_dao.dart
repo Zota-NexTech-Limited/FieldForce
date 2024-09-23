@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:fieldforce/helper/config.dart';
-import 'package:fieldforce/models/crm_models/create_activity_model.dart';
-import 'package:fieldforce/models/crm_models/new_lead_model.dart';
-import 'package:fieldforce/models/expense/add_ecpense_model.dart';
+import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/models/crm_models/create_activity_model.dart';
+import 'package:fieldsales/models/crm_models/new_lead_model.dart';
+import 'package:fieldsales/models/expense/add_ecpense_model.dart';
 import 'package:http/http.dart' as http;
 
 

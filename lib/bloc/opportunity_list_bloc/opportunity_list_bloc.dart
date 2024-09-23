@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fieldforce/dao/cmr_dao.dart';
-import 'package:fieldforce/models/crm_models/opportinuty_model.dart';
+import 'package:fieldsales/dao/cmr_dao.dart';
+import 'package:fieldsales/models/crm_models/opportinuty_model.dart';
 import 'package:meta/meta.dart';
 
 part 'opportunity_list_event.dart';

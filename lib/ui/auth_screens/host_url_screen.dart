@@ -1,14 +1,14 @@
-import 'package:fieldforce/bloc/authentication_bloc/authentication_bloc.dart';
-import 'package:fieldforce/components/button_component/auth_screen_button.dart';
-import 'package:fieldforce/components/svg_image_component.dart';
-import 'package:fieldforce/components/text_component/auth_screen_inputfield_title_text.dart';
-import 'package:fieldforce/components/text_form_field_component/normal_textform_field.dart';
-import 'package:fieldforce/helper/colors.dart';
-import 'package:fieldforce/helper/config.dart';
-import 'package:fieldforce/helper/global_handler.dart';
-import 'package:fieldforce/helper/local_constant.dart';
-import 'package:fieldforce/helper/size_config.dart';
-import 'package:fieldforce/ui/auth_screens/authentication_screen.dart';
+import 'package:fieldsales/bloc/authentication_bloc/authentication_bloc.dart';
+import 'package:fieldsales/components/button_component/auth_screen_button.dart';
+import 'package:fieldsales/components/svg_image_component.dart';
+import 'package:fieldsales/components/text_component/auth_screen_inputfield_title_text.dart';
+import 'package:fieldsales/components/text_form_field_component/normal_textform_field.dart';
+import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/global_handler.dart';
+import 'package:fieldsales/helper/local_constant.dart';
+import 'package:fieldsales/helper/size_config.dart';
+import 'package:fieldsales/ui/auth_screens/authentication_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

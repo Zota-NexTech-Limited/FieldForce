@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fieldforce/dao/my_activity_dao.dart';
-import 'package:fieldforce/models/my_activity_models/activiti_list_model.dart';
+import 'package:fieldsales/dao/my_activity_dao.dart';
+import 'package:fieldsales/models/my_activity_models/activiti_list_model.dart';
 import 'package:meta/meta.dart';
 
 part 'activity_list_event.dart';

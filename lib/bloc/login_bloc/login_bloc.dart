@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fieldforce/dao/auth_dao.dart';
-import 'package:fieldforce/helper/config.dart';
-import 'package:fieldforce/helper/local_constant.dart';
+import 'package:fieldsales/dao/auth_dao.dart';
+import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/local_constant.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

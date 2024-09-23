@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fieldforce/dao/cmr_dao.dart';
-import 'package:fieldforce/models/crm_models/create_activity_model.dart';
+import 'package:fieldsales/dao/cmr_dao.dart';
+import 'package:fieldsales/models/crm_models/create_activity_model.dart';
 import 'package:meta/meta.dart';
 
 part 'create_activity_event.dart';
