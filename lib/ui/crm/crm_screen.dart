@@ -1,5 +1,6 @@
 import 'package:fieldsales/bloc/lead_list_bloc/lead_list_bloc.dart';
 import 'package:fieldsales/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
+import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
@@ -43,60 +44,66 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*20), child: Container(
+          backgroundColor: COLORS.skyBlue,
+          appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*22), child: Container(
             width: SizeConfig.screenWidth,
-            color: COLORS.blue,
+            color: COLORS.skyBlue,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(SizeConfig.blockHeight*2),
+                Container(
+                  color: COLORS.lightBlue,
+                  padding: EdgeInsets.all(SizeConfig.blockHeight*3),
                   child: Row(
                     children: [
-                      InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(Icons.arrow_back_rounded,color: COLORS.white,size: SizeConfig.blockHeight*4,)),
-                      SizedBox(width: SizeConfig.blockWidth*5,),
-                      const NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3, text: "CRM"),
+                      const NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.7, text: "Leads"),
                       const Spacer(),
-                     if( _tabController.index==0)...[
+                     SvgImageHelper(image: "assets/image/svg_icons/notification.svg"),
+                     SizedBox(width: SizeConfig.blockWidth*6,),
+                     SvgImageHelper(image: "assets/image/svg_icons/settings_icon.svg"),
+                     /*if( _tabController.index==0)...[
                        InkWell(
                            onTap: () {
                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const LeadFilterScreen()));
                            },
                            child: const Icon(Icons.filter_alt_sharp,color: COLORS.white,)),
-                     ]
+                     ]*/
 
                     ],
                   ),
                 ),
                 SizedBox(height: SizeConfig.blockHeight*3,),
-                TabBar(
-                  controller: _tabController,
-                  labelColor: COLORS.white,
-                  indicatorColor: COLORS.white,
-                  dividerColor: COLORS.blue,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  padding: EdgeInsets.all(SizeConfig.blockWidth * 0),
-                  labelPadding: EdgeInsets.all(SizeConfig.blockWidth * 0),
-                  unselectedLabelColor: COLORS.white,
-                  onTap: (value){
-                    setState(() {
-
-                    });
-                  },
-                  labelStyle: TextStyle(
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2),
+                  decoration: BoxDecoration(
                     color: COLORS.white,
-                    fontSize: SizeConfig.blockWidth *4,
-                    fontFamily: Config.fountFamilyPrimary,
-                    fontWeight: FontWeight.w500,
+                    borderRadius: BorderRadius.only(topLeft:  Radius.circular(SizeConfig.blockWidth*2),topRight: Radius.circular(SizeConfig.blockWidth*2))
                   ),
-                  tabs: const [
-                    Tab(text: "LEAD"),
-                    Tab(text: "OPPORTUNITY"),
-                  ],
+                  child: TabBar(
+                    controller: _tabController,
+                    labelColor: COLORS.black,
+                    indicatorColor: COLORS.blue,
+                    dividerColor: COLORS.white,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    padding: EdgeInsets.all(SizeConfig.blockWidth * 0),
+                    labelPadding: EdgeInsets.all(SizeConfig.blockWidth * 0),
+                    unselectedLabelColor: COLORS.grayDark.withOpacity(0.6),
+                    onTap: (value){
+                      setState(() {
+
+                      });
+                    },
+                    labelStyle: TextStyle(
+                      color: COLORS.white,
+                      fontSize: SizeConfig.blockWidth *4,
+                      fontFamily: Config.fountFamilyPrimary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    tabs: const [
+                      Tab(text: "LEAD"),
+                      Tab(text: "OPPORTUNITY"),
+                    ],
+                  ),
                 ),
               ],
             ),

@@ -4,7 +4,9 @@ import 'package:fieldsales/bloc/opportunity_list_bloc/opportunity_list_bloc.dart
 import 'package:fieldsales/components/state_management_components/empty_screen_component.dart';
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
+import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/date_converter.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_new_opportunity_screens/add-oppertunity_screen.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_opportunity_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -61,130 +63,34 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                   );
                 },
                 child: Scaffold(
-                  backgroundColor: COLORS.white,
+                  backgroundColor: COLORS.skyBlue,
                   body: Stack(
                     children: [
-                      SingleChildScrollView(
-                        //physics:const NeverScrollableScrollPhysics(),
-                        child: Container(
-                          margin: EdgeInsets.only(top: SizeConfig.blockHeight*3),
-                          width: SizeConfig.screenWidth,
-                          height: SizeConfig.screenHeight,
-                          child:state.opportunityList.isNotEmpty?ListView.builder(
-                            itemCount: state.opportunityList.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: (){
-                                  //Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddOpportunityDetailsScreen()));
+                      Container(
+                        margin: EdgeInsets.only(top: SizeConfig.blockHeight*3,left: SizeConfig.blockWidth*2,right: SizeConfig.blockWidth*2),
+                        width: SizeConfig.screenWidth,
+                        height: SizeConfig.screenHeight,
+                        child:state.opportunityList.isNotEmpty?ListView.builder(
+                          itemCount: state.opportunityList.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return opportunityCard(
+                                name: "${state.opportunityList[index].opportunityCompanyName}",
+                                source: "${state.opportunityList[index].opportunitySource}",
+                                stage: "${state.opportunityList[index].opportunityStage}",
+                                contact: "${state.opportunityList[index].opportunityEmail}",
+                                status: "new",
+                                menuTap: (){},
+                                cardTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                                     BlocProvider(create: (context)=>GetOpportunityByIdBloc()..add(TriggerGetOpportunityByIdEvent(id: state.opportunityList[index].opportunityId.toString()))),
                                     BlocProvider(create: (context)=>EditOpportunityBloc()),
                                   ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
                                   ));
 
-                                },
-                                child: Container(
-                                  width: SizeConfig.screenWidth,
-                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*2,right: SizeConfig.blockWidth*3,left: SizeConfig.blockWidth*3),
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1,horizontal: SizeConfig.blockWidth*2),
-                                  decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.3),
-                                          spreadRadius: 0.1,
-                                          blurRadius: 4,
-                                          offset: Offset(0, 1),
-                                        ),
-                                      ],
-                                      color: COLORS.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-
-                                          Expanded(
-                                            child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                             /*   Container(
-                                                  height: SizeConfig.blockHeight*6,
-                                                  width: SizeConfig.blockWidth*10,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                                                      border: Border.all(color: COLORS.white)
-                                                  ),
-                                                  child: Image.asset("assets/image/common/profile_image.png",fit: BoxFit.fill,),
-                                                ),
-                                                SizedBox(width: SizeConfig.blockWidth*2,),*/
-                                                SizedBox(
-                                                    width: SizeConfig.screenWidth*0.5,
-                                                    child: Text("${state.opportunityList[index].opportunityEmail}",
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          fontSize: SizeConfig.blockHeight*2,
-                                                          color:COLORS.black,
-                                                          fontFamily:
-                                                          Config.fountFamilyPrimary,
-                                                          fontWeight:FontWeight.w500),)
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              SizedBox(
-                                                height: SizeConfig.blockHeight*3.5,
-                                                child: ElevatedButton(
-                                                    style: ButtonStyle(
-                                                        elevation: WidgetStatePropertyAll(0),
-                                                        backgroundColor: WidgetStatePropertyAll(COLORS.blue),
-                                                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))))
-
-                                                    ),
-                                                    onPressed: (){},
-                                                    child: NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "New")),
-                                              ),
-                                              SizedBox(height: SizeConfig.blockHeight*1,),
-                                              Stack(
-                                                children: [
-                                                  SizedBox(
-                                                    width: SizeConfig.blockWidth*13,
-                                                    child: CircularPercentIndicator(
-                                                      radius: SizeConfig.blockWidth*5.5,
-                                                      lineWidth: SizeConfig.blockWidth*0.3,
-                                                      percent: 0.4,
-                                                      progressColor: COLORS.blue,
-
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                      top: SizeConfig.blockHeight*2,
-                                                      left: SizeConfig.blockWidth*4,
-                                                      child: NormalText(color:COLORS.black ,fontSize: 1.7,fontWeight: FontWeight.w500,text: "40%",))
-                                                ],
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-
-
-
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },):EmptyScreen(text: "Opportunity Not Found!",distanceFromTop: 10,),
-                        ),
+                                });
+                          },):EmptyScreen(text: "Opportunity Not Found!",distanceFromTop: 10,),
                       ),
                       Positioned(
                           bottom: SizeConfig.blockHeight*2,
@@ -215,6 +121,78 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
         },)
 
 
+    );
+  }
+
+  Widget opportunityCard({required String name,required String source,required String stage,required String contact,required String status,required VoidCallback menuTap,required VoidCallback cardTap,})
+  {
+    return InkWell(
+      onTap: cardTap,
+      splashColor: COLORS.skyBlue,
+      child: Container(
+        width: SizeConfig.screenWidth,
+        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+        margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+        height: SizeConfig.blockHeight*16,
+        decoration: BoxDecoration(
+          /*boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              spreadRadius: 0.1,
+              blurRadius: 10,
+              offset: Offset(0, 1),
+            ),
+          ],*/
+            color: COLORS.white,
+            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
+        ),
+        child:Column(
+            children: [
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: name),
+                  NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize:1.8, text: "#$source"),
+                ],
+              ),
+              Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize: 1.8, text: stage)),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize: 1.8, text: "Contact"),
+                      NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "$contact"),
+
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1.5,vertical: SizeConfig.blockHeight*0.2),
+                        decoration: BoxDecoration(
+                            color:status=="new"? COLORS.red.withOpacity(0.2):status=="Completed"?COLORS.green.withOpacity(0.2):COLORS.yellow.withOpacity(0.2),
+                            border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
+                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5)
+                            )),
+                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 2, text:status),
+                      ),
+                      SizedBox(width: SizeConfig.blockWidth*5,),
+                      InkWell(
+                          onTap: menuTap,
+                          child:const SvgImageHelper(image: "assets/image/svg_image_icons/more_icon.svg"))
+                    ],
+                  )
+                ],
+              ),
+
+            ]
+        ) ,
+      ),
     );
   }
 }

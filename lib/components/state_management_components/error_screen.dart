@@ -12,7 +12,7 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: COLORS.skyBlue,
       body: SafeArea(
         child: Container(
           height: SizeConfig.screenHeight,
