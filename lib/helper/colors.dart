@@ -3,6 +3,7 @@ class COLORS{
   static const Color lightBlue = Color(0xffC8E5FF);
   //static const Color blue = Color(0xff359DFF);
   static const Color blue = Color(0xff2B6BE8);
+  static const Color skyBlue = Color(0xffE4F2FF);
   static const Color darkBlue = Color(0xff277DFE);
   static const Color black = Color(0xff000000);
   static const Color white = Color(0xffffffff);
@@ -17,4 +18,6 @@ class COLORS{
   static const Color green = Color(0xff00AA07);
   static const Color grayLight = Color(0xffD7D7D7);
   static const Color whiteExtraLight = Color(0xffF2F2F2);
+  static const Color blueSecondary = Color(0xff1A73E8);
+  static const Color blackDark = Color(0xff0D111A);
 }
