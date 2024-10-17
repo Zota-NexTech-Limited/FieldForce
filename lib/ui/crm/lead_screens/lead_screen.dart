@@ -70,7 +70,7 @@ class _LeadScreenState extends State<LeadScreen> {
                 children: [
 
                   Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockHeight*12),
+                    margin: EdgeInsets.only(top: SizeConfig.blockHeight*12,left: SizeConfig.blockWidth*2,right:SizeConfig.blockWidth*2 ),
                     width: SizeConfig.screenWidth,
                     height: SizeConfig.screenHeight,
                     child: RefreshIndicator(
@@ -105,10 +105,58 @@ class _LeadScreenState extends State<LeadScreen> {
                             },
                             child: Dismissible(
                               key:Key(index.toString()),
-                              background: Container(color: Colors.green),
+                              background: Container( 
+                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                 decoration: BoxDecoration(
+                                   color:COLORS.orange,
+                                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
+                                 ),
+                                 // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: SizeConfig.blockWidth*40,
+                                              //color: COLORS.orange,
+                                              child: SizedBox(
+                                                  height: SizeConfig.blockHeight*3,
+                                                  width: SizeConfig.blockWidth*10,
+                                                  child: SvgImageHelper(image: "assets/image/svg_icons/note_icon.svg")),
+                                          ),
+                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Note")
+                                        ],
+                                      ),
+                                    ],
+                                  )),
                               secondaryBackground: Container(
-                                  width: SizeConfig.blockWidth*20,
-                                  color: Colors.red), // Background for left swipe
+                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                  decoration: BoxDecoration(
+                                      color:COLORS.green,
+                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
+                                  ),
+                                  // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: SizeConfig.blockWidth*40,
+                                            //color: COLORS.orange,
+                                            child: SizedBox(
+                                                height: SizeConfig.blockHeight*3,
+                                                width: SizeConfig.blockWidth*10,
+                                                child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
+                                          ),
+                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
+                                        ],
+                                      ),
+                                    ],
+                                  )), // Background for left swipe
                               confirmDismiss: (direction) async {
                                 // Optionally confirm action here
                                 return false; // Return true to dismiss
@@ -280,7 +328,7 @@ class _LeadScreenState extends State<LeadScreen> {
       child: Container(
         width: SizeConfig.screenWidth,
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
-        margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,left: SizeConfig.blockWidth*3,right: SizeConfig.blockWidth*3),
+        margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
         height: SizeConfig.blockHeight*16,
         decoration: BoxDecoration(
           /*boxShadow: [

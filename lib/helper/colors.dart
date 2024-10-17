@@ -20,4 +20,5 @@ class COLORS{
   static const Color whiteExtraLight = Color(0xffF2F2F2);
   static const Color blueSecondary = Color(0xff1A73E8);
   static const Color blackDark = Color(0xff0D111A);
+  static const Color orange = Color(0xffD9A131);
 }
