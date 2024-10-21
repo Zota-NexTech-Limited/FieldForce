@@ -25,4 +25,6 @@ class COLORS{
   static const Color blueDark = Color(0xff222B45);
   static const Color blueExtraLight = Color(0xffCED3DE);
   static const Color blueExtraDark = Color(0xff0095FF);
+  static const Color blueLight2   = Color(0xffEBF3FE);
+  static const Color gayDark   = Color(0xff676767);
 }
