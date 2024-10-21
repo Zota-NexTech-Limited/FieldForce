@@ -58,170 +58,170 @@ class _LeadScreenState extends State<LeadScreen> {
                }else if (state is LeadListSuccessState)
                  {
                    leadList=state.leadList;
+                   return Scaffold(
+                     backgroundColor: COLORS.skyBlue,
+                     body: Stack(
+                       children: [
+                         Container(
+                           margin: EdgeInsets.only(top: SizeConfig.blockHeight*12,left: SizeConfig.blockWidth*2,right:SizeConfig.blockWidth*2 ),
+                           width: SizeConfig.screenWidth,
+                           height: SizeConfig.screenHeight,
+                           child: RefreshIndicator(
+                             color: COLORS.blue,
+                             onRefresh: (){
+                               return Future.delayed(
+                                   const Duration(milliseconds: 200),
+                                       (){
+
+                                     _refreshPage();
+                                     setState(() {
+                                       fromDate="";
+                                       toDate="";
+                                       filterController.clear();
+                                     });
+
+                                   }
+                               );
+                             },
+                             child:leadList.isNotEmpty?ListView.builder(
+                               itemCount: leadList.length,
+                               shrinkWrap: true,
+                               physics: BouncingScrollPhysics(),
+                               itemBuilder: (context, index) {
+                                 return InkWell(
+                                   onTap: (){
+                                     // Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLeadDetailsScreen()));
+                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                       BlocProvider(create: (context)=>GetLeadByIdBloc()..add(TriggerGetLeadByIdEvent(id: leadList[index].leadId!))),
+                                       BlocProvider(create: (context)=>EditLeadBloc()),
+                                     ], child: CustomerInformationScreen(id:leadList[index].leadId!,))));
+                                   },
+                                   child: Dismissible(
+                                       key:Key(index.toString()),
+                                       background: Container(
+                                           margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                           decoration: BoxDecoration(
+                                               color:COLORS.orange,
+                                               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
+                                           ),
+                                           // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                           child: Row(
+                                             mainAxisAlignment: MainAxisAlignment.start,
+                                             children: [
+                                               Column(
+                                                 mainAxisAlignment: MainAxisAlignment.center,
+                                                 children: [
+                                                   Container(
+                                                     width: SizeConfig.blockWidth*40,
+                                                     //color: COLORS.orange,
+                                                     child: SizedBox(
+                                                         height: SizeConfig.blockHeight*3,
+                                                         width: SizeConfig.blockWidth*10,
+                                                         child: SvgImageHelper(image: "assets/image/svg_icons/note_icon.svg")),
+                                                   ),
+                                                   NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Note")
+                                                 ],
+                                               ),
+                                             ],
+                                           )),
+                                       secondaryBackground: Container(
+                                           margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                           decoration: BoxDecoration(
+                                               color:COLORS.green,
+                                               borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
+                                           ),
+                                           // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                           child: Row(
+                                             mainAxisAlignment: MainAxisAlignment.end,
+                                             children: [
+                                               Column(
+                                                 mainAxisAlignment: MainAxisAlignment.center,
+                                                 children: [
+                                                   Container(
+                                                     width: SizeConfig.blockWidth*40,
+                                                     //color: COLORS.orange,
+                                                     child: SizedBox(
+                                                         height: SizeConfig.blockHeight*3,
+                                                         width: SizeConfig.blockWidth*10,
+                                                         child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
+                                                   ),
+                                                   NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
+                                                 ],
+                                               ),
+                                             ],
+                                           )), // Background for left swipe
+                                       confirmDismiss: (direction) async {
+                                         // Optionally confirm action here
+                                         return false; // Return true to dismiss
+                                       },
+                                       onDismissed: (direction) {
+                                         if (direction == DismissDirection.endToStart) {
+                                           // Call function for left swipe
+
+                                         } else {
+                                           // Call function for right swipe
+
+                                         }
+                                       },
+                                       child:leadCard(name: "${leadList[index].leadFullName}", enquiry: "${leadList[index].leadInquiryMedium}", date: "15 jul 2024", contactName: " ${leadList[index].leadContactName}", status: "new", menuTap: (){}, cardTap: (){})
+
+                                   ),
+                                 );
+                               },):ListView(
+                               physics:const BouncingScrollPhysics(),
+                               children: [
+                                 SizedBox(
+                                     width:SizeConfig.screenWidth,
+                                     height: SizeConfig.screenHeight,
+                                     child: EmptyScreen(text: "Lead Not Found!     ",distanceFromTop: 10))
+                               ], ),
+                           ),
+                         ),
+                         Positioned(
+                             top: SizeConfig.blockHeight*0,
+                             child: SizedBox(
+                               width: SizeConfig.screenWidth,
+                               child: Padding(
+                                 padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*2),
+                                 child: FilterTextFormField(
+                                   prefixIconTap: (){
+                                     leadListBloc.add(FetchLeadListEvent(fromDate: fromDate, toDate: toDate, search:filterController.text));
+                                   },
+                                   onChanged: (value){},
+                                   controller: filterController,
+                                   hintText: "Search",
+                                   inputType: TextInputType.text,
+                                   validator: (value){},
+                                   isReadOnly: false,
+                                   iconTap: (){
+                                     _showPopupMenu(context);
+                                   },
+                                   filterText: "",
+                                 ),
+                               ),
+                             )),
+                         Positioned(
+                             bottom: SizeConfig.blockHeight*2,
+                             left: SizeConfig.screenWidth*0.3,
+                             child:  Align(
+                               alignment: Alignment.bottomCenter,
+                               child: AddNewButton(title: "New Lead", onTap: (){
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                   BlocProvider(create: (context)=>GetLeadByIdBloc()),
+                                   BlocProvider(create: (context)=>EditLeadBloc()),
+                                 ], child: CustomerInformationScreen(id:"",))));
+                               }),
+                             ))
+                       ],
+                     ),
+                   );
                  }else if(state is LeadListFailedState){
 
                return ErrorScreen(onPressed: (){
                  leadListBloc.add(FetchLeadListEvent(fromDate: "", toDate: "", search: ""));
                });
              }
-            return  Scaffold(
-              backgroundColor: COLORS.skyBlue,
-              body: Stack(
-                children: [
-
-                  Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockHeight*12,left: SizeConfig.blockWidth*2,right:SizeConfig.blockWidth*2 ),
-                    width: SizeConfig.screenWidth,
-                    height: SizeConfig.screenHeight,
-                    child: RefreshIndicator(
-                      color: COLORS.blue,
-                      onRefresh: (){
-                        return Future.delayed(
-                            const Duration(milliseconds: 200),
-                                (){
-
-                              _refreshPage();
-                              setState(() {
-                                fromDate="";
-                                toDate="";
-                                filterController.clear();
-                              });
-
-                            }
-                        );
-                      },
-                      child:leadList.isNotEmpty?ListView.builder(
-                        itemCount: leadList.length,
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: (){
-                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLeadDetailsScreen()));
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                BlocProvider(create: (context)=>GetLeadByIdBloc()..add(TriggerGetLeadByIdEvent(id: leadList[index].leadId!))),
-                                BlocProvider(create: (context)=>EditLeadBloc()),
-                              ], child: CustomerInformationScreen(id:leadList[index].leadId!,))));
-                            },
-                            child: Dismissible(
-                              key:Key(index.toString()),
-                              background: Container( 
-                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
-                                 decoration: BoxDecoration(
-                                   color:COLORS.orange,
-                                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
-                                 ),
-                                 // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: SizeConfig.blockWidth*40,
-                                              //color: COLORS.orange,
-                                              child: SizedBox(
-                                                  height: SizeConfig.blockHeight*3,
-                                                  width: SizeConfig.blockWidth*10,
-                                                  child: SvgImageHelper(image: "assets/image/svg_icons/note_icon.svg")),
-                                          ),
-                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Note")
-                                        ],
-                                      ),
-                                    ],
-                                  )),
-                              secondaryBackground: Container(
-                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
-                                  decoration: BoxDecoration(
-                                      color:COLORS.green,
-                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
-                                  ),
-                                  // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: SizeConfig.blockWidth*40,
-                                            //color: COLORS.orange,
-                                            child: SizedBox(
-                                                height: SizeConfig.blockHeight*3,
-                                                width: SizeConfig.blockWidth*10,
-                                                child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
-                                          ),
-                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
-                                        ],
-                                      ),
-                                    ],
-                                  )), // Background for left swipe
-                              confirmDismiss: (direction) async {
-                                // Optionally confirm action here
-                                return false; // Return true to dismiss
-                              },
-                              onDismissed: (direction) {
-                                if (direction == DismissDirection.endToStart) {
-                                  // Call function for left swipe
-
-                                } else {
-                                  // Call function for right swipe
-
-                                }
-                              },
-                              child:leadCard(name: "${leadList[index].leadFullName}", enquiry: "${leadList[index].leadInquiryMedium}", date: "15 jul 2024", contactName: " ${leadList[index].leadContactName}", status: "new", menuTap: (){}, cardTap: (){})
-
-                            ),
-                          );
-                        },):ListView(
-                        physics:const BouncingScrollPhysics(),
-                        children: [
-                          SizedBox(
-                              width:SizeConfig.screenWidth,
-                              height: SizeConfig.screenHeight,
-                              child: EmptyScreen(text: "Lead Not Found!     ",distanceFromTop: 10))
-                        ], ),
-                    ),
-                  ),
-                  Positioned(
-                      top: SizeConfig.blockHeight*0,
-                      child: SizedBox(
-                        width: SizeConfig.screenWidth,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*2),
-                    child: FilterTextFormField(
-                      prefixIconTap: (){
-                        leadListBloc.add(FetchLeadListEvent(fromDate: fromDate, toDate: toDate, search:filterController.text));
-                      },
-                      onChanged: (value){},
-                      controller: filterController,
-                      hintText: "Search",
-                      inputType: TextInputType.text,
-                      validator: (value){},
-                      isReadOnly: false,
-                      iconTap: (){
-                        _showPopupMenu(context);
-                      },
-                      filterText: "",
-                    ),
-                  ),
-                  )),
-                  Positioned(
-                      bottom: SizeConfig.blockHeight*2,
-                      left: SizeConfig.screenWidth*0.3,
-                      child:  Align(
-                        alignment: Alignment.bottomCenter,
-                        child: AddNewButton(title: "New Lead", onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                            BlocProvider(create: (context)=>GetLeadByIdBloc()),
-                            BlocProvider(create: (context)=>EditLeadBloc()),
-                          ], child: CustomerInformationScreen(id:"",))));
-                        }),
-                      ))
-                ],
-              ),
-            );
+            return  Container();
         },)
     );
   }
