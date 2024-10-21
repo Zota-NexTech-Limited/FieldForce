@@ -47,6 +47,7 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
           backgroundColor: COLORS.skyBlue,
           body: Column(
             children: [
+              SizedBox(height: SizeConfig.blockHeight*2,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2),
                 decoration: BoxDecoration(
