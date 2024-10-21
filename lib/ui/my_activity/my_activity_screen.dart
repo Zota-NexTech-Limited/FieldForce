@@ -229,74 +229,80 @@ bool isSelectedEventsInitialized=false;
                   ),
                   const SizedBox(height: 8.0),
                   Expanded(
-                    child: ValueListenableBuilder<List<Activity>>(
-                      valueListenable: _selectedEvents,
-                      builder: (context, value, _) {
-                        return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10)): ListView.builder(
-                          itemCount: value.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin:  EdgeInsets.symmetric(
-                                horizontal: SizeConfig.blockWidth*2,
-                                vertical: SizeConfig.blockHeight*1,
-                              ),
-                              padding:  EdgeInsets.symmetric(
-                                horizontal: SizeConfig.blockWidth*2,
-                                vertical: SizeConfig.blockHeight*2,
-                              ),
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.3),
-                                      spreadRadius: 0.1,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 1),
+                    child: Container(
+                      color: COLORS.skyBlue,
+                      child: ValueListenableBuilder<List<Activity>>(
+                        valueListenable: _selectedEvents,
+                        builder: (context, value, _) {
+                          return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10)): ListView.builder(
+                            itemCount: value.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin:  EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.blockWidth*2,
+                                  vertical: SizeConfig.blockHeight*1,
+                                ),
+                                padding:  EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.blockWidth*2,
+                                  vertical: SizeConfig.blockHeight*2,
+                                ),
+                                decoration: BoxDecoration(
+                                    /*boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        spreadRadius: 0.1,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 1),
+                                      ),
+                                    ],*/
+                                    color: COLORS.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].activityName!),
+                                        subTitleText(text: "Description"),
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 1.8, text: value[index].activitySummary!),
+
+
+                                      ],
                                     ),
-                                  ],
-                                  color: COLORS.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                      NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].activityId!),
-                                      subTitleText(text: "Clime Amount : ₹ 10"),
-                                      subTitleText(text: "Approve Amount : ₹ 10"),
 
-                                    ],
-                                  ),
-
-                                  Column(
-                                    children: [
-                                      subTitleText(text:DateFormetConvertHelper(date: value[index].updateDate!) ),
-                                      SizedBox(height: SizeConfig.blockHeight*1,),
-                                      SizedBox(
-                                        width: SizeConfig.blockWidth*20,
-                                        height:SizeConfig.blockHeight*4,
-                                        child:  ElevatedButton(
-                                          child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.8, text: "To Submit") ,
-                                          style: ButtonStyle(
-                                              elevation: WidgetStatePropertyAll(0),
-                                              padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),),
-                                              backgroundColor: MaterialStatePropertyAll(COLORS.yellow),
-                                              shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
+                                    Column(
+                                      children: [
+                                        subTitleText(text:DateFormetConvertHelper(date: value[index].updateDate!) ),
+                                        SizedBox(height: SizeConfig.blockHeight*1,),
+                                        SizedBox(
+                                          width: SizeConfig.blockWidth*18,
+                                          height:SizeConfig.blockHeight*3.5,
+                                          child:  ElevatedButton(
+                                            child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.3, text: "To Submit") ,
+                                            style: ButtonStyle(
+                                                
+                                                elevation: WidgetStatePropertyAll(0),
+                                                padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),),
+                                                backgroundColor: MaterialStatePropertyAll(COLORS.green.withOpacity(.3)),
+                                                shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)))),
+                                                 side: WidgetStatePropertyAll(BorderSide(color: COLORS.green))
+                                            ),
+                                            onPressed: (){},
                                           ),
-                                          onPressed: (){},
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
 
-                            );
-                          },
-                        );
-                      },
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],
