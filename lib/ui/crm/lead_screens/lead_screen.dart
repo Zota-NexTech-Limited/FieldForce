@@ -88,84 +88,80 @@ class _LeadScreenState extends State<LeadScreen> {
                                shrinkWrap: true,
                                physics: BouncingScrollPhysics(),
                                itemBuilder: (context, index) {
-                                 return InkWell(
-                                   onTap: (){
-                                     // Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLeadDetailsScreen()));
-                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                       BlocProvider(create: (context)=>GetLeadByIdBloc()..add(TriggerGetLeadByIdEvent(id: leadList[index].leadId!))),
-                                       BlocProvider(create: (context)=>EditLeadBloc()),
-                                     ], child: CustomerInformationScreen(id:leadList[index].leadId!,))));
-                                   },
-                                   child: Dismissible(
-                                       key:Key(index.toString()),
-                                       background: Container(
-                                           margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
-                                           decoration: BoxDecoration(
-                                               color:COLORS.orange,
-                                               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
-                                           ),
-                                           // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
-                                           child: Row(
-                                             mainAxisAlignment: MainAxisAlignment.start,
-                                             children: [
-                                               Column(
-                                                 mainAxisAlignment: MainAxisAlignment.center,
-                                                 children: [
-                                                   Container(
-                                                     width: SizeConfig.blockWidth*40,
-                                                     //color: COLORS.orange,
-                                                     child: SizedBox(
-                                                         height: SizeConfig.blockHeight*3,
-                                                         width: SizeConfig.blockWidth*10,
-                                                         child: SvgImageHelper(image: "assets/image/svg_icons/note_icon.svg")),
-                                                   ),
-                                                   NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Note")
-                                                 ],
-                                               ),
-                                             ],
-                                           )),
-                                       secondaryBackground: Container(
-                                           margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
-                                           decoration: BoxDecoration(
-                                               color:COLORS.green,
-                                               borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
-                                           ),
-                                           // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
-                                           child: Row(
-                                             mainAxisAlignment: MainAxisAlignment.end,
-                                             children: [
-                                               Column(
-                                                 mainAxisAlignment: MainAxisAlignment.center,
-                                                 children: [
-                                                   Container(
-                                                     width: SizeConfig.blockWidth*40,
-                                                     //color: COLORS.orange,
-                                                     child: SizedBox(
-                                                         height: SizeConfig.blockHeight*3,
-                                                         width: SizeConfig.blockWidth*10,
-                                                         child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
-                                                   ),
-                                                   NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
-                                                 ],
-                                               ),
-                                             ],
-                                           )), // Background for left swipe
-                                       confirmDismiss: (direction) async {
-                                         // Optionally confirm action here
-                                         return false; // Return true to dismiss
-                                       },
-                                       onDismissed: (direction) {
-                                         if (direction == DismissDirection.endToStart) {
-                                           // Call function for left swipe
+                                 return Dismissible(
+                                     key:Key(index.toString()),
+                                     background: Container(
+                                         margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                         decoration: BoxDecoration(
+                                             color:COLORS.orange,
+                                             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
+                                         ),
+                                         // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                         child: Row(
+                                           mainAxisAlignment: MainAxisAlignment.start,
+                                           children: [
+                                             Column(
+                                               mainAxisAlignment: MainAxisAlignment.center,
+                                               children: [
+                                                 Container(
+                                                   width: SizeConfig.blockWidth*40,
+                                                   //color: COLORS.orange,
+                                                   child: SizedBox(
+                                                       height: SizeConfig.blockHeight*3,
+                                                       width: SizeConfig.blockWidth*10,
+                                                       child: SvgImageHelper(image: "assets/image/svg_icons/note_icon.svg")),
+                                                 ),
+                                                 NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Note")
+                                               ],
+                                             ),
+                                           ],
+                                         )),
+                                     secondaryBackground: Container(
+                                         margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                         decoration: BoxDecoration(
+                                             color:COLORS.green,
+                                             borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
+                                         ),
+                                         // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                         child: Row(
+                                           mainAxisAlignment: MainAxisAlignment.end,
+                                           children: [
+                                             Column(
+                                               mainAxisAlignment: MainAxisAlignment.center,
+                                               children: [
+                                                 Container(
+                                                   width: SizeConfig.blockWidth*40,
+                                                   //color: COLORS.orange,
+                                                   child: SizedBox(
+                                                       height: SizeConfig.blockHeight*3,
+                                                       width: SizeConfig.blockWidth*10,
+                                                       child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
+                                                 ),
+                                                 NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
+                                               ],
+                                             ),
+                                           ],
+                                         )), // Background for left swipe
+                                     confirmDismiss: (direction) async {
+                                       // Optionally confirm action here
+                                       return false; // Return true to dismiss
+                                     },
+                                     onDismissed: (direction) {
+                                       if (direction == DismissDirection.endToStart) {
+                                         // Call function for left swipe
 
-                                         } else {
-                                           // Call function for right swipe
+                                       } else {
+                                         // Call function for right swipe
 
-                                         }
-                                       },
-                                       child:leadCard(name: "${leadList[index].leadFullName}", enquiry: "${leadList[index].leadInquiryMedium}", date: "15 jul 2024", contactName: " ${leadList[index].leadContactName}", status: "new", menuTap: (){}, cardTap: (){})
+                                       }
+                                     },
+                                     child:leadCard(name: "${leadList[index].leadFullName}", enquiry: "${leadList[index].leadInquiryMedium}", date: "15 jul 2024", contactName: " ${leadList[index].leadContactName}", status: "new", menuTap: (){}, cardTap: (){
+                                       Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                         BlocProvider(create: (context)=>GetLeadByIdBloc()..add(TriggerGetLeadByIdEvent(id: leadList[index].leadId!))),
+                                         BlocProvider(create: (context)=>EditLeadBloc()),
+                                       ], child: CustomerInformationScreen(id:leadList[index].leadId!,))));
+                                     })
 
-                                   ),
                                  );
                                },):ListView(
                                physics:const BouncingScrollPhysics(),
