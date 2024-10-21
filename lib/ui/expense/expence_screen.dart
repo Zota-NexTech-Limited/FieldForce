@@ -6,6 +6,7 @@ import 'package:fieldsales/components/button_component/circular_button.dart';
 import 'package:fieldsales/components/button_component/normal_button.dart';
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
+import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
@@ -154,110 +155,141 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
               isSelectedEventsInitialized=true;
 
               return  Scaffold(
-                appBar:AppBar(backgroundColor: COLORS.blue,
-                  leading: InkWell(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(Icons.arrow_back_ios_new,color: COLORS.white,)),
-                  title:const NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3.3, text: "Expense") ,
-                  bottom:   PreferredSize(
-                      preferredSize: Size(SizeConfig.screenWidth,SizeConfig.blockHeight*7),child:
-                  Container(
-                    decoration:const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: COLORS.blue,
-                            spreadRadius: 14,
-                            blurRadius: 1,
-                            offset: Offset(2, 10),
-                          ),
-                        ]
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*15),
-                    child:const Column(
+                appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*13), child: Container(
+                  width: SizeConfig.screenWidth,
+                  color: COLORS.skyBlue,
+                  child: Container(
+                    //margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
+                    color: COLORS.lightBlue,
+                    padding: EdgeInsets.all(SizeConfig.blockHeight*2),
+                    child: Row(
                       children: [
-                        Row(
-                          children: [
+                        InkWell(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                            child: Icon(Icons.arrow_back)),
+                        SizedBox(width: SizeConfig.blockWidth*5,),
+                        NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.7, text:"Expence"),
+                       // const Spacer(),
+                        //SvgImageHelper(image: "assets/image/svg_icons/notification.svg"),
+                        //SizedBox(width: SizeConfig.blockWidth*6,),
+                        //SvgImageHelper(image: "assets/image/svg_icons/settings_icon.svg"),
 
-                            Column(
-                              children: [
-                                NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Claim") ,
-                                NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Month") ,
-                              ],
-                            ),
-                            Spacer(),
-                            Column(
-                              children: [
-                                NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Approved") ,
-                                NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Month") ,
-                              ],
-                            )
-                          ],
-                        ),
 
                       ],
                     ),
-                  )),
-                ),
+                  ),
+                )),
                 body: Stack(
                   children: [
                     Container(
                       width: SizeConfig.screenWidth,
                       height: SizeConfig.screenHeight,
-                      color: COLORS.white,
+                      color: COLORS.skyBlue,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          TableCalendar<Expense>(
-                            firstDay: kFirstDay,
-                            lastDay: kLastDay,
-                            focusedDay: _focusedDay,
-                            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-                            rangeStartDay: _rangeStart,
-                            rangeEndDay: _rangeEnd,
-                            calendarFormat: _calendarFormat,
-                            rangeSelectionMode: _rangeSelectionMode,
-                            eventLoader: _getEventsForDay,
-                            startingDayOfWeek: StartingDayOfWeek.monday,
-                            ///header style of cakender
-                            headerStyle:  HeaderStyle(
-                              formatButtonVisible: false,
-                              titleCentered: true,
-                              titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.white,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
-                              decoration: const BoxDecoration(color: COLORS.blue,),
-                              rightChevronIcon:const  Icon(Icons.arrow_forward,color:COLORS.white),
-                              leftChevronIcon:const Icon(Icons.arrow_back,color: COLORS.white,),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
+                            width: SizeConfig.screenWidth,
+                            height: SizeConfig.blockHeight*8,
+                            decoration: BoxDecoration(
+                                color: COLORS.blue,
+                                borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                            ),
+                            child:const  Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Claim") ,
+                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
+                                  ],
+                                ),
+                                Spacer(),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Approved") ,
+                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+
+                            decoration: BoxDecoration(
+                              color: COLORS.white,
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),bottomRight:  Radius.circular(SizeConfig.blockWidth*2))
+                            ),
+                            child: TableCalendar<Expense>(
+                              firstDay: kFirstDay,
+                              lastDay: kLastDay,
+                              focusedDay: _focusedDay,
+                              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                              rangeStartDay: _rangeStart,
+                              rangeEndDay: _rangeEnd,
+                              calendarFormat: _calendarFormat,
+                              rangeSelectionMode: _rangeSelectionMode,
+                              eventLoader: _getEventsForDay,
+                              startingDayOfWeek: StartingDayOfWeek.monday,
+                              ///header style of cakender
+                              headerStyle:  HeaderStyle(
+                                formatButtonVisible: false,
+                                titleCentered: true,
+                                titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.blueDark,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                                decoration: const BoxDecoration(color: COLORS.white,),
+                                rightChevronIcon:  Container(
+                                    padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: COLORS.blueExtraLight),
+                                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                                    ),
+                                    child: Icon(Icons.arrow_forward_ios,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
+                                leftChevronIcon: Container(
+                                    padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: COLORS.blueExtraLight),
+                                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                                    ),
+                                    child: Icon(Icons.arrow_back_ios_new,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
+
+                              ),
+                              calendarStyle: CalendarStyle(
+                                outsideDaysVisible: false,
+                                defaultTextStyle:   textStyleComponent,//all exept sat and sunday
+                                weekendTextStyle:textStyleComponent,//weelkend text style
+                                selectedDecoration: const BoxDecoration(color:COLORS.blue,shape:BoxShape.circle ),//decoration of selected date
+                                todayDecoration:BoxDecoration(color:COLORS.blue.withOpacity(0.4),shape:BoxShape.circle ),
+                                markerDecoration: const BoxDecoration(color: COLORS.blueExtraDark,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
+
+
+                                //  weekNumberTextStyle: const TextStyle(color: Colors.red),
+                                //  disabledTextStyle: const TextStyle(color: Colors.blue),//which not in range
+                                // holidayTextStyle: const TextStyle(color: Colors.green),
+                                //  outsideTextStyle:const TextStyle(color: Colors.brown),
+                                //  withinRangeTextStyle: const TextStyle(color: Colors.red),
+                              ),
+                              onDaySelected: _onDaySelected,
+                              onRangeSelected: _onRangeSelected,
+                              onFormatChanged: (format) {
+                                if (_calendarFormat != format) {
+                                  setState(() {
+                                    _calendarFormat = format;
+                                  });
+                                }
+                              },
+                              onPageChanged: (focusedDay) {
+                                _focusedDay = focusedDay;
+                              },
 
                             ),
-                            calendarStyle: CalendarStyle(
-                              outsideDaysVisible: false,
-                              defaultTextStyle:   textStyleComponent,//all exept sat and sunday
-                              weekendTextStyle:textStyleComponent,//weelkend text style
-                              selectedDecoration: const BoxDecoration(color:COLORS.blue,shape:BoxShape.circle ),//decoration of selected date
-                              todayDecoration:BoxDecoration(color:COLORS.blue.withOpacity(0.4),shape:BoxShape.circle ),
-                              markerDecoration: const BoxDecoration(color: COLORS.black,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
-
-
-                              //  weekNumberTextStyle: const TextStyle(color: Colors.red),
-                              //  disabledTextStyle: const TextStyle(color: Colors.blue),//which not in range
-                              // holidayTextStyle: const TextStyle(color: Colors.green),
-                              //  outsideTextStyle:const TextStyle(color: Colors.brown),
-                              //  withinRangeTextStyle: const TextStyle(color: Colors.red),
-                            ),
-                            onDaySelected: _onDaySelected,
-                            onRangeSelected: _onRangeSelected,
-                            onFormatChanged: (format) {
-                              if (_calendarFormat != format) {
-                                setState(() {
-                                  _calendarFormat = format;
-                                });
-                              }
-                            },
-                            onPageChanged: (focusedDay) {
-                              _focusedDay = focusedDay;
-                            },
-
                           ),
                           const SizedBox(height: 8.0),
                           Expanded(
@@ -277,14 +309,14 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                         vertical: SizeConfig.blockHeight*2,
                                       ),
                                       decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black.withOpacity(0.3),
-                                              spreadRadius: 0.1,
-                                              blurRadius: 4,
-                                              offset: Offset(0, 1),
-                                            ),
-                                          ],
+                                        /*boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        spreadRadius: 0.1,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 1),
+                                      ),
+                                    ],*/
                                           color: COLORS.white,
                                           borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
                                       ),
@@ -294,28 +326,32 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index].expenseProduct}"),
-                                              NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 1.6, text: "${value[index].expenseId}"),
-                                              subTitleText(text: "Clime Amount : ₹ ${value[index].expenseClaimPrice}"),
-                                              subTitleText(text: "Approve Amount : ₹ ${value[index].expenseTotalPrice}"),
+                                              //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
+                                              NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].expenseProduct!),
+                                              subTitleText(text: "Claim Amount : ₹ ${ value[index].expenseClaimPrice!}"),
+                                              subTitleText(text: "Approved Amount : ₹ ${ value[index].expenseTotalPrice!}"),
+
+
 
                                             ],
                                           ),
 
                                           Column(
                                             children: [
-                                              subTitleText(text: "Date :${DateFormetConvertHelper(date: value[index].createdDate.toString())}"),
+                                              subTitleText(text:DateFormetConvertHelper(date: value[index].createdDate!.toString()) ),
                                               SizedBox(height: SizeConfig.blockHeight*1,),
                                               SizedBox(
-                                                width: SizeConfig.blockWidth*20,
-                                                height:SizeConfig.blockHeight*4,
+                                                width: SizeConfig.blockWidth*18,
+                                                height:SizeConfig.blockHeight*3.5,
                                                 child:  ElevatedButton(
-                                                  child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.8, text: "To Submit") ,
+                                                  child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.3, text: "To Submit") ,
                                                   style: ButtonStyle(
+
                                                       elevation: WidgetStatePropertyAll(0),
                                                       padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),),
-                                                      backgroundColor: MaterialStatePropertyAll(COLORS.yellow),
-                                                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
+                                                      backgroundColor: MaterialStatePropertyAll(COLORS.green.withOpacity(.3)),
+                                                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)))),
+                                                      side: WidgetStatePropertyAll(BorderSide(color: COLORS.green))
                                                   ),
                                                   onPressed: (){},
                                                 ),
@@ -344,37 +380,32 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> FilePickerDemo()));
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*0.5),
-                                  width: SizeConfig.blockWidth*70,
-                                  height: SizeConfig.blockHeight*7,
-                                  decoration: BoxDecoration(
-                                      color: COLORS.blue,
-                                      borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))
-                                  ),
-                                  child:const  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*0.5),
+                                width: SizeConfig.blockWidth*70,
+                                height: SizeConfig.blockHeight*7,
+                                decoration: BoxDecoration(
+                                    color: COLORS.blue,
+                                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))
+                                ),
+                                child:const  Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
 
-                                      Column(
-                                        children: [
-                                          NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Claim") ,
-                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
-                                        ],
-                                      ),
-                                      Spacer(),
-                                      Column(
-                                        children: [
-                                          NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Approved") ,
-                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                    Column(
+                                      children: [
+                                        NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Claim") ,
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      children: [
+                                        NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Approved") ,
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
                               CircularButtonComponent(icon: Icons.add,onTap: (){
