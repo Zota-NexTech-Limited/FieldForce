@@ -220,7 +220,7 @@ bool isSelectedEventsInitialized=false;
                     child: ValueListenableBuilder<List<Activity>>(
                       valueListenable: _selectedEvents,
                       builder: (context, value, _) {
-                        return value.length==0?EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10): ListView.builder(
+                        return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10)): ListView.builder(
                           itemCount: value.length,
                           itemBuilder: (context, index) {
                             return Container(

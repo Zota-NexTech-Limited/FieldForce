@@ -252,7 +252,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                       SizedBox(width: SizeConfig.blockWidth*5,),
                       InkWell(
                           onTap: menuTap,
-                          child:const SvgImageHelper(image: "assets/image/svg_image_icons/more_icon.svg"))
+                          child:const SvgImageHelper(image: "assets/image/svg_icons/more_icon.svg"))
                     ],
                   )
                 ],

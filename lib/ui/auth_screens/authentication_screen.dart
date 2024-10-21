@@ -4,6 +4,7 @@ import 'package:fieldsales/bloc/login_bloc/login_bloc.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
 import 'package:fieldsales/helper/global_handler.dart';
 import 'package:fieldsales/ui/auth_screens/sign_in_screeen.dart';
+import 'package:fieldsales/ui/home_screen/bottom_navigation_screen.dart';
 import 'package:fieldsales/ui/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +46,7 @@ class _AuthenticationState extends State<Authentication> {
 
           if (state is AuthenticationHomeScreen) {
             print("Login Required3");
-            return HomeScreen();
+            return BottomNavigationScreen();
           }
           print("Login Required4");
           return  BlocProvider(create: (context)=>LoginBloc(),child: SignInScreen(),);
