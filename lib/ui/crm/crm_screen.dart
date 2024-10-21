@@ -45,32 +45,6 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
     return SafeArea(
         child: Scaffold(
           backgroundColor: COLORS.skyBlue,
-          appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*13), child: Container(
-            width: SizeConfig.screenWidth,
-            color: COLORS.skyBlue,
-            child: Container(
-              margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
-              color: COLORS.lightBlue,
-              padding: EdgeInsets.all(SizeConfig.blockHeight*3),
-              child: Row(
-                children: [
-                  const NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.7, text: "Leads"),
-                  const Spacer(),
-                  SvgImageHelper(image: "assets/image/svg_icons/notification.svg"),
-                  SizedBox(width: SizeConfig.blockWidth*6,),
-                  SvgImageHelper(image: "assets/image/svg_icons/settings_icon.svg"),
-                  /*if( _tabController.index==0)...[
-                       InkWell(
-                           onTap: () {
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=>const LeadFilterScreen()));
-                           },
-                           child: const Icon(Icons.filter_alt_sharp,color: COLORS.white,)),
-                     ]*/
-
-                ],
-              ),
-            ),
-          )),
           body: Column(
             children: [
               Container(

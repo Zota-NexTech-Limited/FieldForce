@@ -150,14 +150,14 @@ bool isSelectedEventsInitialized=false;
              }
           isSelectedEventsInitialized=true;
           return  Scaffold(
-            appBar:AppBar(backgroundColor: COLORS.blue,
+            /*appBar:AppBar(backgroundColor: COLORS.blue,
               leading: InkWell(
                   onTap: (){
                     Navigator.pop(context);
                   },
                   child: const Icon(Icons.arrow_back_ios_new,color: COLORS.white,)),
               title:const NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3.3, text: "My Activity") ,
-            ),
+            ),*/
             body: Container(
               width: SizeConfig.screenWidth,
               height: SizeConfig.screenHeight,
@@ -180,10 +180,22 @@ bool isSelectedEventsInitialized=false;
                     headerStyle:  HeaderStyle(
                       formatButtonVisible: false,
                       titleCentered: true,
-                      titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.white,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
-                      decoration: const BoxDecoration(color: COLORS.blue,),
-                      rightChevronIcon:const  Icon(Icons.arrow_forward,color:COLORS.white),
-                      leftChevronIcon:const Icon(Icons.arrow_back,color: COLORS.white,),
+                      titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.blueDark,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                      decoration: const BoxDecoration(color: COLORS.white,),
+                      rightChevronIcon:  Container(
+                        padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: COLORS.blueExtraLight),
+                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                          ),
+                          child: Icon(Icons.arrow_forward_ios,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
+                      leftChevronIcon: Container(
+                          padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: COLORS.blueExtraLight),
+                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                          ),
+                          child: Icon(Icons.arrow_back_ios_new,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
 
                     ),
                     calendarStyle: CalendarStyle(
