@@ -229,12 +229,12 @@ bool isSelectedEventsInitialized=false;
                   ),
                   const SizedBox(height: 8.0),
                   Expanded(
-                    child: Container(
-                      color: COLORS.skyBlue,
-                      child: ValueListenableBuilder<List<Activity>>(
-                        valueListenable: _selectedEvents,
-                        builder: (context, value, _) {
-                          return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10)): ListView.builder(
+                    child: ValueListenableBuilder<List<Activity>>(
+                      valueListenable: _selectedEvents,
+                      builder: (context, value, _) {
+                        return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10)): Container(
+                          color: COLORS.skyBlue,
+                          child: ListView.builder(
                             itemCount: value.length,
                             itemBuilder: (context, index) {
                               return Container(
@@ -283,7 +283,7 @@ bool isSelectedEventsInitialized=false;
                                           child:  ElevatedButton(
                                             child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.3, text: "To Submit") ,
                                             style: ButtonStyle(
-                                                
+
                                                 elevation: WidgetStatePropertyAll(0),
                                                 padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),),
                                                 backgroundColor: MaterialStatePropertyAll(COLORS.green.withOpacity(.3)),
@@ -300,9 +300,9 @@ bool isSelectedEventsInitialized=false;
 
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
