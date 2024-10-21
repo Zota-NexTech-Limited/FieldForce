@@ -1,8 +1,13 @@
+import 'package:fieldsales/bloc/expense_list_bloc/expense_list_bloc.dart';
+import 'package:fieldsales/bloc/get_activity_list/activity_list_bloc.dart';
 import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
+import 'package:fieldsales/ui/expense/expence_screen.dart';
+import 'package:fieldsales/ui/my_activity/my_activity_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
 
@@ -29,12 +34,13 @@ class _MenuScreenState extends State<MenuScreen> {
             tabCard(onTap: (){
               setState(() {
                 selectedTab="My Activity";
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ActivityListBloc()..add(const FetchActivityListEvent()),child: MyActivityScreen(),)));
               });
             }, title: "My Activity", icon: "assets/image/svg_icons/my_activity.svg"),
             tabCard(onTap: (){
               setState(() {
                 selectedTab="Reports";
-              });
+                 });
             }, title: "Reports", icon: "assets/image/svg_icons/contacts_reports.svg"),
             tabCard(onTap: (){
               setState(() {
@@ -49,6 +55,7 @@ class _MenuScreenState extends State<MenuScreen> {
             tabCard(onTap: (){
               setState(() {
                 selectedTab="Expense";
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ExpenseListBloc()..add(const FetchExpenseListEvent()),child: const ExpenceScreen(),)));
               });
             }, title: "Expense", icon: "assets/image/svg_icons/expense.svg"),
             tabCard(onTap: (){
