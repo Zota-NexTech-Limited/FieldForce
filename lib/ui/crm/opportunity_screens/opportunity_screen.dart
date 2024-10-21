@@ -75,21 +75,89 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return opportunityCard(
-                                name: "${state.opportunityList[index].opportunityCompanyName}",
-                                source: "${state.opportunityList[index].opportunitySource}",
-                                stage: "${state.opportunityList[index].opportunityStage}",
-                                contact: "${state.opportunityList[index].opportunityEmail}",
-                                status: "new",
-                                menuTap: (){},
-                                cardTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                    BlocProvider(create: (context)=>GetOpportunityByIdBloc()..add(TriggerGetOpportunityByIdEvent(id: state.opportunityList[index].opportunityId.toString()))),
-                                    BlocProvider(create: (context)=>EditOpportunityBloc()),
-                                  ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
-                                  ));
+                            return Dismissible(
+                              key:Key(index.toString()),
+                              background: Container(
+                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                  decoration: BoxDecoration(
+                                      color:COLORS.orange,
+                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
+                                  ),
+                                  // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: SizeConfig.blockWidth*40,
+                                            //color: COLORS.orange,
+                                            child: SizedBox(
+                                                height: SizeConfig.blockHeight*3,
+                                                width: SizeConfig.blockWidth*10,
+                                                child: SvgImageHelper(image: "assets/image/svg_icons/note_icon.svg")),
+                                          ),
+                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Note")
+                                        ],
+                                      ),
+                                    ],
+                                  )),
+                              secondaryBackground: Container(
+                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                  decoration: BoxDecoration(
+                                      color:COLORS.green,
+                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
+                                  ),
+                                  // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: SizeConfig.blockWidth*40,
+                                            //color: COLORS.orange,
+                                            child: SizedBox(
+                                                height: SizeConfig.blockHeight*3,
+                                                width: SizeConfig.blockWidth*10,
+                                                child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
+                                          ),
+                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
+                                        ],
+                                      ),
+                                    ],
+                                  )), // Background for left swipe
+                              confirmDismiss: (direction) async {
+                                // Optionally confirm action here
+                                return false; // Return true to dismiss
+                              },
+                              onDismissed: (direction) {
+                                if (direction == DismissDirection.endToStart) {
+                                  // Call function for left swipe
 
-                                });
+                                } else {
+                                  // Call function for right swipe
+
+                                }
+                              },
+                              child: opportunityCard(
+                                  name: "${state.opportunityList[index].opportunityCompanyName}",
+                                  source: "${state.opportunityList[index].opportunitySource}",
+                                  stage: "${state.opportunityList[index].opportunityStage}",
+                                  contact: "${state.opportunityList[index].opportunityEmail}",
+                                  status: "new",
+                                  menuTap: (){},
+                                  cardTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                      BlocProvider(create: (context)=>GetOpportunityByIdBloc()..add(TriggerGetOpportunityByIdEvent(id: state.opportunityList[index].opportunityId.toString()))),
+                                      BlocProvider(create: (context)=>EditOpportunityBloc()),
+                                    ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
+                                    ));
+
+                                  }),
+                            );
                           },):EmptyScreen(text: "Opportunity Not Found!",distanceFromTop: 10,),
                       ),
                       Positioned(
