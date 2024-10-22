@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fieldsales/bloc/add_expense/add_expense_bloc.dart';
 import 'package:fieldsales/bloc/expense_list_bloc/expense_list_bloc.dart';
 import 'package:fieldsales/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldsales/components/button_component/file_upload_button.dart';
 import 'package:fieldsales/components/button_component/normal_button.dart';
 import 'package:fieldsales/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldsales/components/text_component/input_field_title_text.dart';
@@ -358,16 +359,12 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                         isReadOnly: false,
                         labelText: "Description"),
                     SizedBox(height: SizeConfig.blockHeight*2,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const NormalText(fontWeight: FontWeight.w500, color: COLORS.blue, fontSize: 3, text: "Attach Document *"),
-                        IconButton(onPressed: (){
-                          _pickFiles();
-                        }, icon: Icon(Icons.add_box,size: SizeConfig.blockHeight*5,color: COLORS.blue,))
-                      ],
-                    ),
+                    const NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 3, text: "Attach Document *"),
+                    FileUploadButton(onTap:(){
+                      _pickFiles();
+                    } ,actionText: "Upload",leadingText: "Upload Documents",),
                     if(_paths!=null)...[
+                      SizedBox(height: SizeConfig.blockHeight*2,),
                       GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
