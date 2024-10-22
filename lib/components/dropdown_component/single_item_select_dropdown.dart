@@ -85,7 +85,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
       ),
       iconStyleData: IconStyleData(icon: Icon(
         Icons.keyboard_arrow_down,
-        color: COLORS.blue,
+        color: COLORS.gray,
         size: SizeConfig.blockWidth * 8,
       ),),
 
@@ -104,7 +104,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
      buttonStyleData: ButtonStyleData(
        decoration: BoxDecoration(
          borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 2),
-         border: Border.all(color:widget.isError==true? COLORS.red:COLORS.blue, width: SizeConfig.blockWidth*0.4),
+         border: Border.all(color:widget.isError==true? COLORS.red:COLORS.gray, width: SizeConfig.blockWidth*0.4),
        ),
        width: SizeConfig.blockWidth * 100,
        height:  SizeConfig.blockHeight * 7.3,

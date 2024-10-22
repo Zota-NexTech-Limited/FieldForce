@@ -21,7 +21,7 @@ InputDecoration textFieldDecoration({required String hint}) {
         borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
     enabledBorder: OutlineInputBorder(
         borderSide:  BorderSide(
-          color: COLORS.blue,
+          color: COLORS.gray,
           width: 1.5,
         ),
         borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
