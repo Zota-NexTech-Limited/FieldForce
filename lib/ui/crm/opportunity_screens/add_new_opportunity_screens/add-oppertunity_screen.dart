@@ -128,11 +128,11 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
           }
         },)
       ],
-        child: isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){}): Scaffold(
-        appBar: appBarComponent(title: "Add Opportunity", context: context),
-        body:Form(
+        child: isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){}): Form(
           key: _formKey,
-          child: Container(
+          child: Scaffold(
+          appBar: appBarComponent(title: "Add Opportunity", context: context),
+          body:Container(
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
             padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
@@ -266,6 +266,16 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                     ],
                   ),
                   SizedBox(height: SizeConfig.blockHeight*9,),
+
+                ],
+              ),
+            ),
+          ) ,
+            bottomNavigationBar: Container(
+              height: SizeConfig.blockHeight*8,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              child: Column(
+                children: [
                   if(isView==false)...[
 
                     NormalButtonWithIcon(title: "Next Step", onTap: (){
@@ -316,9 +326,8 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                 ],
               ),
             ),
-          ),
-        ) ,
-      ),)
+                ),
+        ),)
 
     );
   }

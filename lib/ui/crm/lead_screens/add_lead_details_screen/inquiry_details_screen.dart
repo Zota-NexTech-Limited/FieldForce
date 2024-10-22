@@ -219,87 +219,97 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
 
 
                   SizedBox(height: SizeConfig.blockHeight*3,),
-                  if(isView==false)...[
-                    SubmitButtonComponent(onTap:(){
-                      setState(() {
-                        if(selectedInquirySource==null||selectedInquirySource!.isEmpty)
-                        {
-                          isInquirySourceIsEmpty=true;
-                        }
-                        if(selectedInquiryMedium==null||selectedInquiryMedium!.isEmpty)
-                        {
-                          isInquiryMediumEmpty=true;
-                        }
-                        if(isInquirySourceIsEmpty==false&& isInquiryMediumEmpty==false)
-                        {
-                          setState(() {
-                            updateLeadDetailsModel();
 
-                            newLeadBloc.add(PostNewLeadEvent(leadDetails: leadDetails));
-                          });
-                        }
-
-                      });
-                    },)
-                  ]
-                  else...[
-                    if(isEdit==false)...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          EditButtonComponent(onTap: (){
-                            setState(() {
-                              isEdit=true;
-                              readOnly=false;
-                            });
-                          },),
-                          NormalButton(title: "Close", onTap: (){
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
-                        ],
-                      )
-                    ]else...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          NormalButton(title: "Cancel", onTap: (){
-                            setState(() {
-                              isEdit=false;
-                              readOnly=true;
-                              updateInputFields(leadDetails:leadDetails);
-                            });
-                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
-                          NormalButton(title: "Update", onTap: (){
-                            setState(() {
-                              if(selectedInquirySource==null||selectedInquirySource!.isEmpty)
-                              {
-                                isInquirySourceIsEmpty=true;
-                              }
-                              if(selectedInquiryMedium==null||selectedInquiryMedium!.isEmpty)
-                              {
-                                isInquiryMediumEmpty=true;
-                              }
-                              if(isInquirySourceIsEmpty==false&& isInquiryMediumEmpty==false)
-                              {
-                                setState(() {
-                                  updateLeadDetailsModel();
-
-                                  editLeadBloc.add(TriggerEditLeadEvent(leadDetails: leadDetails));
-                                });
-                              }
-                            });
-                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
-                        ],
-                      )
-                    ]
-                  ],
 
 
                 ],
               ),
+            ),
+          ),
+
+          bottomNavigationBar: Container(
+            height: SizeConfig.blockHeight*8,
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+            child: Column(
+              children: [
+                if(isView==false)...[
+                  SubmitButtonComponent(onTap:(){
+                    setState(() {
+                      if(selectedInquirySource==null||selectedInquirySource!.isEmpty)
+                      {
+                        isInquirySourceIsEmpty=true;
+                      }
+                      if(selectedInquiryMedium==null||selectedInquiryMedium!.isEmpty)
+                      {
+                        isInquiryMediumEmpty=true;
+                      }
+                      if(isInquirySourceIsEmpty==false&& isInquiryMediumEmpty==false)
+                      {
+                        setState(() {
+                          updateLeadDetailsModel();
+
+                          newLeadBloc.add(PostNewLeadEvent(leadDetails: leadDetails));
+                        });
+                      }
+
+                    });
+                  },)
+                ]
+                else...[
+                  if(isEdit==false)...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        EditButtonComponent(onTap: (){
+                          setState(() {
+                            isEdit=true;
+                            readOnly=false;
+                          });
+                        },),
+                        NormalButton(title: "Close", onTap: (){
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                      ],
+                    )
+                  ]else...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        NormalButton(title: "Cancel", onTap: (){
+                          setState(() {
+                            isEdit=false;
+                            readOnly=true;
+                            updateInputFields(leadDetails:leadDetails);
+                          });
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                        NormalButton(title: "Update", onTap: (){
+                          setState(() {
+                            if(selectedInquirySource==null||selectedInquirySource!.isEmpty)
+                            {
+                              isInquirySourceIsEmpty=true;
+                            }
+                            if(selectedInquiryMedium==null||selectedInquiryMedium!.isEmpty)
+                            {
+                              isInquiryMediumEmpty=true;
+                            }
+                            if(isInquirySourceIsEmpty==false&& isInquiryMediumEmpty==false)
+                            {
+                              setState(() {
+                                updateLeadDetailsModel();
+
+                                editLeadBloc.add(TriggerEditLeadEvent(leadDetails: leadDetails));
+                              });
+                            }
+                          });
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                      ],
+                    )
+                  ]
+                ],
+              ],
             ),
           ),
         ),)

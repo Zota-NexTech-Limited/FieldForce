@@ -425,41 +425,50 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                         },)
                     ],
                     SizedBox(height: SizeConfig.blockHeight*2,),
-                    NormalButton(title: "ADD", onTap: (){
-                      if(selectedProduct==null||selectedProduct!.isEmpty)
-                        {
-                        setState(() {
-                          isProductDropdownEmpty=true;
-                        });
-                        }
-                      if(_formKey.currentState!.validate())
-                        {
-                          if(isProductDropdownEmpty==false)
-                            {
-                              setState(() {
-                                late AddExpenseModel expenseDetails;
-                                expenseDetails=AddExpenseModel(
-                                    expenseProduct:selectedProduct,
-                                    expenseStationType: selectedStationType,
-                                    expenseReportingPlace: reportingPlaceController.text,
-                                    expenseClaimPrice: claimPriceController.text,
-                                    expenseClaimQuantity: claimQuantityController.text,
-                                    expenseTotalPrice: totalController.text,
-                                    expenseDate: dateController.text.isEmpty?null:dateController.text,
-                                    expenseBillReference: billReferenceController.text,
-                                    expenseDescription: descriptionController.text,
-                                    expenseAttachDocuments: []
-                                );
-                                addExpenseBloc.add(TriggerAddExpenseEvent(expenseDetails: expenseDetails));
-                              });
-                            }
-                        }
-
-                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
 
 
                   ],
                 ),
+              ),
+            ),
+            bottomNavigationBar: Container(
+              height: SizeConfig.blockHeight*8,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              child: Column(
+                children: [
+                  NormalButton(title: "ADD", onTap: (){
+                    if(selectedProduct==null||selectedProduct!.isEmpty)
+                    {
+                      setState(() {
+                        isProductDropdownEmpty=true;
+                      });
+                    }
+                    if(_formKey.currentState!.validate())
+                    {
+                      if(isProductDropdownEmpty==false)
+                      {
+                        setState(() {
+                          late AddExpenseModel expenseDetails;
+                          expenseDetails=AddExpenseModel(
+                              expenseProduct:selectedProduct,
+                              expenseStationType: selectedStationType,
+                              expenseReportingPlace: reportingPlaceController.text,
+                              expenseClaimPrice: claimPriceController.text,
+                              expenseClaimQuantity: claimQuantityController.text,
+                              expenseTotalPrice: totalController.text,
+                              expenseDate: dateController.text.isEmpty?null:dateController.text,
+                              expenseBillReference: billReferenceController.text,
+                              expenseDescription: descriptionController.text,
+                              expenseAttachDocuments: []
+                          );
+                          addExpenseBloc.add(TriggerAddExpenseEvent(expenseDetails: expenseDetails));
+                        });
+                      }
+                    }
+
+                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+
+                ],
               ),
             ),
           ),

@@ -127,21 +127,30 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
                       labelText: "Note"
                   ),
                   SizedBox(height: SizeConfig.blockHeight*3,),
-                  NormalButton(title: "Schedule", onTap: (){
-                    setState(() {
-                      CreateActivityModel activityDetails=CreateActivityModel(
+
+
+                ],
+              ),
+            ),
+          ),
+          bottomNavigationBar: Container(
+            height: SizeConfig.blockHeight*8,
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+            child: Column(
+              children: [
+                NormalButton(title: "Schedule", onTap: (){
+                  setState(() {
+                    CreateActivityModel activityDetails=CreateActivityModel(
                         activityName: selectedActivity,
                         activityDueDate: dueDateController.text,
                         activityAssignTo: selectedAssignedTo,
                         activitySummary: summaryController.text,
                         activityNotes: noteController.text
-                      );
-                      createActivityBloc.add(CreateNewActivityEvent(activityDetails: activityDetails));
-                    });
-                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
-
-                ],
-              ),
+                    );
+                    createActivityBloc.add(CreateNewActivityEvent(activityDetails: activityDetails));
+                  });
+                }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+              ],
             ),
           ),
         ),)

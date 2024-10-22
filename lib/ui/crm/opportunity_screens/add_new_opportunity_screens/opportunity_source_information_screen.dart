@@ -295,7 +295,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                      width: SizeConfig.screenWidth,
                      height: SizeConfig.blockHeight*7,
                      decoration: BoxDecoration(
-                       border: Border.all(color: COLORS.blue,width: 1.5),
+                       border: Border.all(color: COLORS.gray,width: 1.5),
                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5))
                      ),
                      child: ListView.builder(
@@ -357,7 +357,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                               : const Icon(Icons.radio_button_unchecked),
                         );
                       },
-                      borderColor: COLORS.blue,
+                      borderColor: COLORS.gray,
                       borderWidth: 1.5,
                       borderRadius:SizeConfig.blockWidth * 1.5,
                     ),
@@ -373,72 +373,81 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                     return null;
                   }, isReadOnly: readOnly, labelText: "Enter Notes Here"),
 
-                  SizedBox(height: SizeConfig.blockHeight*3,),
-                  if(isView==false)...[
-                    SubmitButtonComponent(onTap:(){
-                      setState(() {
-                        selectedCompetitorsList.clear();
-                        for(ValueItem item in _controller.selectedOptions)
-                        {
-                          selectedCompetitorsList.add(item.value.toString());
-                        }
-                        updateOpportunityDetailsModel();
-                        addOpportunityBloc.add(AddNewOpportunityEvent(opportunityDetails: opportunityDetails));
-                        print("selectedCompetitorsList----------------$selectedCompetitorsList");
-                      });
+                 SizedBox(height: SizeConfig.blockHeight*2,)
 
-                    },)
-                  ]else...[
-                    if(isEdit==false)...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          EditButtonComponent(onTap: (){
-                            setState(() {
-                              isEdit=true;
-                              readOnly=false;
-                            });
-                          },),
-                          NormalButton(title: "Close", onTap: (){
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
-                        ],
-                      )
-                    ]else...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          NormalButton(title: "Cancel", onTap: (){
-                            setState(() {
-                              isEdit=false;
-                              readOnly=true;
-                              updateInputFields(opportunityDetails:opportunityDetails);
-                            });
-                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
-                          NormalButton(title: "Update", onTap: (){
-                            setState(() {
-                              selectedCompetitorsList.clear();
-                              for(ValueItem item in _controller.selectedOptions)
-                              {
-                                selectedCompetitorsList.add(item.value.toString());
-                              }
-                              updateOpportunityDetailsModel();
-                              editOpportunityBloc.add(TriggerEditOpportunityEvent(opportunityDetails: opportunityDetails));
-
-                            });
-                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
-                        ],
-                      )
-                    ]
-                  ],
 
 
                 ],
               ),
             ),
 
+          ),
+          bottomNavigationBar: Container(
+            height: SizeConfig.blockHeight*8,
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+            child: Column(
+              children: [
+                if(isView==false)...[
+                  SubmitButtonComponent(onTap:(){
+                    setState(() {
+                      selectedCompetitorsList.clear();
+                      for(ValueItem item in _controller.selectedOptions)
+                      {
+                        selectedCompetitorsList.add(item.value.toString());
+                      }
+                      updateOpportunityDetailsModel();
+                      addOpportunityBloc.add(AddNewOpportunityEvent(opportunityDetails: opportunityDetails));
+                      print("selectedCompetitorsList----------------$selectedCompetitorsList");
+                    });
+
+                  },)
+                ]else...[
+                  if(isEdit==false)...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        EditButtonComponent(onTap: (){
+                          setState(() {
+                            isEdit=true;
+                            readOnly=false;
+                          });
+                        },),
+                        NormalButton(title: "Close", onTap: (){
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                      ],
+                    )
+                  ]else...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        NormalButton(title: "Cancel", onTap: (){
+                          setState(() {
+                            isEdit=false;
+                            readOnly=true;
+                            updateInputFields(opportunityDetails:opportunityDetails);
+                          });
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                        NormalButton(title: "Update", onTap: (){
+                          setState(() {
+                            selectedCompetitorsList.clear();
+                            for(ValueItem item in _controller.selectedOptions)
+                            {
+                              selectedCompetitorsList.add(item.value.toString());
+                            }
+                            updateOpportunityDetailsModel();
+                            editOpportunityBloc.add(TriggerEditOpportunityEvent(opportunityDetails: opportunityDetails));
+
+                          });
+                        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                      ],
+                    )
+                  ]
+                ],
+              ],
+            ),
           ),
         ),)
 
