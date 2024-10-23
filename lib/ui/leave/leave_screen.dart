@@ -1,5 +1,7 @@
 import 'dart:collection';
 //import 'package:fieldsales/bloc/get_activity_list/activity_list_bloc.dart';
+import 'package:fieldsales/bloc/add_leave_bloc/add_leave_bloc.dart';
+import 'package:fieldsales/bloc/create_activity_bloc/create_activity_bloc.dart';
 import 'package:fieldsales/bloc/leave_list_bloc/leave_list_bloc.dart';
 import 'package:fieldsales/components/button_component/add_new_button.dart';
 import 'package:fieldsales/components/state_management_components/empty_screen_component.dart';
@@ -11,6 +13,7 @@ import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/models/leave/leave_model.dart';
+import 'package:fieldsales/ui/leave/add_leave_screen.dart';
 //import 'package:fieldsales/models/my_activity_models/activiti_list_model.dart';
 import 'package:fieldsales/ui/my_activity/utils.dart';
 import 'package:flutter/material.dart';
@@ -341,7 +344,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AddNewButton(title: "Add Leave", onTap: (){
-
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>AddLeaveBloc(),child:const AddLeaveScreen(),)));
                       }),
                     ],
                   ),

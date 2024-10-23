@@ -4,6 +4,7 @@ import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 
 InputDecoration textFieldDecorationWithSuffixIcon({required String hint,required VoidCallback onTap,required String icon,}) {
@@ -50,6 +51,6 @@ InputDecoration textFieldDecorationWithSuffixIcon({required String hint,required
           onTap: onTap,
           child: Container(
             padding: EdgeInsets.all(SizeConfig.blockWidth*3),
-              child: SvgImageHelper(image: icon)))
+              child:SvgPicture.asset(icon,fit: BoxFit.contain,color: COLORS.gray,)))
   );
 }

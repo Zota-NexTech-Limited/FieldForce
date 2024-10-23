@@ -29,7 +29,7 @@ class LeaveDao{
   Future addLeave(
       {required Leave leaveDetails}
       ) async {
-    var url = '${Config.url}/field-force/field-force/leave/add';
+    var url = '${Config.url}/field-force/leave/add';
     print("----------Dao 1----------");
 
     Map<String,dynamic> body=leaveDetails.toJson();
