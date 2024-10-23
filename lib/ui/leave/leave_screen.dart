@@ -1,5 +1,7 @@
 import 'dart:collection';
-import 'package:fieldsales/bloc/get_activity_list/activity_list_bloc.dart';
+//import 'package:fieldsales/bloc/get_activity_list/activity_list_bloc.dart';
+import 'package:fieldsales/bloc/leave_list_bloc/leave_list_bloc.dart';
+import 'package:fieldsales/components/button_component/add_new_button.dart';
 import 'package:fieldsales/components/state_management_components/empty_screen_component.dart';
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
@@ -8,7 +10,8 @@ import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
 import 'package:fieldsales/helper/size_config.dart';
-import 'package:fieldsales/models/my_activity_models/activiti_list_model.dart';
+import 'package:fieldsales/models/leave/leave_model.dart';
+//import 'package:fieldsales/models/my_activity_models/activiti_list_model.dart';
 import 'package:fieldsales/ui/my_activity/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +26,7 @@ class LeaveScreen extends StatefulWidget {
 
 class _LeaveScreenState extends State<LeaveScreen> {
 
-  late final ValueNotifier<List<Activity>> _selectedEvents;
+  late final ValueNotifier<List<Leave>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
@@ -33,13 +36,13 @@ class _LeaveScreenState extends State<LeaveScreen> {
   DateTime? _rangeEnd;
   bool isSelectedEventsInitialized=false;
 
-  late LinkedHashMap<DateTime, List<Activity>> kEvents;
-  late ActivityListBloc activityListBloc;
+  late LinkedHashMap<DateTime, List<Leave>> kEvents;
+  late LeaveListBloc leaveListBloc;
   @override
   void initState() {
     super.initState();
 
-    activityListBloc=BlocProvider.of<ActivityListBloc>(context);
+    leaveListBloc=BlocProvider.of<LeaveListBloc>(context);
 
   }
 
@@ -50,12 +53,12 @@ class _LeaveScreenState extends State<LeaveScreen> {
     super.dispose();
   }
 
-  List<Activity> _getEventsForDay(DateTime day) {
+  List<Leave> _getEventsForDay(DateTime day) {
     // Implementation example
     return kEvents[day] ?? [];
   }
 
-  List<Activity> _getEventsForRange(DateTime start, DateTime end) {
+  List<Leave> _getEventsForRange(DateTime start, DateTime end) {
     // Implementation example
     final days = daysInRange(start, end);
 
@@ -100,16 +103,16 @@ class _LeaveScreenState extends State<LeaveScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: BlocBuilder<ActivityListBloc,ActivityListState>(
+        child: BlocBuilder<LeaveListBloc,LeaveListState>(
           builder: (context, state) {
-            if(state is ActivityListLoadingState)
+            if(state is LeaveListLoadingState)
             {
               return LoadingScreen();
-            } else if(state is ActivityListSuccessState)
+            } else if(state is LeaveListSuccessState)
             {
 
 
-              List<Activity> todayActivityList=[];
+              List<Leave> todayActivityList=[];
               DateTime now = DateTime.now();
               String _twoDigits(int n) {
                 if (n >= 10) {
@@ -118,27 +121,27 @@ class _LeaveScreenState extends State<LeaveScreen> {
                 return '0$n';
               }
               String formattedDate = '${now.year}-${_twoDigits(now.month)}-${_twoDigits(now.day)}';
-              for(ActivityListModel item in state.activityList)
+              for(LeaveModel item in state.leaveList)
               {
                 if(item.date==formattedDate)
                 {
-                  todayActivityList=item.activity!;
+                  todayActivityList=item.leave!;
                 }
               }
               // Print the formatted date
               print('Formatted Date: $formattedDate');
 
               final _kEventSource = Map.fromIterable(
-                  List.generate(state.activityList.length, (index) => index),
-                  key: (item) => DateTime.parse(state.activityList[item].date.toString()),
+                  List.generate(state.leaveList.length, (index) => index),
+                  key: (item) => DateTime.parse(state.leaveList[item].date.toString()),
                   value: (item) => List.generate(
-                      state.activityList[item].activity!.length, (index) =>state.activityList[item].activity![index]
+                      state.leaveList[item].leave!.length, (index) =>state.leaveList[item].leave![index]
                   )
               )
                 ..addAll({
                   kToday: todayActivityList,
                 });
-              kEvents =LinkedHashMap<DateTime, List<Activity>>(
+              kEvents =LinkedHashMap<DateTime, List<Leave>>(
                 equals: isSameDay,
                 hashCode: getHashCode,
               )..addAll(_kEventSource);
@@ -158,6 +161,29 @@ class _LeaveScreenState extends State<LeaveScreen> {
                   child: const Icon(Icons.arrow_back_ios_new,color: COLORS.white,)),
               title:const NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3.3, text: "My Activity") ,
             ),*/
+                appBar: PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*13), child: Container(
+                  width: SizeConfig.screenWidth,
+                  color: COLORS.skyBlue,
+                  child: Container(
+                    //margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
+                    color: COLORS.lightBlue,
+                    padding: EdgeInsets.all(SizeConfig.blockHeight*2),
+                    child: Row(
+                      children: [
+                        InkWell(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Icon(Icons.arrow_back)),
+                        SizedBox(width: SizeConfig.blockWidth*5,),
+                        NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.7, text:"Leave"),
+
+
+
+                      ],
+                    ),
+                  ),
+                )),
                 body: Container(
                   width: SizeConfig.screenWidth,
                   height: SizeConfig.screenHeight,
@@ -165,7 +191,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TableCalendar<Activity>(
+                      TableCalendar<Leave>(
                         firstDay: kFirstDay,
                         lastDay: kLastDay,
                         focusedDay: _focusedDay,
@@ -229,7 +255,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                       ),
                       const SizedBox(height: 8.0),
                       Expanded(
-                        child: ValueListenableBuilder<List<Activity>>(
+                        child: ValueListenableBuilder<List<Leave>>(
                           valueListenable: _selectedEvents,
                           builder: (context, value, _) {
                             return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10)): Container(
@@ -265,9 +291,9 @@ class _LeaveScreenState extends State<LeaveScreen> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                            NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].activityName!),
+                                            NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].leaveType!),
                                             subTitleText(text: "Description"),
-                                            NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 1.8, text: value[index].activitySummary!),
+                                            NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 1.8, text: value[index].description!),
 
 
                                           ],
@@ -275,7 +301,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
 
                                         Column(
                                           children: [
-                                            subTitleText(text:DateFormetConvertHelper(date: value[index].updateDate!) ),
+                                            subTitleText(text:DateFormetConvertHelper(date: value[index].createdDate!.toString()) ),
                                             SizedBox(height: SizeConfig.blockHeight*1,),
                                             SizedBox(
                                               width: SizeConfig.blockWidth*18,
@@ -308,10 +334,22 @@ class _LeaveScreenState extends State<LeaveScreen> {
                     ],
                   ),
                 ),
+                bottomNavigationBar: Container(
+                  color: COLORS.skyBlue,
+                  height: SizeConfig.blockHeight*8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AddNewButton(title: "Add Leave", onTap: (){
+
+                      }),
+                    ],
+                  ),
+                ),
               );
 
 
-            }else if(state is ActivityListLoadingState)
+            }else if(state is LeaveListFailedState)
             {
 
               return ErrorScreen(onPressed: (){});

@@ -1,10 +1,12 @@
 import 'package:fieldsales/bloc/expense_list_bloc/expense_list_bloc.dart';
 import 'package:fieldsales/bloc/get_activity_list/activity_list_bloc.dart';
+import 'package:fieldsales/bloc/leave_list_bloc/leave_list_bloc.dart';
 import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/ui/expense/expence_screen.dart';
+import 'package:fieldsales/ui/leave/leave_screen.dart';
 import 'package:fieldsales/ui/my_activity/my_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +68,7 @@ class _MenuScreenState extends State<MenuScreen> {
             tabCard(onTap: (){
               setState(() {
                 selectedTab="Leave";
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ActivityListBloc()..add(const FetchActivityListEvent()),child: MyActivityScreen(),)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>LeaveListBloc()..add(const FetchLeaveListEvent()),child: LeaveScreen(),)));
               });
             }, title: "Leave", icon: "assets/image/svg_icons/call_black.svg"),
           ],
