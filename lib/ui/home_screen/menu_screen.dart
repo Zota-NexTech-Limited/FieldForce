@@ -66,6 +66,7 @@ class _MenuScreenState extends State<MenuScreen> {
             tabCard(onTap: (){
               setState(() {
                 selectedTab="Leave";
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ActivityListBloc()..add(const FetchActivityListEvent()),child: MyActivityScreen(),)));
               });
             }, title: "Leave", icon: "assets/image/svg_icons/call_black.svg"),
           ],
