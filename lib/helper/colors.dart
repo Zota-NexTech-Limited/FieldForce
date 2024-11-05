@@ -27,4 +27,8 @@ class COLORS{
   static const Color blueExtraDark = Color(0xff0095FF);
   static const Color blueLight2   = Color(0xffEBF3FE);
   static const Color grayExtraDark   = Color(0xff676767);
+  static const Color grayBorder = Color(0xffB1B1B1);
+  static const Color whiteExtraDark = Color(0xffF7F7F7);
+  static const Color whiteBorder = Color(0xffE4E4E4);
+  static const Color grayExtraLight = Color(0xff9E9E9E);
 }

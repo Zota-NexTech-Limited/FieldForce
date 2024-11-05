@@ -1,17 +1,18 @@
-import 'dart:ui';
+
 import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
-import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/size_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-InputDecoration filterFieldDecoration({required String labelText,required VoidCallback iconTap,required VoidCallback prefixIconTap,required String filterText,}) {
+
+InputDecoration filterFieldDecoration({required String labelText,required VoidCallback iconTap,required VoidCallback clearIconTap,required String filterText,required TextEditingController  controller}) {
   return InputDecoration(
       filled: true, // Fill the TextFormField with color
       fillColor: COLORS.white,
       isDense: true,
-      labelText:labelText ,
-      labelStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.4,color:COLORS.gray,fontWeight: FontWeight.w500,fontFamily: "Manrope"),
+      hintText:labelText ,
+      hintStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.3,color:COLORS.grayExtraLight,fontWeight: FontWeight.w400,fontFamily: "Manrope"),
       contentPadding: EdgeInsets.only(
         top: SizeConfig.blockHeight * 1.8,
         bottom: SizeConfig.blockHeight * 1.8,
@@ -27,7 +28,7 @@ InputDecoration filterFieldDecoration({required String labelText,required VoidCa
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
       enabledBorder: OutlineInputBorder(
           borderSide:  BorderSide(
-            color: COLORS.white,
+            color: COLORS.whiteBorder,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
@@ -50,6 +51,10 @@ InputDecoration filterFieldDecoration({required String labelText,required VoidCa
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              controller.text.isNotEmpty? InkWell(
+                  onTap: clearIconTap,
+                  child: Icon(Icons.clear,size: SizeConfig.blockHeight*3,)):Container(width: SizeConfig.blockWidth*0,),
+              SizedBox(width: SizeConfig.blockWidth*2,),
               SvgImageHelper(image: "assets/image/svg_icons/Filter.svg",),
               SizedBox(width: SizeConfig.blockWidth*2,),
               if(filterText.isNotEmpty)...[
@@ -64,7 +69,7 @@ InputDecoration filterFieldDecoration({required String labelText,required VoidCa
               ]
             ],
           )),),
-      prefixIcon: IconButton(onPressed: prefixIconTap,icon: Icon(Icons.search),)
-
+      prefixIconConstraints: BoxConstraints(minWidth: controller.text.isEmpty?SizeConfig.blockWidth*12:SizeConfig.blockWidth*5),
+      prefixIcon: controller.text.isEmpty? Icon(Icons.search,size: SizeConfig.blockHeight*3,):Container(width: SizeConfig.blockWidth*0,)
   );
 }

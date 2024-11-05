@@ -180,8 +180,16 @@ class _LeadScreenState extends State<LeadScreen> {
                                child: Padding(
                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*2),
                                  child: FilterTextFormField(
-                                   prefixIconTap: (){
-                                     leadListBloc.add(FetchLeadListEvent(fromDate: fromDate, toDate: toDate, search:filterController.text));
+                                   clearIconTap: (){
+
+                                     setState(() {
+                                       _refreshPage();
+                                       setState(() {
+                                         fromDate="";
+                                         toDate="";
+                                         filterController.clear();
+                                       });
+                                        });
                                    },
                                    onChanged: (value){},
                                    controller: filterController,
@@ -189,6 +197,9 @@ class _LeadScreenState extends State<LeadScreen> {
                                    inputType: TextInputType.text,
                                    validator: (value){},
                                    isReadOnly: false,
+                                   onSubmit: (value){
+                                     leadListBloc.add(FetchLeadListEvent(fromDate: fromDate, toDate: toDate, search:filterController.text));
+                                   },
                                    iconTap: (){
                                      _showPopupMenu(context);
                                    },
@@ -271,22 +282,22 @@ class _LeadScreenState extends State<LeadScreen> {
           child: Container(
               padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*1),
               decoration: BoxDecoration(
-                  color: fromDate.isNotEmpty?COLORS.blue:COLORS.white,
+                  color: fromDate.isNotEmpty?COLORS.skyBlue:COLORS.white,
                   borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1))
               ),
 
-              child: NormalText(text: "From Date:$fromDate",color: fromDate.isNotEmpty?COLORS.white:COLORS.black,fontSize: 2.3,fontWeight: FontWeight.w600,)),
+              child: NormalText(text: "From Date:$fromDate",color: COLORS.black,fontSize: 2,fontWeight: FontWeight.w600,)),
         ),
         PopupMenuItem(
           value: "To Date",
           child: Container(
               padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*1),
               decoration: BoxDecoration(
-                  color: toDate.isNotEmpty?COLORS.blue:COLORS.white,
+                  color: toDate.isNotEmpty?COLORS.skyBlue:COLORS.white,
                   borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1))
               ),
 
-              child: NormalText(text: "To Date:$toDate",color: toDate.isNotEmpty?COLORS.white:COLORS.black,fontSize:2.3,fontWeight: FontWeight.w600,)),
+              child: NormalText(text: "To Date:$toDate",color: COLORS.black,fontSize:2,fontWeight: FontWeight.w600,)),
         ),
       ],
     ).then((value) {
