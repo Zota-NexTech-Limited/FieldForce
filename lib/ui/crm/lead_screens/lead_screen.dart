@@ -36,6 +36,9 @@ class _LeadScreenState extends State<LeadScreen> {
   late LeadListBloc leadListBloc;
   String fromDate="";
   String toDate="";
+  ScrollController scrollController=ScrollController();
+  double lastOffset = 0.0;
+  bool  showNewLeadButton=true;
   @override
   void initState() {
     // TODO: implement initState
@@ -86,6 +89,23 @@ class _LeadScreenState extends State<LeadScreen> {
                              child:leadList.isNotEmpty?ListView.builder(
                                itemCount: leadList.length,
                                shrinkWrap: true,
+                               controller: scrollController..addListener(() {
+
+                                 double currentOffset=scrollController.offset;
+                                 if (currentOffset > lastOffset)
+                                 {
+                                   print("scroll down***************************");
+                                   setState(() {
+                                     showNewLeadButton=false;
+                                   });
+                                 }else{
+                                   print("scroll top***************************");
+                                   setState(() {
+                                     showNewLeadButton=true;
+                                   });
+                                 }
+
+                               }),
                                physics: BouncingScrollPhysics(),
                                itemBuilder: (context, index) {
                                  return Dismissible(
@@ -207,18 +227,21 @@ class _LeadScreenState extends State<LeadScreen> {
                                  ),
                                ),
                              )),
-                         Positioned(
-                             bottom: SizeConfig.blockHeight*2,
-                             left: SizeConfig.screenWidth*0.3,
-                             child:  Align(
-                               alignment: Alignment.bottomCenter,
-                               child: AddNewButton(title: "New Lead", onTap: (){
-                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                   BlocProvider(create: (context)=>GetLeadByIdBloc()),
-                                   BlocProvider(create: (context)=>EditLeadBloc()),
-                                 ], child: CustomerInformationScreen(id:"",))));
-                               }),
-                             ))
+                         if(showNewLeadButton)...[
+                           Positioned(
+                               bottom: SizeConfig.blockHeight*2,
+                               left: SizeConfig.screenWidth*0.3,
+                               child:  Align(
+                                 alignment: Alignment.bottomCenter,
+                                 child: AddNewButton(title: "New Lead", onTap: (){
+                                   Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                     BlocProvider(create: (context)=>GetLeadByIdBloc()),
+                                     BlocProvider(create: (context)=>EditLeadBloc()),
+                                   ], child: CustomerInformationScreen(id:"",))));
+                                 }),
+                               ))
+                         ]
+
                        ],
                      ),
                    );

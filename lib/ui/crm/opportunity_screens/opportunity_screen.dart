@@ -28,6 +28,9 @@ class OpportunityScreen extends StatefulWidget {
 
 class _OpportunityScreenState extends State<OpportunityScreen> {
   late OpportunityListBloc opportunityListBloc;
+  ScrollController scrollController=ScrollController();
+  double lastOffset = 0.0;
+  bool  showNewOpportunityButton=true;
   @override
   void initState() {
     // TODO: implement initState
@@ -74,6 +77,23 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                           itemCount: state.opportunityList.length,
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
+                          controller: scrollController..addListener(() {
+
+                            double currentOffset=scrollController.offset;
+                            if (currentOffset > lastOffset)
+                            {
+                              print("scroll down***************************");
+                              setState(() {
+                                showNewOpportunityButton=false;
+                              });
+                            }else{
+                              print("scroll top***************************");
+                              setState(() {
+                                showNewOpportunityButton=true;
+                              });
+                            }
+
+                          }),
                           itemBuilder: (context, index) {
                             return Dismissible(
                               key:Key(index.toString()),
@@ -160,20 +180,22 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                             );
                           },):EmptyScreen(text: "Opportunity Not Found!",distanceFromTop: 10,),
                       ),
-                      Positioned(
-                          bottom: SizeConfig.blockHeight*2,
-                          left: SizeConfig.screenWidth*0.3,
-                          child:  Align(
-                            alignment: Alignment.bottomCenter,
-                            child: AddNewButton(title: "New Opportunity", onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                BlocProvider(create: (context)=>GetOpportunityByIdBloc()),
-                                BlocProvider(create: (context)=>EditOpportunityBloc()),
-                              ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
-                                  ));
-                            }),
-                          )
-                      )
+                     if(showNewOpportunityButton)...[
+                       Positioned(
+                           bottom: SizeConfig.blockHeight*2,
+                           left: SizeConfig.screenWidth*0.3,
+                           child:  Align(
+                             alignment: Alignment.bottomCenter,
+                             child: AddNewButton(title: "New Opportunity", onTap: (){
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                 BlocProvider(create: (context)=>GetOpportunityByIdBloc()),
+                                 BlocProvider(create: (context)=>EditOpportunityBloc()),
+                               ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
+                               ));
+                             }),
+                           )
+                       )
+                     ]
                     ],
                   ),
                 ),
