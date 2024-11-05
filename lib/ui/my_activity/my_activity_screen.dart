@@ -255,6 +255,7 @@ bool isSelectedEventsInitialized=false;
                                         offset: Offset(0, 1),
                                       ),
                                     ],*/
+                                    border: Border.all(color: COLORS.whiteBorder),
                                     color: COLORS.white,
                                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
                                 ),

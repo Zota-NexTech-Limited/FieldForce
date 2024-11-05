@@ -296,7 +296,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                             child: ValueListenableBuilder<List<Expense>>(
                               valueListenable: _selectedEvents,
                               builder: (context, value, _) {
-                                return value.length==0?EmptyScreen(text: "Expense Not Found!",distanceFromTop: 0): ListView.builder(
+                                return value.length==0?SingleChildScrollView(physics:NeverScrollableScrollPhysics(),child: EmptyScreen(text: "Expense Not Found!",distanceFromTop: 0)): ListView.builder(
                                   itemCount: value.length,
                                   itemBuilder: (context, index) {
                                     return Container(
@@ -317,6 +317,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                         offset: Offset(0, 1),
                                       ),
                                     ],*/
+                                          border: Border.all(color: COLORS.whiteBorder),
                                           color: COLORS.white,
                                           borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
                                       ),

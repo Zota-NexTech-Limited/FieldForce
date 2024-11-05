@@ -233,6 +233,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
               offset: Offset(0, 1),
             ),
           ],*/
+            border: Border.all(color: COLORS.whiteBorder),
             color: COLORS.white,
             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
         ),
@@ -250,7 +251,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
               const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,9 +268,9 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                         decoration: BoxDecoration(
                             color:status=="new"? COLORS.red.withOpacity(0.2):status=="Completed"?COLORS.green.withOpacity(0.2):COLORS.yellow.withOpacity(0.2),
                             border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
-                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5)
+                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.2)
                             )),
-                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 2, text:status),
+                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.7, text:status),
                       ),
                       SizedBox(width: SizeConfig.blockWidth*5,),
                       InkWell(
