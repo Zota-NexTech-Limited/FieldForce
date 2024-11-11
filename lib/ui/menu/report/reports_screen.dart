@@ -4,6 +4,7 @@ import 'package:fieldsales/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
+import 'package:fieldsales/ui/menu/report/day_plan_report_screen.dart';
 import 'package:flutter/material.dart';
 class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
@@ -40,7 +41,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     children: [
                       buttonText(title:  "Retails Sales v/s Purchase Report",dividerColor:COLORS.grayMedium2,onTap: (){}),
                       buttonText(title:  "Stocklist Sales v/s Purchase Report",dividerColor:COLORS.grayMedium2 ,onTap: (){}),
-                      buttonText(title:  "Day Plan Report",dividerColor:COLORS.white ,onTap: (){}),
+                      buttonText(title:  "Day Plan Report",dividerColor:COLORS.white ,onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DayPlanReportScreen()));
+                      }),
 
                     ],
                   ),
