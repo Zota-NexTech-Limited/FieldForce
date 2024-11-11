@@ -8,6 +8,7 @@ import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/ui/expense/expence_screen.dart';
 import 'package:fieldsales/ui/leave/leave_screen.dart';
 import 'package:fieldsales/ui/menu/day_plan/day_plan_screen.dart';
+import 'package:fieldsales/ui/menu/report/reports_screen.dart';
 import 'package:fieldsales/ui/my_activity/my_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +44,7 @@ class _MenuScreenState extends State<MenuScreen> {
             tabCard(onTap: (){
               setState(() {
                 selectedTab="Reports";
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ReportsScreen()));
                  });
             }, title: "Reports", icon: "assets/image/svg_icons/contacts_reports.svg"),
             tabCard(onTap: (){
