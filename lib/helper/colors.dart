@@ -31,4 +31,8 @@ class COLORS{
   static const Color whiteExtraDark = Color(0xffF7F7F7);
   static const Color whiteBorder = Color(0xffE4E4E4);
   static const Color grayExtraLight = Color(0xff9E9E9E);
+  static const Color blueShining = Color(0xff010101);
+  static const Color grayMedium = Color(0xff848689);
+  static const Color skyBlueMedium = Color(0xffC8E5FF);
+  //static const Color grayExtraLight = Color(0xffD1D1D1);
 }
