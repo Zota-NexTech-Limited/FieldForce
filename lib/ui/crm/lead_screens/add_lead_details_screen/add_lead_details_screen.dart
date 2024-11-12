@@ -87,7 +87,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                                 radius: SizeConfig.blockWidth*5.5,
                                 lineWidth: SizeConfig.blockWidth*0.3,
                                 percent: 0.4,
-                                progressColor: COLORS.blue,
+                                progressColor: COLORS.primaryColor,
                         
                               ),
                             ),

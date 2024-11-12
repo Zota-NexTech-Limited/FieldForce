@@ -126,7 +126,7 @@ class _LeadFilterScreenState extends State<LeadFilterScreen> {
           child: NormalText(color: COLORS.black,fontSize:1.9,fontWeight: FontWeight.w500,text: title,),
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*0),
-        activeColor: COLORS.blue,
+        activeColor: COLORS.primaryColor,
         groupValue: selectedValue,
         visualDensity: const VisualDensity(vertical:-4),
         dense: true,

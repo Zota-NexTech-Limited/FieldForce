@@ -85,7 +85,7 @@ class _AddOpportunityDetailsScreenState extends State<AddOpportunityDetailsScree
                                 radius: SizeConfig.blockWidth*5.5,
                                 lineWidth: SizeConfig.blockWidth*0.3,
                                 percent: 0.4,
-                                progressColor: COLORS.blue,
+                                progressColor: COLORS.primaryColor,
 
                               ),
                             ),

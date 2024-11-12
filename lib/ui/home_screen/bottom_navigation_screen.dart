@@ -79,7 +79,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: COLORS.white,
           elevation: 0,
-          selectedItemColor: COLORS.blue,
+          selectedItemColor: COLORS.primaryColor,
           unselectedItemColor:COLORS.black ,
           showSelectedLabels: false,
           showUnselectedLabels: false,
@@ -129,13 +129,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         children: [
           SvgPicture.asset(
             icon,
-            color: _selectedIndex==index?COLORS.blue:COLORS.black,// Replace with your SVG file path
+            color: _selectedIndex==index?COLORS.primaryColor:COLORS.black,// Replace with your SVG file path
             width: SizeConfig.blockWidth*5,
             height: SizeConfig.blockHeight*3,
 
           ),
          SizedBox(height: SizeConfig.blockHeight*1,),
-          NormalText(fontWeight: FontWeight.w500, color: _selectedIndex==index?COLORS.blue:COLORS.blackDark, fontSize: 1.5, text: label)
+          NormalText(fontWeight: FontWeight.w500, color: _selectedIndex==index?COLORS.primaryColor:COLORS.blackDark, fontSize: 1.5, text: label)
         ],
       ),
     );

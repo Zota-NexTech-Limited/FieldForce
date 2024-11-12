@@ -55,7 +55,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
           else if(state is OpportunityListSuccessState)
             {
               return RefreshIndicator(
-                color: COLORS.blue,
+                color: COLORS.primaryColor,
                 onRefresh: (){
                   return Future.delayed(
                       const Duration(milliseconds: 200),

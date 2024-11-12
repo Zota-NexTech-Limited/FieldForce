@@ -17,7 +17,7 @@ class NormalButton extends StatelessWidget {
       child:  ElevatedButton(
         child: NormalText(fontWeight: FontWeight.w500, color: COLORS.white, fontSize:2.3, text: title) ,
         style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(COLORS.blue),
+            backgroundColor: MaterialStatePropertyAll(COLORS.primaryColor),
           shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
         ),
         onPressed: onTap,

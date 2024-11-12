@@ -56,7 +56,7 @@ class _TextFormFieldWithSuffixIconState extends State<TextFormFieldWithSuffixIco
       keyboardType: inputType,
       textCapitalization: TextCapitalization.words,
       textInputAction: TextInputAction.next,
-      cursorColor: COLORS.blue,
+      cursorColor: COLORS.primaryColor,
       decoration: textFieldDecorationWithSuffixIcon(hint:hintText,onTap:onTap,icon: widget.suffixIcon),
 
 

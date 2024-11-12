@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
              preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*30),
              child:
          Container(
-           color: COLORS.blue,
+           color: COLORS.primaryColor,
            padding:EdgeInsets.all(SizeConfig.blockHeight*2),
            child: Column(
              children: [
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                     color: COLORS.white,
-                    border: Border.all(color: COLORS.blue),
+                    border: Border.all(color: COLORS.primaryColor),
                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
                 ),
                 child: Align(
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 bottom: SizeConfig.blockHeight*2.7,
                 right: SizeConfig.blockWidth*6,
                 child:CircleAvatar(
-                  backgroundColor: COLORS.blue,
+                  backgroundColor: COLORS.primaryColor,
                   radius: SizeConfig.blockWidth*28,
                 )  ,),
               Positioned(

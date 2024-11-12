@@ -2,6 +2,7 @@
 import 'package:fieldsales/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:fieldsales/bloc/login_bloc/login_bloc.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
+import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/global_handler.dart';
 import 'package:fieldsales/ui/auth_screens/sign_in_screeen.dart';
 import 'package:fieldsales/ui/home_screen/bottom_navigation_screen.dart';

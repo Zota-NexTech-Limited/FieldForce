@@ -140,7 +140,7 @@ class _AddLeaveScreenState extends State<AddLeaveScreen> {
                         side: BorderSide(color:COLORS.gray,width: SizeConfig.blockWidth*0.5) ,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5))),
                           value: isHalfDay,
-                          activeColor: COLORS.blue,
+                          activeColor: COLORS.primaryColor,
                           onChanged: (value){
                             setState(() {
                               isHalfDay=value!;

@@ -55,7 +55,7 @@ class _DayPlanScreenState extends State<DayPlanScreen> {
                    decoration: BoxDecoration(
                        color: selectedIndexList.contains(index)?COLORS.skyBlueMedium:COLORS.white,
                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                       border: Border.all(color: selectedIndexList.contains(index)?COLORS.blue: COLORS.whiteBorder)
+                       border: Border.all(color: selectedIndexList.contains(index)?COLORS.primaryColor: COLORS.whiteBorder)
                    ),
                    child: Row(
                      children: [
@@ -86,7 +86,7 @@ class _DayPlanScreenState extends State<DayPlanScreen> {
                            side: BorderSide(color:COLORS.gray,width: SizeConfig.blockWidth*0.5) ,
                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5))),
                            value: selectedIndexList.contains(index),
-                           activeColor: COLORS.blue,
+                           activeColor: COLORS.primaryColor,
                            onChanged: (value){
                              setState(() {
 

@@ -70,7 +70,7 @@ class _LeadScreenState extends State<LeadScreen> {
                            width: SizeConfig.screenWidth,
                            height: SizeConfig.screenHeight,
                            child: RefreshIndicator(
-                             color: COLORS.blue,
+                             color: COLORS.primaryColor,
                              onRefresh: (){
                                return Future.delayed(
                                    const Duration(milliseconds: 200),
@@ -261,13 +261,13 @@ class _LeadScreenState extends State<LeadScreen> {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(Icons.date_range,color: COLORS.blue,size: SizeConfig.blockHeight*3.8,),
+          Icon(Icons.date_range,color: COLORS.primaryColor,size: SizeConfig.blockHeight*3.8,),
           SizedBox(width: SizeConfig.blockWidth*5,),
            Column(
             children: [
               NormalText(
                   fontWeight: FontWeight.w400,
-                  color: COLORS.blue,
+                  color: COLORS.primaryColor,
                   fontSize: 2,
                   text: title),
               NormalText(

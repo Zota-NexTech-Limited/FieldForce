@@ -345,7 +345,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                       //   color: Colors.pink,
                       // ),
                       selectedOptionBackgroundColor: COLORS.gray,
-                      selectedOptionTextColor: COLORS.blue,
+                      selectedOptionTextColor: COLORS.primaryColor,
                       dropdownMargin: 2,
                       onOptionRemoved: (index, option) {},
                       optionBuilder: (context, valueItem, isSelected) {

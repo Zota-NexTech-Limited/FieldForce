@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 class COLORS{
+  static  Color primaryColor =const Color(0xff277DFE);
+  static  Color primaryChildColor =const Color(0xffffffff);
+
   static const Color lightBlue = Color(0xffC8E5FF);
-  static const Color blue = Color(0xff2B6BE8);
   static const Color skyBlue = Color(0xffE4F2FF);
   static const Color black = Color(0xff000000);
   static const Color white = Color(0xffffffff);

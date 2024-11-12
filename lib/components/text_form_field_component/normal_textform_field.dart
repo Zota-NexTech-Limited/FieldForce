@@ -50,7 +50,7 @@ class _NormalTextFormFieldState extends State<NormalTextFormField> {
       keyboardType: inputType,
       textCapitalization: TextCapitalization.words,
       textInputAction: TextInputAction.next,
-      cursorColor: COLORS.blue,
+      cursorColor: COLORS.primaryColor,
       decoration: textFieldDecoration(hint:hintText),
     );
   }

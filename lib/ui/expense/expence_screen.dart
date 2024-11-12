@@ -196,7 +196,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                             width: SizeConfig.screenWidth,
                             height: SizeConfig.blockHeight*8,
                             decoration: BoxDecoration(
-                                color: COLORS.blue,
+                                color: COLORS.primaryColor,
                                 borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
                             ),
                             child:const  Row(
@@ -265,9 +265,9 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                 outsideDaysVisible: false,
                                 defaultTextStyle:   textStyleComponent,//all exept sat and sunday
                                 weekendTextStyle:textStyleComponent,//weelkend text style
-                                selectedDecoration: const BoxDecoration(color:COLORS.blue,shape:BoxShape.circle ),//decoration of selected date
-                                todayDecoration:BoxDecoration(color:COLORS.blue.withOpacity(0.4),shape:BoxShape.circle ),
-                                markerDecoration: const BoxDecoration(color: COLORS.blue,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
+                                selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle ),//decoration of selected date
+                                todayDecoration:BoxDecoration(color:COLORS.primaryColor.withOpacity(0.4),shape:BoxShape.circle ),
+                                markerDecoration:  BoxDecoration(color: COLORS.primaryColor,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
 
 
                                 //  weekNumberTextStyle: const TextStyle(color: Colors.red),
@@ -386,7 +386,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                 width: SizeConfig.blockWidth*70,
                                 height: SizeConfig.blockHeight*7,
                                 decoration: BoxDecoration(
-                                    color: COLORS.blue,
+                                    color: COLORS.primaryColor,
                                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))
                                 ),
                                 child:const  Row(

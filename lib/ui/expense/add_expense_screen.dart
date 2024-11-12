@@ -389,7 +389,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                 decoration: BoxDecoration(
 
                                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                                    border: Border.all(color: COLORS.blue)
+                                    border: Border.all(color: COLORS.primaryColor)
                                 ),
                                 height: SizeConfig.blockHeight*10,
                                 width: SizeConfig.blockWidth*20,
@@ -399,12 +399,12 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                 decoration: BoxDecoration(
 
                                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                                    border: Border.all(color: COLORS.blue)
+                                    border: Border.all(color: COLORS.primaryColor)
                                 ),
                                 height: SizeConfig.blockHeight*10,
                                 width: SizeConfig.blockWidth*20,
-                                child:const Center(
-                                  child: Icon(Icons.file_present_sharp,color: COLORS.blue,),
+                                child: Center(
+                                  child: Icon(Icons.file_present_sharp,color: COLORS.primaryColor,),
                                 ),
                               ),
                               Positioned(

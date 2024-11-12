@@ -244,7 +244,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                           shouldAlwaysShowTooltip: false,
                           stepSize: 1,
                           minorTicksPerInterval: 1,
-                          activeColor: COLORS.blue,
+                          activeColor: COLORS.primaryColor,
                           onChanged: (dynamic value){
                             setState(() {
                               if(readOnly==false)

@@ -18,7 +18,7 @@ class EmptyScreen extends StatelessWidget {
             width: SizeConfig.blockWidth*80,
             height: SizeConfig.blockHeight*30,
             child: SvgImageHelper(image: "assets/image/svg_icons/empty_image.svg")),
-        NormalText(fontWeight: FontWeight.w500, color: COLORS.blue, fontSize: 3, text: text)
+        NormalText(fontWeight: FontWeight.w500, color: COLORS.primaryColor, fontSize: 3, text: text)
 
       ],
     );

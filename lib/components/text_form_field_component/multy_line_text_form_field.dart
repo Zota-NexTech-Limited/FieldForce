@@ -46,7 +46,7 @@ class _MultiLineTextFormFieldState extends State<MultiLineTextFormField> {
       keyboardType: inputType,
       textCapitalization: TextCapitalization.words,
       textInputAction: TextInputAction.next,
-      cursorColor: COLORS.blue,
+      cursorColor: COLORS.primaryColor,
       decoration: textFieldDecoration(hint: widget.labelText),
     );
   }

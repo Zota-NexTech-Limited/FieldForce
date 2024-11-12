@@ -51,7 +51,7 @@ class ErrorScreen extends StatelessWidget {
                     onPressed();
                   },
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(COLORS.blue),
+                      backgroundColor: MaterialStateProperty.all<Color>(COLORS.primaryColor),
                       foregroundColor: MaterialStateProperty.all<Color>(COLORS.white),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(

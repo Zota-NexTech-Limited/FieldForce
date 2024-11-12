@@ -48,7 +48,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
                 width: SizeConfig.screenWidth,
                 decoration: BoxDecoration(
                   color: widget.selectedValue == value
-                      ? COLORS.blue
+                      ? COLORS.primaryColor
                       : Colors.white,
                   border: Border(
                     bottom: BorderSide(

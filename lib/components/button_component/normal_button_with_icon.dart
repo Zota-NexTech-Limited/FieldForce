@@ -23,7 +23,7 @@ class NormalButtonWithIcon extends StatelessWidget {
           ],
         ) ,
         style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(COLORS.blue),
+            backgroundColor: MaterialStatePropertyAll(COLORS.primaryColor),
             shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
         ),
         onPressed: onTap,

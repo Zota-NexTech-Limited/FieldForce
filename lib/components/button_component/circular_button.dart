@@ -11,7 +11,7 @@ class CircularButtonComponent extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: CircleAvatar(
-        backgroundColor: COLORS.blue,
+        backgroundColor: COLORS.primaryColor,
         radius: SizeConfig.blockWidth*6,
         child: Icon(icon,color: COLORS.white,),
       ),
