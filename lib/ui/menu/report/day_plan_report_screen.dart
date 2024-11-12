@@ -3,6 +3,7 @@ import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class DayPlanReportScreen extends StatefulWidget {
   const DayPlanReportScreen({super.key});
@@ -54,7 +55,81 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
             shrinkWrap: true,
             itemCount: 10,
             itemBuilder: (context, index) {
-            return tableCard(onTap: (){},date: "September 10, 2023",workingHrs: "50:00");
+            return tableCard(onTap: (){
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: SizeConfig.blockHeight*32,
+                    decoration: BoxDecoration(
+                      color:COLORS.white,
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(SizeConfig.blockWidth*7),topLeft: Radius.circular(SizeConfig.blockWidth*7))
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(color: COLORS.grayMedium2))
+                          ),
+                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              NormalText(fontWeight: FontWeight.w700, color: COLORS.blueShining, fontSize: 2.3,  text:"Feb 30, 2023"),
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: CircleAvatar(
+                                  radius: SizeConfig.blockWidth*3,
+                                  backgroundColor: COLORS.skyBlueMedium,
+                                  child: Icon(CupertinoIcons.multiply,size: SizeConfig.blockHeight*2
+                                    ,),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:  EdgeInsets.only(left: SizeConfig.blockWidth*7,top: SizeConfig.blockHeight*2),
+                          child: Row(
+                            children: [
+                              textComponent(title: "Start time",subTitle: "09:08:58"),
+                              textComponent(title: "End time",subTitle: "16:20:00"),
+
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:  EdgeInsets.only(left: SizeConfig.blockWidth*7,top: SizeConfig.blockHeight*2),
+                          child: Row(
+                            children: [
+                              textComponent(title: "Working Hours",subTitle: "7:00"),
+                              textComponent(title: "Store Hunt Count",subTitle: "0"),
+
+
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:  EdgeInsets.only(left: SizeConfig.blockWidth*7,top: SizeConfig.blockHeight*2),
+                          child: Row(
+                            children: [
+                              textComponent(title: "Call Count",subTitle: "0"),
+                              textComponent(title: "Total Task",subTitle: "0"),
+
+
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  );
+                },
+              );
+            },date: "September 10, 2023",workingHrs: "50:00");
           },)
           ],
         ),
@@ -81,6 +156,20 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
             Icon(Icons.remove_red_eye,color: COLORS.blueShining,size: SizeConfig.blockHeight*2.5,)
           ],
         ),
+      ),
+    );
+  }
+
+  Widget textComponent({required String title,required String subTitle,})
+  {
+    return  SizedBox(
+      width: SizeConfig.blockWidth*45,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          NormalText(fontWeight: FontWeight.w400, color: COLORS.bluePrimary.withOpacity(0.48), fontSize: 1.7,  text:title),
+          NormalText(fontWeight: FontWeight.w400, color: COLORS.bluePrimary, fontSize: 2,  text:subTitle),
+        ],
       ),
     );
   }

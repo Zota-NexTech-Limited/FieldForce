@@ -35,4 +35,5 @@ class COLORS{
   static const Color grayMedium = Color(0xff848689);
   static const Color skyBlueMedium = Color(0xffC8E5FF);
   static const Color grayMedium2 = Color(0xffD1D1D1);
+  static const Color bluePrimary = Color(0xff131A29);
 }
