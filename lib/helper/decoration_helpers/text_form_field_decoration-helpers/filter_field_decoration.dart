@@ -22,7 +22,7 @@ InputDecoration filterFieldDecoration({required String labelText,required VoidCa
 
       focusedBorder: OutlineInputBorder(
           borderSide:  BorderSide(
-            color: COLORS.blueSecondary,
+            color: COLORS.blue,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),

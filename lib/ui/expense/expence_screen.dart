@@ -267,7 +267,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                 weekendTextStyle:textStyleComponent,//weelkend text style
                                 selectedDecoration: const BoxDecoration(color:COLORS.blue,shape:BoxShape.circle ),//decoration of selected date
                                 todayDecoration:BoxDecoration(color:COLORS.blue.withOpacity(0.4),shape:BoxShape.circle ),
-                                markerDecoration: const BoxDecoration(color: COLORS.blueExtraDark,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
+                                markerDecoration: const BoxDecoration(color: COLORS.blue,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
 
 
                                 //  weekNumberTextStyle: const TextStyle(color: Colors.red),

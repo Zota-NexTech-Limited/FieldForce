@@ -23,7 +23,7 @@ class AddNewButton extends StatelessWidget {
           ],
         ) ,
         style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(COLORS.darkBlue)
+            backgroundColor: MaterialStatePropertyAll(COLORS.blue)
         ),
         onPressed: onTap,
       ),

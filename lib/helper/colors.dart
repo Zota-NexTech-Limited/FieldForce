@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 class COLORS{
   static const Color lightBlue = Color(0xffC8E5FF);
-  //static const Color blue = Color(0xff359DFF);
   static const Color blue = Color(0xff2B6BE8);
   static const Color skyBlue = Color(0xffE4F2FF);
-  static const Color darkBlue = Color(0xff277DFE);
   static const Color black = Color(0xff000000);
   static const Color white = Color(0xffffffff);
   static const Color gray = Color(0xffBCBCBC);
@@ -18,13 +16,11 @@ class COLORS{
   static const Color green = Color(0xff00AA07);
   static const Color grayLight = Color(0xffD7D7D7);
   static const Color whiteExtraLight = Color(0xffF2F2F2);
-  static const Color blueSecondary = Color(0xff1A73E8);
   static const Color blackDark = Color(0xff0D111A);
   static const Color orange = Color(0xffD9A131);
   static const Color grayDark = Color(0xff3C3C43);
   static const Color blueDark = Color(0xff222B45);
   static const Color blueExtraLight = Color(0xffCED3DE);
-  static const Color blueExtraDark = Color(0xff0095FF);
   static const Color blueLight2   = Color(0xffEBF3FE);
   static const Color grayExtraDark   = Color(0xff676767);
   static const Color grayBorder = Color(0xffB1B1B1);
