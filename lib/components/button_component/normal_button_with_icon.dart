@@ -18,8 +18,8 @@ class NormalButtonWithIcon extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            NormalText(fontWeight: FontWeight.w500, color: COLORS.white, fontSize:2.3, text: title),
-            Icon(Icons.arrow_forward,color: COLORS.white,)
+            NormalText(fontWeight: FontWeight.w500, color: COLORS.primaryChildColor, fontSize:2.3, text: title),
+            Icon(Icons.arrow_forward,color: COLORS.primaryChildColor,)
           ],
         ) ,
         style: ButtonStyle(

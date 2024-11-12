@@ -60,7 +60,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
                   value,
                   style: TextStyle(
                       color: widget.selectedValue == value
-                          ? COLORS.whiteLight
+                          ? COLORS.primaryChildColor
                           : COLORS.blueLight,
                       fontWeight: FontWeight.w400,
                       fontSize: SizeConfig.blockWidth * 4,

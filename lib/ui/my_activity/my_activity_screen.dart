@@ -150,6 +150,7 @@ bool isSelectedEventsInitialized=false;
              }
           isSelectedEventsInitialized=true;
           return  Scaffold(
+
             /*appBar:AppBar(backgroundColor: COLORS.blue,
               leading: InkWell(
                   onTap: (){
@@ -161,71 +162,75 @@ bool isSelectedEventsInitialized=false;
             body: Container(
               width: SizeConfig.screenWidth,
               height: SizeConfig.screenHeight,
-              color: COLORS.white,
+              color: COLORS.skyBlue,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  TableCalendar<Activity>(
-                    firstDay: kFirstDay,
-                    lastDay: kLastDay,
-                    focusedDay: _focusedDay,
-                    selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-                    rangeStartDay: _rangeStart,
-                    rangeEndDay: _rangeEnd,
-                    calendarFormat: _calendarFormat,
-                    rangeSelectionMode: _rangeSelectionMode,
-                    eventLoader: _getEventsForDay,
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    ///header style of cakender
-                    headerStyle:  HeaderStyle(
-                      formatButtonVisible: false,
-                      titleCentered: true,
-                      titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.blueDark,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
-                      decoration: const BoxDecoration(color: COLORS.white,),
-                      rightChevronIcon:  Container(
-                        padding: EdgeInsets.all(SizeConfig.blockWidth*1),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: COLORS.blueExtraLight),
-                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
-                          ),
-                          child: Icon(Icons.arrow_forward_ios,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
-                      leftChevronIcon: Container(
+                  Container(
+                     decoration: BoxDecoration( color: COLORS.white,borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),bottomRight:  Radius.circular(SizeConfig.blockWidth*2)) ) ,
+                    child: TableCalendar<Activity>(
+                      firstDay: kFirstDay,
+                      lastDay: kLastDay,
+                      focusedDay: _focusedDay,
+                      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                      rangeStartDay: _rangeStart,
+                      rangeEndDay: _rangeEnd,
+                      calendarFormat: _calendarFormat,
+                      rangeSelectionMode: _rangeSelectionMode,
+                      eventLoader: _getEventsForDay,
+                      startingDayOfWeek: StartingDayOfWeek.monday,
+                      ///header style of cakender
+                      headerStyle:  HeaderStyle(
+                        formatButtonVisible: false,
+                        titleCentered: true,
+                        titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.blueDark,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                        decoration: const BoxDecoration(color: COLORS.white,),
+                        rightChevronIcon:  Container(
                           padding: EdgeInsets.all(SizeConfig.blockWidth*1),
-                          decoration: BoxDecoration(
+                            decoration: BoxDecoration(
                               border: Border.all(color: COLORS.blueExtraLight),
                               borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
-                          ),
-                          child: Icon(Icons.arrow_back_ios_new,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
+                            ),
+                            child: Icon(Icons.arrow_forward_ios,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
+                        leftChevronIcon: Container(
+                            padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: COLORS.blueExtraLight),
+                                borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                            ),
+                            child: Icon(Icons.arrow_back_ios_new,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
+
+                      ),
+                      calendarStyle: CalendarStyle(
+                        outsideDaysVisible: false,
+                        defaultTextStyle:   textStyleComponent,//all exept sat and sunday
+                        weekendTextStyle:textStyleComponent,//weelkend text style
+                        selectedTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.primaryChildColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                        selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle),//decoration of selected date
+                        todayDecoration:BoxDecoration(color:COLORS.primaryColor.withOpacity(0.4),shape:BoxShape.circle ),
+                        markerDecoration:  BoxDecoration(color: COLORS.primaryColor,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
+
+
+                        //  weekNumberTextStyle: const TextStyle(color: Colors.red),
+                        //  disabledTextStyle: const TextStyle(color: Colors.blue),//which not in range
+                        // holidayTextStyle: const TextStyle(color: Colors.green),
+                        //  outsideTextStyle:const TextStyle(color: Colors.brown),
+                        //  withinRangeTextStyle: const TextStyle(color: Colors.red),
+                      ),
+                      onDaySelected: _onDaySelected,
+                      onRangeSelected: _onRangeSelected,
+                      onFormatChanged: (format) {
+                        if (_calendarFormat != format) {
+                          setState(() {
+                            _calendarFormat = format;
+                          });
+                        }
+                      },
+                      onPageChanged: (focusedDay) {
+                        _focusedDay = focusedDay;
+                      },
 
                     ),
-                    calendarStyle: CalendarStyle(
-                      outsideDaysVisible: false,
-                      defaultTextStyle:   textStyleComponent,//all exept sat and sunday
-                      weekendTextStyle:textStyleComponent,//weelkend text style
-                      selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle),//decoration of selected date
-                      todayDecoration:BoxDecoration(color:COLORS.primaryColor.withOpacity(0.4),shape:BoxShape.circle ),
-                      markerDecoration:  BoxDecoration(color: COLORS.primaryColor,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
-
-
-                      //  weekNumberTextStyle: const TextStyle(color: Colors.red),
-                      //  disabledTextStyle: const TextStyle(color: Colors.blue),//which not in range
-                      // holidayTextStyle: const TextStyle(color: Colors.green),
-                      //  outsideTextStyle:const TextStyle(color: Colors.brown),
-                      //  withinRangeTextStyle: const TextStyle(color: Colors.red),
-                    ),
-                    onDaySelected: _onDaySelected,
-                    onRangeSelected: _onRangeSelected,
-                    onFormatChanged: (format) {
-                      if (_calendarFormat != format) {
-                        setState(() {
-                          _calendarFormat = format;
-                        });
-                      }
-                    },
-                    onPageChanged: (focusedDay) {
-                      _focusedDay = focusedDay;
-                    },
-
                   ),
                   const SizedBox(height: 8.0),
                   Expanded(

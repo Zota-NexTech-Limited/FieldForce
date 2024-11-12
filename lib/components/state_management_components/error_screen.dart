@@ -59,7 +59,7 @@ class ErrorScreen extends StatelessWidget {
                   child: Text(
                     "TRY AGAIN",
                     style: TextStyle(
-                        color: COLORS.white,
+                        color: COLORS.primaryChildColor,
                         fontWeight: FontWeight.w600,
                         fontFamily:Config.fountFamilyPrimary,
                         fontSize: SizeConfig.blockWidth * 4.5),

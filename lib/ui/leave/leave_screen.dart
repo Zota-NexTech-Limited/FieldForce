@@ -229,6 +229,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                         ),
                         calendarStyle: CalendarStyle(
                           outsideDaysVisible: false,
+                          selectedTextStyle:TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.primaryChildColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500) ,
                           defaultTextStyle:   textStyleComponent,//all exept sat and sunday
                           weekendTextStyle:textStyleComponent,//weelkend text style
                           selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle),//decoration of selected date

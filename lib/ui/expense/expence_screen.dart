@@ -199,7 +199,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                 color: COLORS.primaryColor,
                                 borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
                             ),
-                            child:const  Row(
+                            child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -207,16 +207,16 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Claim") ,
-                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
+                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.primaryChildColor, fontSize: 2, text: "Total Claim") ,
+                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryChildColor, fontSize: 2, text: "₹0/Day") ,
                                   ],
                                 ),
                                 Spacer(),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Approved") ,
-                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
+                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.primaryChildColor, fontSize: 2, text: "Total Approved") ,
+                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryChildColor, fontSize: 2, text: "₹0/Day") ,
                                   ],
                                 )
                               ],
@@ -228,6 +228,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                               color: COLORS.white,
                               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),bottomRight:  Radius.circular(SizeConfig.blockWidth*2))
                             ),
+
                             child: TableCalendar<Expense>(
                               firstDay: kFirstDay,
                               lastDay: kLastDay,
@@ -263,6 +264,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                               ),
                               calendarStyle: CalendarStyle(
                                 outsideDaysVisible: false,
+                                selectedTextStyle:TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.primaryChildColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500) ,
                                 defaultTextStyle:   textStyleComponent,//all exept sat and sunday
                                 weekendTextStyle:textStyleComponent,//weelkend text style
                                 selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle ),//decoration of selected date
@@ -389,14 +391,14 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                     color: COLORS.primaryColor,
                                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))
                                 ),
-                                child:const  Row(
+                                child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
 
                                     Column(
                                       children: [
-                                        NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Claim") ,
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
+                                        NormalText(fontWeight: FontWeight.w400, color: COLORS.primaryChildColor, fontSize: 2, text: "Total Claim") ,
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryChildColor, fontSize: 2, text: "₹0/Day") ,
                                       ],
                                     ),
                                     Spacer(),

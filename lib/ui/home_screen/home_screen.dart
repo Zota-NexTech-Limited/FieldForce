@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                  children: [
                    SizedBox(width: SizeConfig.blockWidth*7,),
-                   NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3, text: "Dashboard"),
+                   NormalText(fontWeight: FontWeight.w400, color: COLORS.primaryChildColor, fontSize: 3, text: "Dashboard"),
                    InkWell(
                      onTap: (){
                        setState(() {
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                          GlobalBlocClass.authenticationBloc!.add(AuthenticationLogoutEvent());
                        });
                      },
-                       child: Icon(CupertinoIcons.power,color: COLORS.white,))
+                       child: Icon(CupertinoIcons.power,color: COLORS.primaryChildColor,))
                  ],
                ),
                SizedBox(height: SizeConfig.blockHeight*2,),

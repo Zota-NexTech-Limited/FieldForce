@@ -21,9 +21,9 @@ class AuthScreenButton extends StatelessWidget {
           backgroundColor: MaterialStatePropertyAll(COLORS.primaryColor)
 
         ),
-        child:isLoding==false? NormalText(fontWeight: FontWeight.w500, color: COLORS.white, fontSize: 2.3, text: text):
+        child:isLoding==false? NormalText(fontWeight: FontWeight.w500, color: COLORS.primaryChildColor, fontSize: 2.3, text: text):
         CircularProgressIndicator(
-          color: COLORS.white,
+          color: COLORS.primaryChildColor,
           strokeWidth: SizeConfig.blockWidth*1,
           strokeAlign:SizeConfig.blockWidth*-1,
         ),
