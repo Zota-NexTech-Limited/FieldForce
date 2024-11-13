@@ -1,12 +1,16 @@
 import 'package:fieldsales/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldsales/components/dropdown_component/dynamic_size_dropdown_button.dart';
+import 'package:fieldsales/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
+import 'package:fieldsales/components/text_form_field_component/textform_field_with_prefix_icon.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../components/text_form_field_component/search_form_field.dart';
+import '../../../helper/reuse_functions/date_picker.dart';
 class DayPlanReportScreen extends StatefulWidget {
   const DayPlanReportScreen({super.key});
 
@@ -16,7 +20,17 @@ class DayPlanReportScreen extends StatefulWidget {
 
 class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
   TextEditingController searchController=TextEditingController();
+  TextEditingController dateController=TextEditingController();
+  TextEditingController minWorkingHrsController=TextEditingController();
+  TextEditingController maxWorkingHrsController=TextEditingController();
+  TextEditingController minStartTimeController=TextEditingController();
+  TextEditingController maxStartTimeController=TextEditingController();
   FocusNode focusNode = FocusNode();
+  List <String> filterList=["Today","This Week","This Month","This Year"];
+  String? selectedFilter;
+  List <String> textFieldList=[];
+  String? selectedTextField;
+  List<String> selectedItemsList=["Respiratory support system","Senior care facility","Telehealth services","Therapy animal permitted"];
   @override
   void dispose() {
     focusNode.dispose();
@@ -43,18 +57,196 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Container(
-                       padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*1),
-                       decoration:BoxDecoration(
-                         border: Border.all(color: COLORS.cardBorder),
-                         borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
-                       ),
-                       child: Row(
-                         children: [
-                           SvgImageHelper(image: "assets/image/svg_icons/filter_icon2.svg"),
-                           SizedBox(width: SizeConfig.blockWidth*2,),
-                           NormalText(fontWeight: FontWeight.w400, color: COLORS.black.withOpacity(0.35), fontSize: 2, text: "Filter")
-                         ],
+                     InkWell(
+                       onTap: (){
+                         showModalBottomSheet<void>(
+                           context: context,
+                           builder: (BuildContext context) {
+                             return StatefulBuilder(builder: (context, setState) {
+                               return Container(
+                                 height: SizeConfig.blockHeight*80,
+                                 padding:  EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4),
+                                 decoration: BoxDecoration(
+                                     color:COLORS.white,
+                                     borderRadius: BorderRadius.only(topRight: Radius.circular(SizeConfig.blockWidth*7),topLeft: Radius.circular(SizeConfig.blockWidth*7))
+                                 ),
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     spacing(),
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                         SizedBox(
+                                           width: SizeConfig.blockWidth*30,
+                                           height: SizeConfig.blockHeight*5.5,
+                                           child: DynamicSizeDropdownButton(selectedValue: selectedFilter, list: filterList, onChanged: (value){
+                                             setState(() {
+                                               selectedFilter=value;
+                                               print("selectedFilter-----------------$selectedFilter");
+                                             });
+                                           }, hint: "Select", isError: false),
+                                         ),
+                                         SizedBox(
+                                           width: SizeConfig.blockWidth*60,
+                                           height: SizeConfig.blockHeight*5.5,
+                                           child: TextFormFieldWithPrefixIcon(
+                                               onChanged:  (value){},
+                                               controller: dateController,
+                                               hintText: "due Date",
+                                               readOnly: true,
+                                               inputType: TextInputType.text,
+                                               validator: (value){
+                                                 return null;
+                                               },
+                                               onTap: (){
+                                                 setState(() {
+                                                   showSingleDatePickerHelper(context: context,controller: dateController);
+                                                 });
+                                                 print("startDateController----------------${dateController.text}");
+
+                                               },
+                                               suffixIcon: "assets/image/svg_icons/calendar.svg"),
+                                         ),
+                                       ],
+                                     ),
+                                     Divider(color: COLORS.gray.withOpacity(0.2),),
+                                     NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Working Hours"),
+                                     spacing(),
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                         SizedBox(
+                                           width: SizeConfig.blockWidth*44,
+                                           height: SizeConfig.blockHeight*5.5,
+                                           child: TextFormFieldWithPrefixIcon(
+                                               onChanged:  (value){},
+                                               controller: minWorkingHrsController,
+                                               hintText: "Min",
+                                               readOnly: false,
+                                               inputType: TextInputType.text,
+                                               validator: (value){
+                                                 return null;
+                                               },
+                                               onTap: (){
+
+                                               },
+                                               suffixIcon: ""),
+                                         ),
+                                         SizedBox(
+                                           width: SizeConfig.blockWidth*44,
+                                           height: SizeConfig.blockHeight*5.5,
+                                           child: TextFormFieldWithPrefixIcon(
+                                               onChanged:  (value){},
+                                               controller: maxWorkingHrsController,
+                                               hintText: "Max",
+                                               readOnly: false,
+                                               inputType: TextInputType.text,
+                                               validator: (value){
+                                                 return null;
+                                               },
+                                               onTap: (){
+
+                                               },
+                                               suffixIcon: ""),
+                                         ),
+                                       ],
+                                     ),
+                                     spacing(),
+                                     NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Start Time"),
+                                     spacing(),
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                         SizedBox(
+                                           width: SizeConfig.blockWidth*44,
+                                           height: SizeConfig.blockHeight*5.5,
+                                           child: TextFormFieldWithPrefixIcon(
+                                               onChanged:  (value){},
+                                               controller: minStartTimeController,
+                                               hintText: "Min",
+                                               readOnly: false,
+                                               inputType: TextInputType.text,
+                                               validator: (value){
+                                                 return null;
+                                               },
+                                               onTap: (){
+
+                                               },
+                                               suffixIcon: ""),
+                                         ),
+                                         SizedBox(
+                                           width: SizeConfig.blockWidth*44,
+                                           height: SizeConfig.blockHeight*5.5,
+                                           child: TextFormFieldWithPrefixIcon(
+                                               onChanged:  (value){},
+                                               controller: maxStartTimeController,
+                                               hintText: "Max",
+                                               readOnly: false,
+                                               inputType: TextInputType.text,
+                                               validator: (value){
+                                                 return null;
+                                               },
+                                               onTap: (){
+
+                                               },
+                                               suffixIcon: ""),
+                                         ),
+                                       ],
+                                     ),
+                                     spacing(),
+                                     const NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Text Field"),
+                                     spacing(),
+                                     SizedBox(
+                                       width: SizeConfig.screenWidth,
+                                       height: SizeConfig.blockHeight*5.5,
+                                       child: DynamicSizeDropdownButton(selectedValue: selectedTextField, list: textFieldList, onChanged: (value){
+                                         setState(() {
+                                           selectedTextField=value;
+                                         });
+                                       }, hint: "Select", isError: false),
+                                     ),
+                                     spacing(),
+                                     const NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Multi Select"),
+                                     spacing(),
+                                     Wrap(
+                                       spacing: SizeConfig.blockWidth*2,
+                                       runSpacing: SizeConfig.blockHeight*1,
+                                       children: [
+                                         
+                                          for(var item in selectedItemsList)...[
+                                         Container(
+                                           padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*0.5),
+                                           decoration: BoxDecoration(
+                                             color: COLORS.gray.withOpacity(0.4),
+                                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4)),
+                                           ),
+                                           child:NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.7,  text:item),
+                                         )
+                                       ]
+                                       ],
+                                     ),
+
+                                   ],
+                                 ),
+                               );
+                             },);
+                           },
+                         );
+                       },
+                       child: Container(
+                         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*1),
+                         decoration:BoxDecoration(
+                           border: Border.all(color: COLORS.cardBorder),
+                           borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                         ),
+                         child: Row(
+                           children: [
+                             SvgImageHelper(image: "assets/image/svg_icons/filter_icon2.svg"),
+                             SizedBox(width: SizeConfig.blockWidth*2,),
+                             NormalText(fontWeight: FontWeight.w400, color: COLORS.black.withOpacity(0.35), fontSize: 2, text: "Filter")
+                           ],
+                         ),
                        ),
                      ),
                     SizedBox(
@@ -75,7 +267,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: SizeConfig.blockHeight*2,),
+              spacing(),
             Row(
               children: [
                 SizedBox(width: SizeConfig.blockWidth*3,),
@@ -222,5 +414,10 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
         ],
       ),
     );
+  }
+
+  Widget spacing()
+  {
+    return  SizedBox(height: SizeConfig.blockHeight*2,);
   }
 }
