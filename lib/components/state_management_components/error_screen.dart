@@ -12,7 +12,7 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: COLORS.skyBlue,
+      backgroundColor: COLORS.backgroundColor,
       body: SafeArea(
         child: Container(
           height: SizeConfig.screenHeight,
@@ -59,7 +59,7 @@ class ErrorScreen extends StatelessWidget {
                   child: Text(
                     "TRY AGAIN",
                     style: TextStyle(
-                        color: COLORS.primaryChildColor,
+                        color: COLORS.onPrimaryColor,
                         fontWeight: FontWeight.w600,
                         fontFamily:Config.fountFamilyPrimary,
                         fontSize: SizeConfig.blockWidth * 4.5),

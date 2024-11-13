@@ -44,13 +44,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         //drawer:const DrawerScreen(),
-        backgroundColor: COLORS.skyBlue,
+        backgroundColor: COLORS.backgroundColor,
         appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*13), child: Container(
           width: SizeConfig.screenWidth,
-          color: COLORS.skyBlue,
+          color: COLORS.backgroundColor,
           child: Container(
             //margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
-            color: COLORS.lightBlue,
+            color: COLORS.appBarColor,
             padding: EdgeInsets.all(SizeConfig.blockHeight*3),
             child: Row(
               children: [
@@ -123,7 +123,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     return Container(
       height: SizeConfig.blockHeight*7.9,
       width: SizeConfig.blockWidth*34,
-      color:_selectedIndex==index?COLORS.lightBlue:COLORS.white,
+      color:_selectedIndex==index?COLORS.appBarColor:COLORS.white,
       padding: EdgeInsets.symmetric(vertical: SizeConfig.blockWidth*1.5),
       child: Column(
         children: [
@@ -135,7 +135,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
           ),
          SizedBox(height: SizeConfig.blockHeight*1,),
-          NormalText(fontWeight: FontWeight.w500, color: _selectedIndex==index?COLORS.primaryColor:COLORS.blackDark, fontSize: 1.5, text: label)
+          NormalText(fontWeight: FontWeight.w500, color: _selectedIndex==index?COLORS.primaryColor:COLORS.black, fontSize: 1.5, text: label)
         ],
       ),
     );

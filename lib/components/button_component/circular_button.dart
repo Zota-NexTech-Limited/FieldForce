@@ -13,7 +13,7 @@ class CircularButtonComponent extends StatelessWidget {
       child: CircleAvatar(
         backgroundColor: COLORS.primaryColor,
         radius: SizeConfig.blockWidth*6,
-        child: Icon(icon,color: COLORS.primaryChildColor,),
+        child: Icon(icon,color: COLORS.onPrimaryColor,),
       ),
     );
   }

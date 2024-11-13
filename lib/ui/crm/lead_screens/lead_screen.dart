@@ -62,7 +62,7 @@ class _LeadScreenState extends State<LeadScreen> {
                  {
                    leadList=state.leadList;
                    return Scaffold(
-                     backgroundColor: COLORS.skyBlue,
+                     backgroundColor: COLORS.backgroundColor,
                      body: Stack(
                        children: [
                          Container(
@@ -113,7 +113,7 @@ class _LeadScreenState extends State<LeadScreen> {
                                      background: Container(
                                          margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
                                          decoration: BoxDecoration(
-                                             color:COLORS.orange,
+                                             color:COLORS.yellow,
                                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
                                          ),
                                          // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
@@ -305,7 +305,7 @@ class _LeadScreenState extends State<LeadScreen> {
           child: Container(
               padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*1),
               decoration: BoxDecoration(
-                  color: fromDate.isNotEmpty?COLORS.skyBlue:COLORS.white,
+                  color: fromDate.isNotEmpty?COLORS.backgroundColor:COLORS.white,
                   borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1))
               ),
 
@@ -316,7 +316,7 @@ class _LeadScreenState extends State<LeadScreen> {
           child: Container(
               padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*1),
               decoration: BoxDecoration(
-                  color: toDate.isNotEmpty?COLORS.skyBlue:COLORS.white,
+                  color: toDate.isNotEmpty?COLORS.backgroundColor:COLORS.white,
                   borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1))
               ),
 
@@ -354,7 +354,7 @@ class _LeadScreenState extends State<LeadScreen> {
   {
     return InkWell(
       onTap: cardTap,
-      splashColor: COLORS.skyBlue,
+      splashColor: COLORS.backgroundColor,
       child: Container(
         width: SizeConfig.screenWidth,
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
@@ -370,7 +370,7 @@ class _LeadScreenState extends State<LeadScreen> {
             ),
           ],*/
             color: COLORS.white,
-            border: Border.all(color: COLORS.whiteBorder),
+            border: Border.all(color: COLORS.cardBorder),
             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
         ),
         child:Column(
@@ -380,10 +380,10 @@ class _LeadScreenState extends State<LeadScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: name),
-                  NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize:1.8, text: "#$enquiry"),
+                  NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$enquiry"),
                 ],
               ),
-              Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize: 1.8, text: date)),
+              Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: date)),
               const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -392,7 +392,7 @@ class _LeadScreenState extends State<LeadScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize: 1.8, text: "Contact Name"),
+                      NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact Name"),
                       NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "$contactName"),
 
                     ],

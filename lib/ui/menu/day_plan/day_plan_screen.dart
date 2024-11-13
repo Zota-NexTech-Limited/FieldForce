@@ -53,9 +53,9 @@ class _DayPlanScreenState extends State<DayPlanScreen> {
                    margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1),
                    padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
                    decoration: BoxDecoration(
-                       color: selectedIndexList.contains(index)?COLORS.skyBlueMedium:COLORS.white,
+                       color: selectedIndexList.contains(index)?COLORS.backgroundColor:COLORS.white,
                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                       border: Border.all(color: selectedIndexList.contains(index)?COLORS.primaryColor: COLORS.whiteBorder)
+                       border: Border.all(color: selectedIndexList.contains(index)?COLORS.primaryColor: COLORS.cardBorder)
                    ),
                    child: Row(
                      children: [
@@ -64,7 +64,7 @@ class _DayPlanScreenState extends State<DayPlanScreen> {
                          height: SizeConfig.blockHeight*6,
                          width: SizeConfig.blockWidth*11,
                          decoration: BoxDecoration(
-                             color: COLORS.whiteBorder,
+                             color: COLORS.cardBorder,
                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*10))
                          ),
 
@@ -75,8 +75,8 @@ class _DayPlanScreenState extends State<DayPlanScreen> {
                        Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
-                           NormalText(fontWeight: FontWeight.w700, color: COLORS.blueShining, fontSize: 2,  text: "Alice Johnson"),
-                           NormalText(fontWeight: FontWeight.w400, color: COLORS.grayMedium, fontSize: 1.6,  text: "Assistant Manager"),
+                           NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2,  text: "Alice Johnson"),
+                           NormalText(fontWeight: FontWeight.w400, color: COLORS.gray, fontSize: 1.6,  text: "Assistant Manager"),
 
                          ],
                        ),

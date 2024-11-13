@@ -45,7 +45,7 @@ class _FilterTextFormFieldState extends State<FilterTextFormField> {
       readOnly: widget.isReadOnly,
       controller: controller,
       style: TextStyle(
-          color: COLORS.blackDark,
+          color: COLORS.black,
           fontFamily: "Inter",
           fontWeight: FontWeight.w500,
           letterSpacing: 0.3,

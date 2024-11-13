@@ -34,13 +34,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                    border: Border.all(color: COLORS.grayMedium2),
+                    border: Border.all(color: COLORS.gray),
 
                   ),
                   child: Column(
                     children: [
-                      buttonText(title:  "Retails Sales v/s Purchase Report",dividerColor:COLORS.grayMedium2,onTap: (){}),
-                      buttonText(title:  "Stocklist Sales v/s Purchase Report",dividerColor:COLORS.grayMedium2 ,onTap: (){}),
+                      buttonText(title:  "Retails Sales v/s Purchase Report",dividerColor:COLORS.gray,onTap: (){}),
+                      buttonText(title:  "Stocklist Sales v/s Purchase Report",dividerColor:COLORS.gray ,onTap: (){}),
                       buttonText(title:  "Day Plan Report",dividerColor:COLORS.white ,onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>DayPlanReportScreen()));
                       }),
@@ -54,13 +54,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                    border: Border.all(color: COLORS.grayMedium2),
+                    border: Border.all(color: COLORS.gray),
 
                   ),
                   child: Column(
                     children: [
-                      buttonText(title:  "Retails Sales v/s Purchase Report",dividerColor:COLORS.grayMedium2 ,onTap: (){}),
-                      buttonText(title:  "Stocklist Sales v/s Purchase Report",dividerColor:COLORS.grayMedium2 ,onTap: (){}),
+                      buttonText(title:  "Retails Sales v/s Purchase Report",dividerColor:COLORS.gray ,onTap: (){}),
+                      buttonText(title:  "Stocklist Sales v/s Purchase Report",dividerColor:COLORS.gray ,onTap: (){}),
                       buttonText(title:  "Day Plan Report",dividerColor:COLORS.white,onTap: (){} ),
 
                     ],
@@ -85,8 +85,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            NormalText(fontWeight: FontWeight.w400, color: COLORS.blueShining, fontSize: 1.7,  text:title),
-            Icon(Icons.arrow_forward_ios_sharp,color: COLORS.blueShining,size: SizeConfig.blockHeight*2.5,)
+            NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.7,  text:title),
+            Icon(Icons.arrow_forward_ios_sharp,color: COLORS.black,size: SizeConfig.blockHeight*2.5,)
           ],
         ),
       ),

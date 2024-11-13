@@ -157,10 +157,10 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
               return  Scaffold(
                 appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*13), child: Container(
                   width: SizeConfig.screenWidth,
-                  color: COLORS.skyBlue,
+                  color: COLORS.backgroundColor,
                   child: Container(
                     //margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
-                    color: COLORS.lightBlue,
+                    color: COLORS.appBarColor,
                     padding: EdgeInsets.all(SizeConfig.blockHeight*2),
                     child: Row(
                       children: [
@@ -186,7 +186,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                     Container(
                       width: SizeConfig.screenWidth,
                       height: SizeConfig.screenHeight,
-                      color: COLORS.skyBlue,
+                      color: COLORS.backgroundColor,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -207,16 +207,16 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.primaryChildColor, fontSize: 2, text: "Total Claim") ,
-                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryChildColor, fontSize: 2, text: "₹0/Day") ,
+                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 2, text: "Total Claim") ,
+                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.onPrimaryColor, fontSize: 2, text: "₹0/Day") ,
                                   ],
                                 ),
                                 Spacer(),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.primaryChildColor, fontSize: 2, text: "Total Approved") ,
-                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryChildColor, fontSize: 2, text: "₹0/Day") ,
+                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 2, text: "Total Approved") ,
+                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.onPrimaryColor, fontSize: 2, text: "₹0/Day") ,
                                   ],
                                 )
                               ],
@@ -244,7 +244,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                               headerStyle:  HeaderStyle(
                                 formatButtonVisible: false,
                                 titleCentered: true,
-                                titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.blueDark,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                                titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.iconColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
                                 decoration: const BoxDecoration(color: COLORS.white,),
                                 rightChevronIcon:  Container(
                                     padding: EdgeInsets.all(SizeConfig.blockWidth*1),
@@ -252,19 +252,19 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                         border: Border.all(color: COLORS.blueExtraLight),
                                         borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
                                     ),
-                                    child: Icon(Icons.arrow_forward_ios,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
+                                    child: Icon(Icons.arrow_forward_ios,color:COLORS.iconColor,size: SizeConfig.blockHeight*2.5,)),
                                 leftChevronIcon: Container(
                                     padding: EdgeInsets.all(SizeConfig.blockWidth*1),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: COLORS.blueExtraLight),
                                         borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
                                     ),
-                                    child: Icon(Icons.arrow_back_ios_new,color:COLORS.blueDark,size: SizeConfig.blockHeight*2.5,)),
+                                    child: Icon(Icons.arrow_back_ios_new,color:COLORS.iconColor,size: SizeConfig.blockHeight*2.5,)),
 
                               ),
                               calendarStyle: CalendarStyle(
                                 outsideDaysVisible: false,
-                                selectedTextStyle:TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.primaryChildColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500) ,
+                                selectedTextStyle:TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.onPrimaryColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500) ,
                                 defaultTextStyle:   textStyleComponent,//all exept sat and sunday
                                 weekendTextStyle:textStyleComponent,//weelkend text style
                                 selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle ),//decoration of selected date
@@ -319,7 +319,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                         offset: Offset(0, 1),
                                       ),
                                     ],*/
-                                          border: Border.all(color: COLORS.whiteBorder),
+                                          border: Border.all(color: COLORS.cardBorder),
                                           color: COLORS.white,
                                           borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
                                       ),
@@ -397,8 +397,8 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
 
                                     Column(
                                       children: [
-                                        NormalText(fontWeight: FontWeight.w400, color: COLORS.primaryChildColor, fontSize: 2, text: "Total Claim") ,
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryChildColor, fontSize: 2, text: "₹0/Day") ,
+                                        NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 2, text: "Total Claim") ,
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.onPrimaryColor, fontSize: 2, text: "₹0/Day") ,
                                       ],
                                     ),
                                     Spacer(),

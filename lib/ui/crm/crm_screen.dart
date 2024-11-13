@@ -44,7 +44,7 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: COLORS.skyBlue,
+          backgroundColor: COLORS.backgroundColor,
           body: Column(
             children: [
               SizedBox(height: SizeConfig.blockHeight*2,),
@@ -62,7 +62,7 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
                   indicatorSize: TabBarIndicatorSize.tab,
                   padding: EdgeInsets.all(SizeConfig.blockWidth * 0),
                   labelPadding: EdgeInsets.all(SizeConfig.blockWidth * 0),
-                  unselectedLabelColor: COLORS.grayDark.withOpacity(0.6),
+                  unselectedLabelColor: COLORS.black.withOpacity(0.5).withOpacity(0.6),
                   onTap: (value){
                     setState(() {
 

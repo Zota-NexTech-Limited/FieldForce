@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                  children: [
                    SizedBox(width: SizeConfig.blockWidth*7,),
-                   NormalText(fontWeight: FontWeight.w400, color: COLORS.primaryChildColor, fontSize: 3, text: "Dashboard"),
+                   NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 3, text: "Dashboard"),
                    InkWell(
                      onTap: (){
                        setState(() {
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                          GlobalBlocClass.authenticationBloc!.add(AuthenticationLogoutEvent());
                        });
                      },
-                       child: Icon(CupertinoIcons.power,color: COLORS.primaryChildColor,))
+                       child: Icon(CupertinoIcons.power,color: COLORS.onPrimaryColor,))
                  ],
                ),
                SizedBox(height: SizeConfig.blockHeight*2,),
@@ -64,9 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
                  child:Center(child: NormalText(text: Config.userName[0].toUpperCase(),color: COLORS.white,fontWeight:FontWeight.w600,fontSize: 4,))//SvgImageHelper(image: "assets/image/svg_icons/profile_icon.svg"),
                ),
                SizedBox(height: SizeConfig.blockHeight*2,),
-               NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3.3, text: Config.userName.toUpperCase()),
+               NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 3.3, text: Config.userName.toUpperCase()),
                SizedBox(height: SizeConfig.blockHeight*1,),
-               NormalText(fontWeight: FontWeight.w300, color: COLORS.white, fontSize: 2, text: "15-07-2001"),
+               NormalText(fontWeight: FontWeight.w300, color: COLORS.onPrimaryColor, fontSize: 2, text: "15-07-2001"),
 
              ],
            ),

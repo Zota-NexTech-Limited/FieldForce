@@ -92,7 +92,7 @@ class _MenuScreenState extends State<MenuScreen> {
         margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*2),
         padding:EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*1.5) ,
         decoration: BoxDecoration(
-            color:selectedTab==title?COLORS.blueLight2:COLORS.white,
+            color:selectedTab==title?COLORS.backgroundColor:COLORS.white,
             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
 
         ),
@@ -103,7 +103,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 width: SizeConfig.blockWidth*6,
                 child: SvgImageHelper(image:icon)),
             SizedBox(width: SizeConfig.blockWidth*2,),
-            NormalText(fontWeight: FontWeight.w500, color: COLORS.grayDark, fontSize: 2.2, text: title)
+            NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 2.2, text: title)
           ],
         ),
       ),

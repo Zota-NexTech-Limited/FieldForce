@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 AppBar appBarComponent({required String title,required BuildContext context}){
-  return AppBar(backgroundColor: COLORS.skyBlue,
+  return AppBar(backgroundColor: COLORS.backgroundColor,
     titleSpacing: SizeConfig.blockWidth*1,
     leading: InkWell(
       onTap: (){

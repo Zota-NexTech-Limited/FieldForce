@@ -43,7 +43,7 @@ InputDecoration textFieldDecorationWithSuffixIcon({required String hint,required
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
       hintText: hint,
       hintStyle: TextStyle(
-          color: COLORS.whiteMedium,
+          color: COLORS.hintTextColor,
           fontWeight: FontWeight.w400,
           fontFamily: Config.fountFamilyPrimary,
           fontSize: SizeConfig.blockWidth * 3.5),

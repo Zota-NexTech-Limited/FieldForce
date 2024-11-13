@@ -15,11 +15,11 @@ class AddNewButton extends StatelessWidget {
       child: ElevatedButton(
         child:Row(
           children: [
-            Icon(Icons.add,color: COLORS.primaryChildColor,size: SizeConfig.blockHeight*2.7,),
+            Icon(Icons.add,color: COLORS.onPrimaryColor,size: SizeConfig.blockHeight*2.7,),
             SizedBox(
               width: SizeConfig.blockWidth*2,
             ),
-            NormalText(fontWeight: FontWeight.w500, color: COLORS.primaryChildColor, fontSize:2, text: title)
+            NormalText(fontWeight: FontWeight.w500, color: COLORS.onPrimaryColor, fontSize:2, text: title)
           ],
         ) ,
         style: ButtonStyle(

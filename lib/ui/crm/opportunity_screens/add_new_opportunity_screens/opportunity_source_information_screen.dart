@@ -331,11 +331,11 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                       options: competitorsList,
                       //maxItems: 4,
                       singleSelectItemStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
-                      chipConfig: const ChipConfig(
+                      chipConfig:  ChipConfig(
                         radius:6 ,
 
                         wrapType: WrapType.scroll,
-                        backgroundColor: COLORS.whiteExtraLight,
+                        backgroundColor: COLORS.black.withOpacity(0.1),
                         labelColor: COLORS.black,
                         deleteIcon: const Icon(CupertinoIcons.multiply,color: COLORS.black,),
                       ),

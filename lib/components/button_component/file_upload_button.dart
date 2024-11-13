@@ -26,7 +26,7 @@ class FileUploadButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 2.2, text: leadingText),
-            NormalText(fontWeight: FontWeight.w500, color: COLORS.blackMedium, fontSize:2.3, text: actionText),
+            NormalText(fontWeight: FontWeight.w500, color: COLORS.iconColor, fontSize:2.3, text: actionText),
           ],
         ),
       ),

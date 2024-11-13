@@ -27,6 +27,25 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
 
         child:Column(
           children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
+              child: Row(
+                children: [
+                   Container(
+                     padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*1),
+                     decoration:BoxDecoration(
+                       border: Border.all(color: COLORS.cardBorder),
+                       borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                     ),
+                     child: Row(
+                       children: [
+                        SvgImageHelper(image: "assets/image/svg_icons/filter_icon2.svg")
+                       ],
+                     ),
+                   ),
+                ],
+              ),
+            ),
             SizedBox(height: SizeConfig.blockHeight*2,),
           Row(
             children: [
@@ -35,7 +54,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                 width: SizeConfig.blockWidth*55,
                 child: Row(
                   children: [
-                    NormalText(fontWeight: FontWeight.w500, color: COLORS.blueShining, fontSize: 1.8,  text:"Punch Date"),
+                    NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.8,  text:"Punch Date"),
                     SizedBox(width: SizeConfig.blockWidth*2,),
                     SvgImageHelper(image: "assets/image/svg_icons/arrow_up_down.svg")
                   ],
@@ -43,7 +62,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
               ),
               Row(
                 children: [
-                  NormalText(fontWeight: FontWeight.w500, color: COLORS.blueShining, fontSize: 1.8,  text:"Punch Date"),
+                  NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.8,  text:"Punch Date"),
                   SizedBox(width: SizeConfig.blockWidth*2,),
                   SvgImageHelper(image: "assets/image/svg_icons/arrow_up_down.svg")
                 ],
@@ -70,20 +89,20 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            border: Border(bottom: BorderSide(color: COLORS.grayMedium2))
+                            border: Border(bottom: BorderSide(color: COLORS.gray))
                           ),
                             padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              NormalText(fontWeight: FontWeight.w700, color: COLORS.blueShining, fontSize: 2.3,  text:"Feb 30, 2023"),
+                              NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.3,  text:"Feb 30, 2023"),
                               InkWell(
                                 onTap: (){
                                   Navigator.pop(context);
                                 },
                                 child: CircleAvatar(
                                   radius: SizeConfig.blockWidth*3,
-                                  backgroundColor: COLORS.skyBlueMedium,
+                                  backgroundColor: COLORS.backgroundColor,
                                   child: Icon(CupertinoIcons.multiply,size: SizeConfig.blockHeight*2
                                     ,),
                                 ),
@@ -143,17 +162,17 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
       child: Container(
         padding:  EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: COLORS.whiteExtraLight))
+            border: Border(bottom: BorderSide(color: COLORS.gray.withOpacity(0.3)))
         ),
         child: Row(
          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
               width: SizeConfig.blockWidth*55,
-                child: NormalText(fontWeight: FontWeight.w400, color: COLORS.blueShining, fontSize: 1.7,  text:date)),
-            NormalText(fontWeight: FontWeight.w400, color: COLORS.blueShining, fontSize: 1.7,  text:workingHrs),
+                child: NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.7,  text:date)),
+            NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.7,  text:workingHrs),
             Spacer(),
-            Icon(Icons.remove_red_eye,color: COLORS.blueShining,size: SizeConfig.blockHeight*2.5,)
+            Icon(Icons.remove_red_eye,color: COLORS.black,size: SizeConfig.blockHeight*2.5,)
           ],
         ),
       ),
@@ -167,8 +186,8 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          NormalText(fontWeight: FontWeight.w400, color: COLORS.bluePrimary.withOpacity(0.48), fontSize: 1.7,  text:title),
-          NormalText(fontWeight: FontWeight.w400, color: COLORS.bluePrimary, fontSize: 2,  text:subTitle),
+          NormalText(fontWeight: FontWeight.w400, color: COLORS.black.withOpacity(0.48), fontSize: 1.7,  text:title),
+          NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:subTitle),
         ],
       ),
     );

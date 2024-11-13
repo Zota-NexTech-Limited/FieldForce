@@ -1,37 +1,17 @@
 import 'package:flutter/material.dart';
 class COLORS{
   static  Color primaryColor =const Color(0xff277DFE);
-  static  Color primaryChildColor =const Color(0xffffffff);
-
-  static const Color lightBlue = Color(0xffC8E5FF);
-  static const Color skyBlue = Color(0xffE4F2FF);
+  static  Color onPrimaryColor =const Color(0xffffffff);
+  static  Color appBarColor = Color(0xffC8E5FF);
+  static  Color backgroundColor = Color(0xffE4F2FF);
   static const Color black = Color(0xff000000);
   static const Color white = Color(0xffffffff);
+  static const Color cardBorder = Color(0xffE4E4E4);
   static const Color gray = Color(0xffBCBCBC);
   static const Color red = Color(0xffff0000);
-  static const Color blackMedium = Color(0xff323D5A);
-  static const Color whiteMedium = Color(0xffBCC7CE);
-  static const Color whiteLight = Color(0xffEDF4F9);
-  static const Color blueLight = Color(0xff687284);
-  static const Color whiteDark = Color(0xffFFFFFF);
-  static const Color yellow = Color(0xffFFFF00);
   static const Color green = Color(0xff00AA07);
-  static const Color grayLight = Color(0xffD7D7D7);
-  static const Color whiteExtraLight = Color(0xffF2F2F2);
-  static const Color blackDark = Color(0xff0D111A);
-  static const Color orange = Color(0xffD9A131);
-  static const Color grayDark = Color(0xff3C3C43);
-  static const Color blueDark = Color(0xff222B45);
+  static const Color yellow = Color(0xffFFFF00);
+  static const Color iconColor = Color(0xff222B45);
+  static const Color hintTextColor = Color(0xffBCC7CE);
   static const Color blueExtraLight = Color(0xffCED3DE);
-  static const Color blueLight2   = Color(0xffEBF3FE);
-  static const Color grayExtraDark   = Color(0xff676767);
-  static const Color grayBorder = Color(0xffB1B1B1);
-  static const Color whiteExtraDark = Color(0xffF7F7F7);
-  static const Color whiteBorder = Color(0xffE4E4E4);
-  static const Color grayExtraLight = Color(0xff9E9E9E);
-  static const Color blueShining = Color(0xff010101);
-  static const Color grayMedium = Color(0xff848689);
-  static const Color skyBlueMedium = Color(0xffC8E5FF);
-  static const Color grayMedium2 = Color(0xffD1D1D1);
-  static const Color bluePrimary = Color(0xff131A29);
 }

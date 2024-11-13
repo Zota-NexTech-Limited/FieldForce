@@ -66,7 +66,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                   );
                 },
                 child: Scaffold(
-                  backgroundColor: COLORS.skyBlue,
+                  backgroundColor: COLORS.backgroundColor,
                   body: Stack(
                     children: [
                       Container(
@@ -100,7 +100,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                               background: Container(
                                   margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
                                   decoration: BoxDecoration(
-                                      color:COLORS.orange,
+                                      color:COLORS.yellow,
                                       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
                                   ),
                                   // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
@@ -218,7 +218,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
   {
     return InkWell(
       onTap: cardTap,
-      splashColor: COLORS.skyBlue,
+      splashColor: COLORS.backgroundColor,
       child: Container(
         width: SizeConfig.screenWidth,
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
@@ -233,7 +233,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
               offset: Offset(0, 1),
             ),
           ],*/
-            border: Border.all(color: COLORS.whiteBorder),
+            border: Border.all(color: COLORS.cardBorder),
             color: COLORS.white,
             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
         ),
@@ -244,10 +244,10 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: name),
-                  NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize:1.8, text: "#$source"),
+                  NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$source"),
                 ],
               ),
-              Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize: 1.8, text: stage)),
+              Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: stage)),
               const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -256,7 +256,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      NormalText(fontWeight: FontWeight.w500, color: COLORS.grayLight, fontSize: 1.8, text: "Contact"),
+                      NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact"),
                       NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "$contact"),
 
                     ],

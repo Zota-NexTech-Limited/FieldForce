@@ -12,7 +12,7 @@ InputDecoration filterFieldDecoration({required String labelText,required VoidCa
       fillColor: COLORS.white,
       isDense: true,
       hintText:labelText ,
-      hintStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.3,color:COLORS.grayExtraLight,fontWeight: FontWeight.w400,fontFamily: "Manrope"),
+      hintStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.3,color:COLORS.gray,fontWeight: FontWeight.w400,fontFamily: "Manrope"),
       contentPadding: EdgeInsets.only(
         top: SizeConfig.blockHeight * 1.8,
         bottom: SizeConfig.blockHeight * 1.8,
@@ -28,7 +28,7 @@ InputDecoration filterFieldDecoration({required String labelText,required VoidCa
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
       enabledBorder: OutlineInputBorder(
           borderSide:  BorderSide(
-            color: COLORS.whiteBorder,
+            color: COLORS.cardBorder,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),

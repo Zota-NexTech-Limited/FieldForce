@@ -40,7 +40,7 @@ class _NormalTextFormFieldState extends State<NormalTextFormField> {
       readOnly:widget.readOnly ,
       controller: controller,
       style: TextStyle(
-          color: COLORS.blackMedium,
+          color: COLORS.iconColor,
           fontFamily: Config.fountFamilyPrimary,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.3,

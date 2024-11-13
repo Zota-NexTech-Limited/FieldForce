@@ -46,7 +46,7 @@ class _TextFormFieldWithSuffixIconState extends State<TextFormFieldWithSuffixIco
       controller: controller,
   readOnly: widget.readOnly,
       style: TextStyle(
-          color: COLORS.blackMedium,
+          color: COLORS.iconColor,
           fontFamily: Config.fountFamilyPrimary,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.3,
