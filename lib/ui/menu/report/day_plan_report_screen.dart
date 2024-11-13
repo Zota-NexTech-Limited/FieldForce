@@ -106,7 +106,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                                                },
                                                onTap: (){
                                                  setState(() {
-                                                   showSingleDatePickerHelper(context: context,controller: dateController);
+                                                   showDateRangePickerHelper(context: context,controller: dateController);
                                                  });
                                                  print("startDateController----------------${dateController.text}");
 
