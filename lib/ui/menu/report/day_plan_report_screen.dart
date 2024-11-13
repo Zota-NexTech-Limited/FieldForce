@@ -8,6 +8,7 @@ import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../../components/text_form_field_component/search_form_field.dart';
 import '../../../helper/reuse_functions/date_picker.dart';
@@ -25,6 +26,10 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
   TextEditingController maxWorkingHrsController=TextEditingController();
   TextEditingController minStartTimeController=TextEditingController();
   TextEditingController maxStartTimeController=TextEditingController();
+  double minWorkingHrs=0.0;
+  double maxWorkingHrs=0.0;
+  double minStartTime=0.0;
+  double maxStartTime=0.0;
   FocusNode focusNode = FocusNode();
   List <String> filterList=["Today","This Week","This Month","This Year"];
   String? selectedFilter;
@@ -64,14 +69,14 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                            builder: (BuildContext context) {
                              return StatefulBuilder(builder: (context, setState) {
                                return Container(
-                                 height: SizeConfig.blockHeight*80,
-                                 padding:  EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4),
+                                  width: SizeConfig.screenWidth,
+                                 padding:  EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
                                  decoration: BoxDecoration(
                                      color:COLORS.white,
                                      borderRadius: BorderRadius.only(topRight: Radius.circular(SizeConfig.blockWidth*7),topLeft: Radius.circular(SizeConfig.blockWidth*7))
                                  ),
-                                 child: Column(
-                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                 child: ListView(
+
                                    children: [
                                      spacing(),
                                      Row(
@@ -153,6 +158,35 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                                        ],
                                      ),
                                      spacing(),
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                         NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryColor, fontSize: 2,  text:minWorkingHrs.toString()),
+                                         NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryColor, fontSize: 2,  text:maxWorkingHrs.toString()),
+                                     ],),
+                                     SfRangeSlider(
+                                       min: 0,
+                                       max: 3200,
+                                       values: SfRangeValues(minWorkingHrs, maxWorkingHrs),
+                                       interval: 1,
+                                       showTicks: false,
+                                       showLabels: false,
+                                       enableTooltip: false,
+                                       shouldAlwaysShowTooltip: false,
+                                       stepSize: 1,
+                                       minorTicksPerInterval: 1,
+                                       activeColor: COLORS.primaryColor,
+                                       onChanged: (dynamic value){
+                                         setState(() {
+                                           minWorkingHrs = value.start;
+                                           maxWorkingHrs = value.end;
+                                           print("minWorkingHrs---------------------$minWorkingHrs");
+                                           print("maxWorkingHrs---------------------$maxWorkingHrs");
+                                         });
+                                       },
+
+                                     ),
+                                     spacing(),
                                      NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Start Time"),
                                      spacing(),
                                      Row(
@@ -195,6 +229,35 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                                        ],
                                      ),
                                      spacing(),
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                         NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryColor, fontSize: 2,  text:minStartTime.toString()),
+                                         NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryColor, fontSize: 2,  text:maxStartTime.toString()),
+                                       ],),
+                                     SfRangeSlider(
+                                       min: 0,
+                                       max: 3200,
+                                       values: SfRangeValues(minStartTime, maxStartTime),
+                                       interval: 1,
+                                       showTicks: false,
+                                       showLabels: false,
+                                       enableTooltip: false,
+                                       shouldAlwaysShowTooltip: false,
+                                       stepSize: 1,
+                                       minorTicksPerInterval: 1,
+                                       activeColor: COLORS.primaryColor,
+                                       onChanged: (dynamic value){
+                                         setState(() {
+                                           minStartTime = value.start;
+                                           maxStartTime = value.end;
+                                           print("minWorkingHrs---------------------$minStartTime");
+                                           print("maxWorkingHrs---------------------$maxStartTime");
+                                         });
+                                       },
+
+                                     ),
+                                     spacing(),
                                      const NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Text Field"),
                                      spacing(),
                                      SizedBox(
@@ -213,7 +276,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                                        spacing: SizeConfig.blockWidth*2,
                                        runSpacing: SizeConfig.blockHeight*1,
                                        children: [
-                                         
+
                                           for(var item in selectedItemsList)...[
                                          Container(
                                            padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*0.5),
