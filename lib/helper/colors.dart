@@ -4,6 +4,7 @@ class COLORS{
   static  Color onPrimaryColor =const Color(0xffffffff);
   static  Color appBarColor = Color(0xffC8E5FF);
   static  Color backgroundColor = Color(0xffE4F2FF);
+
   static const Color black = Color(0xff000000);
   static const Color white = Color(0xffffffff);
   static const Color cardBorder = Color(0xffE4E4E4);
