@@ -58,79 +58,77 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
         },child:  Scaffold(
           backgroundColor: COLORS.white,
           appBar: appBarComponent(title: "Add My Activity", context: context),
-          body: SingleChildScrollView(
-            child: Container(
-              height: SizeConfig.screenHeight,
-              width: SizeConfig.screenWidth,
-              padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockWidth*2,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const InputFieldTitleText(text: "Activity"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedActivity,
-                      list: activityList,
-                      onChanged: (value){
-                        setState(() {
-                          selectedActivity=value;
-                        });
-                      },
-                      isError: false,
-                      hint: "Select Activity"),
-                  const InputFieldTitleText(text: "Due Date"),
-                  TextFormFieldWithSuffixIcon(
-                      onChanged:  (value){},
-                      controller: dueDateController,
-                      hintText: "due Date",
-                      readOnly: true,
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        return null;
-                      },
-                      onTap: (){
-                        setState(() {
-                          showSingleDatePickerHelper(context: context,controller: dueDateController);
-                        });
-                        print("startDateController----------------${dueDateController.text}");
+          body: Container(
+            height: SizeConfig.screenHeight,
+            width: SizeConfig.screenWidth,
+            padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.blockWidth*2,
+            ),
+            child: ListView(
+             // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const InputFieldTitleText(text: "Activity"),
+                SingleItemSelectDropdown(
+                    selectedValue: selectedActivity,
+                    list: activityList,
+                    onChanged: (value){
+                      setState(() {
+                        selectedActivity=value;
+                      });
+                    },
+                    isError: false,
+                    hint: "Select Activity"),
+                const InputFieldTitleText(text: "Due Date"),
+                TextFormFieldWithSuffixIcon(
+                    onChanged:  (value){},
+                    controller: dueDateController,
+                    hintText: "due Date",
+                    readOnly: true,
+                    inputType: TextInputType.text,
+                    validator: (value){
+                      return null;
+                    },
+                    onTap: (){
+                      setState(() {
+                        showSingleDatePickerHelper(context: context,controller: dueDateController);
+                      });
+                      print("startDateController----------------${dueDateController.text}");
 
-                      },
-                      suffixIcon: "assets/image/svg_icons/calendar.svg"),
-                  const InputFieldTitleText(text: "Assigned To"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedAssignedTo,
-                      list: assignedToList,
-                      onChanged: (value){
-                        setState(() {
-                          selectedAssignedTo=value;
-                        });
-                      },
-                      isError: false,
-                      hint: "Assigned To"),
-                  const InputFieldTitleText(text: "Summary"),
-                  MultiLineTextFormField(
-                      onChanged: (value){},
-                      controller: summaryController,
-                      inputType: TextInputType.text,
-                      validator:(value){return null;} ,
-                      isReadOnly: false,
-                      labelText: "Summary"
-                  ),
-                  const InputFieldTitleText(text: "Note"),
-                  MultiLineTextFormField(
-                      onChanged: (value){},
-                      controller: noteController,
-                      inputType: TextInputType.text,
-                      validator:(value){return null;} ,
-                      isReadOnly: false,
-                      labelText: "Note"
-                  ),
-                  SizedBox(height: SizeConfig.blockHeight*3,),
+                    },
+                    suffixIcon: "assets/image/svg_icons/calendar.svg"),
+                const InputFieldTitleText(text: "Assigned To"),
+                SingleItemSelectDropdown(
+                    selectedValue: selectedAssignedTo,
+                    list: assignedToList,
+                    onChanged: (value){
+                      setState(() {
+                        selectedAssignedTo=value;
+                      });
+                    },
+                    isError: false,
+                    hint: "Assigned To"),
+                const InputFieldTitleText(text: "Summary"),
+                MultiLineTextFormField(
+                    onChanged: (value){},
+                    controller: summaryController,
+                    inputType: TextInputType.text,
+                    validator:(value){return null;} ,
+                    isReadOnly: false,
+                    labelText: "Summary"
+                ),
+                const InputFieldTitleText(text: "Note"),
+                MultiLineTextFormField(
+                    onChanged: (value){},
+                    controller: noteController,
+                    inputType: TextInputType.text,
+                    validator:(value){return null;} ,
+                    isReadOnly: false,
+                    labelText: "Note"
+                ),
+                SizedBox(height: SizeConfig.blockHeight*3,),
 
 
-                ],
-              ),
+              ],
             ),
           ),
           bottomNavigationBar: Container(

@@ -16,6 +16,7 @@ import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
 import 'package:fieldsales/helper/reuse_functions/date_picker.dart';
+import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/models/crm_models/new_lead_model.dart';
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_details_screen.dart';
@@ -364,7 +365,7 @@ class _LeadScreenState extends State<LeadScreen> {
         width: SizeConfig.screenWidth,
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
         margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
-        height: SizeConfig.blockHeight*16,
+
         decoration: BoxDecoration(
           /*boxShadow: [
             BoxShadow(
@@ -384,12 +385,12 @@ class _LeadScreenState extends State<LeadScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: name),
+                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: toUpperCamelCase(name)),
                   NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$enquiry"),
                 ],
               ),
               Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: date)),
-              const Spacer(),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -398,7 +399,7 @@ class _LeadScreenState extends State<LeadScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact Name"),
-                      NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "$contactName"),
+                      NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "${toUpperCamelCase(contactName)}"),
 
                     ],
                   ),
@@ -411,7 +412,7 @@ class _LeadScreenState extends State<LeadScreen> {
                             border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.2)
                             )),
-                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.7, text:status),
+                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.7, text:toUpperCamelCase(status)),
                       ),
                       SizedBox(width: SizeConfig.blockWidth*5,),
                       InkWell(

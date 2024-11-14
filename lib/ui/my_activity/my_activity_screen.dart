@@ -7,6 +7,7 @@ import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
+import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/models/my_activity_models/activiti_list_model.dart';
 import 'package:fieldsales/ui/my_activity/utils.dart';
@@ -237,7 +238,7 @@ bool isSelectedEventsInitialized=false;
                     child: ValueListenableBuilder<List<Activity>>(
                       valueListenable: _selectedEvents,
                       builder: (context, value, _) {
-                        return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10)): Container(
+                        return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 0)): Container(
                           color: COLORS.backgroundColor,
                           child: ListView.builder(
                             itemCount: value.length,
@@ -271,7 +272,7 @@ bool isSelectedEventsInitialized=false;
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].activityName!),
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: toUpperCamelCase(value[index].activityName!)),
                                         subTitleText(text: "Description"),
                                         NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 1.8, text: value[index].activitySummary!),
 

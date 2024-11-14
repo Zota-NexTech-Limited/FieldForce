@@ -5,15 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 AppBar appBarComponent({required String title,required BuildContext context}){
-  return AppBar(backgroundColor: COLORS.backgroundColor,
+  return AppBar(backgroundColor: COLORS.primaryColor,
     titleSpacing: SizeConfig.blockWidth*1,
     leading: InkWell(
       onTap: (){
         Navigator.pop(context);
         },
-        child:  Icon(Icons.arrow_back_sharp,size: SizeConfig.blockHeight*4,color: COLORS.black,)),
+        child:  Icon(Icons.arrow_back_sharp,size: SizeConfig.blockHeight*4,color: COLORS.onPrimaryColor,)),
     centerTitle: false,
-    leadingWidth: SizeConfig.blockWidth*15,
-    title: NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.7,  text: title) ,
+    leadingWidth: SizeConfig.blockWidth*12,
+    title: NormalText(fontWeight: FontWeight.w700, color: COLORS.onPrimaryColor, fontSize: 2.7,  text: title) ,
   );
 }

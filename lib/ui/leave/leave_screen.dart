@@ -11,6 +11,7 @@ import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
+import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/models/leave/leave_model.dart';
 import 'package:fieldsales/ui/leave/add_leave_screen.dart';
@@ -296,7 +297,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                            NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].leaveType!),
+                                            NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: toUpperCamelCase(value[index].leaveType!)),
                                             subTitleText(text: "Description"),
                                             NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 1.8, text: value[index].description!),
 

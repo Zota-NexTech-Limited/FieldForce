@@ -8,6 +8,7 @@ import 'package:fieldsales/components/state_management_components/loading_screen
 import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
+import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_new_opportunity_screens/add-oppertunity_screen.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_opportunity_details_screen.dart';
 import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
@@ -228,7 +229,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
         width: SizeConfig.screenWidth,
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
         margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
-        height: SizeConfig.blockHeight*16,
+
         decoration: BoxDecoration(
           /*boxShadow: [
             BoxShadow(
@@ -248,12 +249,11 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: name),
+                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: toUpperCamelCase(name)),
                   NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$source"),
                 ],
               ),
               Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: stage)),
-              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -262,7 +262,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact"),
-                      NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "$contact"),
+                      NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "${toUpperCamelCase(contact)}"),
 
                     ],
                   ),
@@ -275,7 +275,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                             border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.2)
                             )),
-                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.7, text:status),
+                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.7, text:toUpperCamelCase(status)),
                       ),
                       SizedBox(width: SizeConfig.blockWidth*5,),
                       InkWell(

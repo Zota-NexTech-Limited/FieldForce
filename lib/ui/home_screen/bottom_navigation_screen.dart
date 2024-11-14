@@ -78,6 +78,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           child:  _widgetOptions[_selectedIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
+
           backgroundColor: COLORS.white,
           elevation: 0,
           selectedItemColor: COLORS.primaryColor,
