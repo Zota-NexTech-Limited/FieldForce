@@ -104,8 +104,8 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
             padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
+              //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const InputFieldTitleText(text: "Contact Name *"),
                 NormalTextFormField(
