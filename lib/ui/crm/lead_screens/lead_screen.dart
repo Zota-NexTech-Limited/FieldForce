@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fieldsales/bloc/create_activity_bloc/create_activity_bloc.dart';
 import 'package:fieldsales/bloc/edit_lead_bloc/edit_lead_bloc.dart';
 import 'package:fieldsales/bloc/get_lead_by_id_bloc/get_lead_by_id_bloc.dart';
 import 'package:fieldsales/bloc/lead_list_bloc/lead_list_bloc.dart';
@@ -20,6 +21,7 @@ import 'package:fieldsales/models/crm_models/new_lead_model.dart';
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_details_screen.dart';
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_screen.dart';
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/customer_information_screen.dart';
+import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -129,9 +131,9 @@ class _LeadScreenState extends State<LeadScreen> {
                                                    child: SizedBox(
                                                        height: SizeConfig.blockHeight*3,
                                                        width: SizeConfig.blockWidth*10,
-                                                       child: SvgImageHelper(image: "assets/image/svg_icons/note_icon.svg")),
+                                                       child: SvgImageHelper(image: "assets/image/svg_icons/my_activity.svg")),
                                                  ),
-                                                 NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Note")
+                                                 const NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Schedule Activity")
                                                ],
                                              ),
                                            ],
@@ -163,17 +165,20 @@ class _LeadScreenState extends State<LeadScreen> {
                                            ],
                                          )), // Background for left swipe
                                      confirmDismiss: (direction) async {
-                                       // Optionally confirm action here
-                                       return false; // Return true to dismiss
-                                     },
-                                     onDismissed: (direction) {
                                        if (direction == DismissDirection.endToStart) {
                                          // Call function for left swipe
 
                                        } else {
                                          // Call function for right swipe
+                                         Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>CreateActivityBloc(),child:const ScheduleActivityScreen(),)));
+
 
                                        }
+
+                                       return false; // Return true to dismiss
+                                     },
+                                     onDismissed: (direction) {
+
                                      },
                                      child:leadCard(name: "${leadList[index].leadFullName}", enquiry: "${leadList[index].leadInquiryMedium}", date: "15 jul 2024", contactName: " ${leadList[index].leadContactName}", status: "new", menuTap: (){}, cardTap: (){
                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [

@@ -11,7 +11,7 @@ class COLORS{
   static const Color gray = Color(0xffBCBCBC);
   static const Color red = Color(0xffff0000);
   static const Color green = Color(0xff00AA07);
-  static const Color yellow = Color(0xffFFFF00);
+  static const Color yellow = Color(0xffE7AA1D);
   static const Color iconColor = Color(0xff222B45);
   static const Color hintTextColor = Color(0xffBCC7CE);
   static const Color blueExtraLight = Color(0xffCED3DE);

@@ -6,6 +6,7 @@ import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/ui/crm/crm_screen.dart';
 import 'package:fieldsales/ui/home_screen/menu_screen.dart';
+import 'package:fieldsales/ui/menu/report/reports_screen.dart';
 import 'package:fieldsales/ui/my_activity/my_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +26,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
    List<Widget> _widgetOptions = <Widget>[
      CRMScreen(),
      BlocProvider(create: (context)=>ActivityListBloc()..add(const FetchActivityListEvent()),child: MyActivityScreen(),),
-    Text('report Page'),
+     ReportsScreen(),
      MenuScreen(),
   ];
 

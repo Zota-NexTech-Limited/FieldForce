@@ -1,3 +1,4 @@
+import 'package:fieldsales/bloc/create_activity_bloc/create_activity_bloc.dart';
 import 'package:fieldsales/bloc/edit_opportunity_bloc/edit_opportunity_bloc.dart';
 import 'package:fieldsales/bloc/get_opportunity_by_id_bloc/get_opportunity_by_id_bloc.dart';
 import 'package:fieldsales/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_new_opportunity_screens/add-oppertunity_screen.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_opportunity_details_screen.dart';
+import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fieldsales/components/button_component/add_new_button.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
@@ -116,9 +118,9 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                                             child: SizedBox(
                                                 height: SizeConfig.blockHeight*3,
                                                 width: SizeConfig.blockWidth*10,
-                                                child: SvgImageHelper(image: "assets/image/svg_icons/note_icon.svg")),
+                                                child: SvgImageHelper(image: "assets/image/svg_icons/my_activity.svg")),
                                           ),
-                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Note")
+                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Schedule Activity")
                                         ],
                                       ),
                                     ],
@@ -151,16 +153,19 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                                   )), // Background for left swipe
                               confirmDismiss: (direction) async {
                                 // Optionally confirm action here
-                                return false; // Return true to dismiss
-                              },
-                              onDismissed: (direction) {
                                 if (direction == DismissDirection.endToStart) {
                                   // Call function for left swipe
 
                                 } else {
                                   // Call function for right swipe
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>CreateActivityBloc(),child:const ScheduleActivityScreen(),)));
 
                                 }
+
+                                return false; // Return true to dismiss
+                              },
+                              onDismissed: (direction) {
+
                               },
                               child: opportunityCard(
                                   name: "${state.opportunityList[index].opportunityCompanyName}",

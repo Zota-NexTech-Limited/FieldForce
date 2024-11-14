@@ -18,10 +18,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: appBarComponent(
+         /* appBar: appBarComponent(
               context: context,
               title: "Reports"
-          ),
+          ),*/
           body: Container(
             width: SizeConfig.screenWidth,
             color:COLORS.white,

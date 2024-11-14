@@ -35,7 +35,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 selectedTab="Home";
               });
             }, title: "Home", icon: "assets/image/svg_icons/home_icon2.svg"),
-            tabCard(onTap: (){
+            /*tabCard(onTap: (){
               setState(() {
                 selectedTab="My Activity";
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ActivityListBloc()..add(const FetchActivityListEvent()),child: MyActivityScreen(),)));
@@ -46,7 +46,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 selectedTab="Reports";
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ReportsScreen()));
                  });
-            }, title: "Reports", icon: "assets/image/svg_icons/contacts_reports.svg"),
+            }, title: "Reports", icon: "assets/image/svg_icons/contacts_reports.svg"),*/
             tabCard(onTap: (){
               setState(() {
                 selectedTab="End Day";
