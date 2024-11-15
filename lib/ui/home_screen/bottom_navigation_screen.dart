@@ -77,44 +77,47 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           width: SizeConfig.screenWidth,
           child:  _widgetOptions[_selectedIndex],
         ),
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: SizedBox(
+          height: SizeConfig.blockHeight*8,
+          child: BottomNavigationBar(
 
-          backgroundColor: COLORS.white,
-          elevation: 0,
-          selectedItemColor: COLORS.primaryColor,
-          unselectedItemColor:COLORS.black ,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.blue, fontSize: SizeConfig.blockHeight*0, fontFamily: Config.fountFamilyPrimary),
-          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: SizeConfig.blockHeight*0, fontFamily: Config.fountFamilyPrimary),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon:bottomNavigationIcons(icon:'assets/image/svg_icons/home_icon2.svg',index: 0,label: "HOME"),
-              label: '',
+            backgroundColor: COLORS.white,
+            elevation: 0,
+            selectedItemColor: COLORS.primaryColor,
+            unselectedItemColor:COLORS.black ,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.blue, fontSize: SizeConfig.blockHeight*0, fontFamily: Config.fountFamilyPrimary),
+            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: SizeConfig.blockHeight*0, fontFamily: Config.fountFamilyPrimary),
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon:bottomNavigationIcons(icon:'assets/image/svg_icons/home_icon2.svg',index: 0,label: "HOME"),
+                label: '',
 
-            ),
-            BottomNavigationBarItem(
+              ),
+              BottomNavigationBarItem(
 
-              icon:bottomNavigationIcons(icon: 'assets/image/svg_icons/dashboard_icon.svg',index: 1,label: "My  Activity"),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon:bottomNavigationIcons(icon: 'assets/image/svg_icons/reports_icon.svg',index: 2,label: "REPORTS"),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon:bottomNavigationIcons(icon: 'assets/image/svg_icons/menu_icon.svg',index: 3,label: "MENU"),
-              label: '',
+                icon:bottomNavigationIcons(icon: 'assets/image/svg_icons/dashboard_icon.svg',index: 1,label: "My  Activity"),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon:bottomNavigationIcons(icon: 'assets/image/svg_icons/reports_icon.svg',index: 2,label: "REPORTS"),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon:bottomNavigationIcons(icon: 'assets/image/svg_icons/menu_icon.svg',index: 3,label: "MENU"),
+                label: '',
 
 
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: (index){
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            onTap: (index){
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+          ),
         ),
 
       ),
@@ -123,7 +126,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   Widget bottomNavigationIcons({required String icon,required int index,required String label})
   {
     return Container(
-      height: SizeConfig.blockHeight*7.9,
+      height: SizeConfig.blockHeight*8,
       width: SizeConfig.blockWidth*34,
       color:_selectedIndex==index?COLORS.appBarColor:COLORS.white,
       padding: EdgeInsets.symmetric(vertical: SizeConfig.blockWidth*1.5),
