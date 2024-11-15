@@ -73,7 +73,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                   body: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: SizeConfig.blockHeight*3,left: SizeConfig.blockWidth*2,right: SizeConfig.blockWidth*2),
+                        margin: EdgeInsets.only(top: SizeConfig.blockHeight*3,left: SizeConfig.blockWidth*3,right: SizeConfig.blockWidth*3),
                         width: SizeConfig.screenWidth,
                         height: SizeConfig.screenHeight,
                         child:state.opportunityList.isNotEmpty?ListView.builder(

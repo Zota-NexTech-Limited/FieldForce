@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:fieldsales/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/reuse_property/reuse_padding.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/ui/menu/report/day_plan_report_screen.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
           body: Container(
             width: SizeConfig.screenWidth,
             color:COLORS.white,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
+            padding: screenPadding(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

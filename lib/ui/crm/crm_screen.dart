@@ -49,7 +49,7 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
             children: [
               SizedBox(height: SizeConfig.blockHeight*2,),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2),
+                margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
                 decoration: BoxDecoration(
                     color: COLORS.white,
                     borderRadius: BorderRadius.only(topLeft:  Radius.circular(SizeConfig.blockWidth*2),topRight: Radius.circular(SizeConfig.blockWidth*2))

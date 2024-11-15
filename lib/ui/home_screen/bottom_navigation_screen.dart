@@ -52,7 +52,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           child: Container(
             //margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
             color: COLORS.appBarColor,
-            padding: EdgeInsets.all(SizeConfig.blockHeight*3),
+            padding: EdgeInsets.all(SizeConfig.blockWidth*3),
             child: Row(
               children: [
                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.7, text:_selectedIndex==0? "Leads":_selectedIndex==1?"My Activity":_selectedIndex==2?"Reports":"Menu"),

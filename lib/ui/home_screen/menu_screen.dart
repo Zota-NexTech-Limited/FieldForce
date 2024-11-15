@@ -27,7 +27,7 @@ class _MenuScreenState extends State<MenuScreen> {
       backgroundColor: COLORS.white,
       body:Container(
         width: SizeConfig.screenWidth,
-        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1,vertical: SizeConfig.blockHeight*2),
         child: Column(
           children: [
             tabCard(onTap: (){

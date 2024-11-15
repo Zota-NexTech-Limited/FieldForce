@@ -69,7 +69,7 @@ class _LeadScreenState extends State<LeadScreen> {
                      body: Stack(
                        children: [
                          Container(
-                           margin: EdgeInsets.only(top: SizeConfig.blockHeight*12,left: SizeConfig.blockWidth*2,right:SizeConfig.blockWidth*2 ),
+                           margin: EdgeInsets.only(top: SizeConfig.blockHeight*12,left: SizeConfig.blockWidth*3,right:SizeConfig.blockWidth*3 ),
                            width: SizeConfig.screenWidth,
                            height: SizeConfig.screenHeight,
                            child: RefreshIndicator(
@@ -204,7 +204,7 @@ class _LeadScreenState extends State<LeadScreen> {
                              child: SizedBox(
                                width: SizeConfig.screenWidth,
                                child: Padding(
-                                 padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*2),
+                                 padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
                                  child: FilterTextFormField(
                                    clearIconTap: (){
 
