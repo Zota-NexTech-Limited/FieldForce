@@ -22,13 +22,13 @@ passwordTextFieldDecoration(
 
       focusedBorder: OutlineInputBorder(
           borderSide:  BorderSide(
-            color: COLORS.blue,
+            color: COLORS.primaryColor,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
       enabledBorder: OutlineInputBorder(
           borderSide:  BorderSide(
-            color: COLORS.blue,
+            color: COLORS.gray,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
@@ -46,7 +46,7 @@ passwordTextFieldDecoration(
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 1.5)),
       hintText: hint,
       hintStyle: TextStyle(
-          color: COLORS.whiteMedium,
+          color: COLORS.hintTextColor,
           fontWeight: FontWeight.w400,
           fontFamily: Config.fountFamilyPrimary,
           fontSize: SizeConfig.blockWidth * 3.5),

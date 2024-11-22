@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:fieldsales/helper/colors.dart';
-import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/decoration_helpers/text_form_field_decoration-helpers/filter_field_decoration.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +7,16 @@ import 'package:flutter/material.dart';
 
 class FilterTextFormField extends StatefulWidget {
   String hintText;
+  String filterText;
   TextEditingController controller;
   TextInputType inputType;
   ValueChanged onChanged;
+  ValueChanged onSubmit;
   bool isReadOnly;
   VoidCallback iconTap;
+  VoidCallback clearIconTap;
   String? Function(String?)? validator;
-  FilterTextFormField({super.key,required this.onChanged,required this.controller,required this.hintText,required this.inputType,required this.validator,required this.isReadOnly,required this.iconTap});
+  FilterTextFormField({super.key,required this.onChanged,required this.controller,required this.hintText,required this.inputType,required this.validator,required this.isReadOnly,required this.iconTap,required this.clearIconTap,required this.filterText,required this.onSubmit});
 
   @override
   State<FilterTextFormField> createState() => _FilterTextFormFieldState();
@@ -39,25 +40,28 @@ class _FilterTextFormFieldState extends State<FilterTextFormField> {
 
   }
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: SizeConfig.blockHeight*6,
-      child: TextFormField(
-        readOnly: widget.isReadOnly,
-        controller: controller,
-        style: TextStyle(
-            color: COLORS.black,
-            fontFamily: Config.fountFamilyPrimary,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.3,
-            fontSize: SizeConfig.blockWidth * 4),
-        onChanged: onChanged,
-        validator: validator,
-        keyboardType: inputType,
-        textCapitalization: TextCapitalization.words,
-        textInputAction: TextInputAction.next,
-        cursorColor: COLORS.gray,
-        decoration: filterFieldDecoration(suffixIconTap: widget.iconTap,labelText: widget.hintText,),
-      ),
+    return TextFormField(
+      textInputAction: TextInputAction.search,
+      readOnly: widget.isReadOnly,
+      controller: controller,
+      style: TextStyle(
+          color: COLORS.black,
+          fontFamily: "Inter",
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.3,
+          fontSize: SizeConfig.blockWidth * 4),
+      onChanged:(value){
+        widget.onChanged(value);
+        setState(() {
+
+        });
+      },
+      validator: validator,
+      onFieldSubmitted: widget.onSubmit,
+      keyboardType: inputType,
+      textCapitalization: TextCapitalization.words,
+      cursorColor: COLORS.gray,
+      decoration: filterFieldDecoration(iconTap: widget.iconTap,labelText: widget.hintText,clearIconTap: widget.clearIconTap,filterText: widget.filterText,controller: widget.controller,),
     );
   }
 }

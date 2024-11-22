@@ -10,7 +10,7 @@ class AuthScreenSubTitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,style: TextStyle(fontSize: SizeConfig.blockHeight*2.1,color:COLORS.blackMedium,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w600,),textAlign:TextAlign.center ,);
+    return Text(text,style: TextStyle(fontSize: SizeConfig.blockHeight*2.1,color:COLORS.iconColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w600,),textAlign:TextAlign.center ,);
   }
 }
 

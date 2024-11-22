@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 class COLORS{
-  static const Color lightBlue = Color(0xffC8E5FF);
-  //static const Color blue = Color(0xff359DFF);
-  static const Color blue = Color(0xff2B6BE8);
-  static const Color darkBlue = Color(0xff277DFE);
+  static  Color primaryColor =const Color(0xff277DFE);
+  static  Color onPrimaryColor =const Color(0xffffffff);
+  static  Color appBarColor = Color(0xffC8E5FF);
+  static  Color backgroundColor = Color(0xffE4F2FF);
+
   static const Color black = Color(0xff000000);
   static const Color white = Color(0xffffffff);
-  static const Color gray = Color(0xff6B737A);
+  static const Color cardBorder = Color(0xffE4E4E4);
+  static const Color gray = Color(0xffBCBCBC);
   static const Color red = Color(0xffff0000);
-  static const Color blackMedium = Color(0xff323D5A);
-  static const Color whiteMedium = Color(0xffBCC7CE);
-  static const Color whiteLight = Color(0xffEDF4F9);
-  static const Color blueLight = Color(0xff687284);
-  static const Color whiteDark = Color(0xffFFFFFF);
-  static const Color yellow = Color(0xffFFFF00);
   static const Color green = Color(0xff00AA07);
-  static const Color grayLight = Color(0xffD7D7D7);
-  static const Color whiteExtraLight = Color(0xffF2F2F2);
+  static const Color yellow = Color(0xffE7AA1D);
+  static const Color iconColor = Color(0xff222B45);
+  static const Color hintTextColor = Color(0xffBCC7CE);
+  static const Color blueExtraLight = Color(0xffCED3DE);
 }

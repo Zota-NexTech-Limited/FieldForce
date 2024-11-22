@@ -48,20 +48,20 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
                 width: SizeConfig.screenWidth,
                 decoration: BoxDecoration(
                   color: widget.selectedValue == value
-                      ? COLORS.blue
+                      ? COLORS.primaryColor
                       : Colors.white,
                   border: Border(
                     bottom: BorderSide(
                         width: SizeConfig.blockWidth * 0.1,
-                        color: COLORS.whiteLight),
+                        color: COLORS.hintTextColor),
                   ),
                 ),
                 child: Text(
                   value,
                   style: TextStyle(
                       color: widget.selectedValue == value
-                          ? COLORS.whiteLight
-                          : COLORS.blueLight,
+                          ? COLORS.onPrimaryColor
+                          : COLORS.iconColor,
                       fontWeight: FontWeight.w400,
                       fontSize: SizeConfig.blockWidth * 4,
                       fontFamily:  Config.fountFamilyPrimary
@@ -77,7 +77,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
       hint: Text(
        widget.hint!,
         style: TextStyle(
-          color: COLORS.whiteMedium,
+          color: COLORS.hintTextColor,
           fontFamily:  Config.fountFamilyPrimary,
           fontWeight: FontWeight.w400,
           fontSize: SizeConfig.blockWidth * 3.5,
@@ -85,7 +85,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
       ),
       iconStyleData: IconStyleData(icon: Icon(
         Icons.keyboard_arrow_down,
-        color: COLORS.blue,
+        color: COLORS.gray,
         size: SizeConfig.blockWidth * 8,
       ),),
 
@@ -93,7 +93,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
         isOverButton: true,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 2),
-          color: COLORS.whiteDark,
+          color: COLORS.white,
         ),
         elevation: 2,
         maxHeight: SizeConfig.blockHeight * 35,
@@ -104,7 +104,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
      buttonStyleData: ButtonStyleData(
        decoration: BoxDecoration(
          borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 2),
-         border: Border.all(color:widget.isError==true? COLORS.red:COLORS.blue, width: SizeConfig.blockWidth*0.4),
+         border: Border.all(color:widget.isError==true? COLORS.red:COLORS.gray, width: SizeConfig.blockWidth*0.4),
        ),
        width: SizeConfig.blockWidth * 100,
        height:  SizeConfig.blockHeight * 7.3,
@@ -133,7 +133,7 @@ class _SingleItemSelectDropdownState extends State<SingleItemSelectDropdown> {
           return Text(
             value,
             style: TextStyle(
-              color:  COLORS.blackMedium,
+              color:  COLORS.iconColor,
               fontWeight: FontWeight.w400,
               fontSize: SizeConfig.blockWidth * 4,
               fontFamily: Config.fountFamilyPrimary,

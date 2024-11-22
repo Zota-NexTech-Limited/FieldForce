@@ -1,12 +1,17 @@
+import 'package:fieldsales/bloc/create_activity_bloc/create_activity_bloc.dart';
 import 'package:fieldsales/bloc/edit_opportunity_bloc/edit_opportunity_bloc.dart';
 import 'package:fieldsales/bloc/get_opportunity_by_id_bloc/get_opportunity_by_id_bloc.dart';
 import 'package:fieldsales/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
 import 'package:fieldsales/components/state_management_components/empty_screen_component.dart';
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
+import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/date_converter.dart';
+import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_new_opportunity_screens/add-oppertunity_screen.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_opportunity_details_screen.dart';
+import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fieldsales/components/button_component/add_new_button.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
@@ -26,6 +31,9 @@ class OpportunityScreen extends StatefulWidget {
 
 class _OpportunityScreenState extends State<OpportunityScreen> {
   late OpportunityListBloc opportunityListBloc;
+  ScrollController scrollController=ScrollController();
+  double lastOffset = 0.0;
+  bool  showNewOpportunityButton=true;
   @override
   void initState() {
     // TODO: implement initState
@@ -50,7 +58,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
           else if(state is OpportunityListSuccessState)
             {
               return RefreshIndicator(
-                color: COLORS.blue,
+                color: COLORS.primaryColor,
                 onRefresh: (){
                   return Future.delayed(
                       const Duration(milliseconds: 200),
@@ -61,145 +69,139 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                   );
                 },
                 child: Scaffold(
-                  backgroundColor: COLORS.white,
+                  backgroundColor: COLORS.backgroundColor,
                   body: Stack(
                     children: [
-                      SingleChildScrollView(
-                        //physics:const NeverScrollableScrollPhysics(),
-                        child: Container(
-                          margin: EdgeInsets.only(top: SizeConfig.blockHeight*3),
-                          width: SizeConfig.screenWidth,
-                          height: SizeConfig.screenHeight,
-                          child:state.opportunityList.isNotEmpty?ListView.builder(
-                            itemCount: state.opportunityList.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: (){
-                                  //Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddOpportunityDetailsScreen()));
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                    BlocProvider(create: (context)=>GetOpportunityByIdBloc()..add(TriggerGetOpportunityByIdEvent(id: state.opportunityList[index].opportunityId.toString()))),
-                                    BlocProvider(create: (context)=>EditOpportunityBloc()),
-                                  ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
-                                  ));
+                      Container(
+                        margin: EdgeInsets.only(top: SizeConfig.blockHeight*3,left: SizeConfig.blockWidth*3,right: SizeConfig.blockWidth*3),
+                        width: SizeConfig.screenWidth,
+                        height: SizeConfig.screenHeight,
+                        child:state.opportunityList.isNotEmpty?ListView.builder(
+                          itemCount: state.opportunityList.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          controller: scrollController..addListener(() {
 
-                                },
-                                child: Container(
-                                  width: SizeConfig.screenWidth,
-                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*2,right: SizeConfig.blockWidth*3,left: SizeConfig.blockWidth*3),
-                                  padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1,horizontal: SizeConfig.blockWidth*2),
+                            double currentOffset=scrollController.offset;
+                            if (currentOffset > lastOffset)
+                            {
+                              print("scroll down***************************");
+                              setState(() {
+                                showNewOpportunityButton=false;
+                              });
+                            }else{
+                              print("scroll top***************************");
+                              setState(() {
+                                showNewOpportunityButton=true;
+                              });
+                            }
+
+                          }),
+                          itemBuilder: (context, index) {
+                            return Dismissible(
+                              key:Key(index.toString()),
+                              background: Container(
+                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
                                   decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.3),
-                                          spreadRadius: 0.1,
-                                          blurRadius: 4,
-                                          offset: Offset(0, 1),
-                                        ),
-                                      ],
-                                      color: COLORS.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
+                                      color:COLORS.yellow,
+                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-
-                                          Expanded(
-                                            child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                             /*   Container(
-                                                  height: SizeConfig.blockHeight*6,
-                                                  width: SizeConfig.blockWidth*10,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                                                      border: Border.all(color: COLORS.white)
-                                                  ),
-                                                  child: Image.asset("assets/image/common/profile_image.png",fit: BoxFit.fill,),
-                                                ),
-                                                SizedBox(width: SizeConfig.blockWidth*2,),*/
-                                                SizedBox(
-                                                    width: SizeConfig.screenWidth*0.5,
-                                                    child: Text("${state.opportunityList[index].opportunityEmail}",
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          fontSize: SizeConfig.blockHeight*2,
-                                                          color:COLORS.black,
-                                                          fontFamily:
-                                                          Config.fountFamilyPrimary,
-                                                          fontWeight:FontWeight.w500),)
-                                                )
-                                              ],
-                                            ),
+                                          Container(
+                                            width: SizeConfig.blockWidth*40,
+                                            //color: COLORS.orange,
+                                            child: SizedBox(
+                                                height: SizeConfig.blockHeight*3,
+                                                width: SizeConfig.blockWidth*10,
+                                                child: SvgImageHelper(image: "assets/image/svg_icons/my_activity.svg")),
                                           ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              SizedBox(
-                                                height: SizeConfig.blockHeight*3.5,
-                                                child: ElevatedButton(
-                                                    style: ButtonStyle(
-                                                        elevation: WidgetStatePropertyAll(0),
-                                                        backgroundColor: WidgetStatePropertyAll(COLORS.blue),
-                                                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))))
-
-                                                    ),
-                                                    onPressed: (){},
-                                                    child: NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "New")),
-                                              ),
-                                              SizedBox(height: SizeConfig.blockHeight*1,),
-                                              Stack(
-                                                children: [
-                                                  SizedBox(
-                                                    width: SizeConfig.blockWidth*13,
-                                                    child: CircularPercentIndicator(
-                                                      radius: SizeConfig.blockWidth*5.5,
-                                                      lineWidth: SizeConfig.blockWidth*0.3,
-                                                      percent: 0.4,
-                                                      progressColor: COLORS.blue,
-
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                      top: SizeConfig.blockHeight*2,
-                                                      left: SizeConfig.blockWidth*4,
-                                                      child: NormalText(color:COLORS.black ,fontSize: 1.7,fontWeight: FontWeight.w500,text: "40%",))
-                                                ],
-                                              ),
-                                            ],
-                                          )
+                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Schedule Activity")
                                         ],
                                       ),
-
-
-
                                     ],
+                                  )),
+                              secondaryBackground: Container(
+                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                  decoration: BoxDecoration(
+                                      color:COLORS.green,
+                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
                                   ),
-                                ),
-                              );
-                            },):EmptyScreen(text: "Opportunity Not Found!",distanceFromTop: 10,),
-                        ),
+                                  // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: SizeConfig.blockWidth*40,
+                                            //color: COLORS.orange,
+                                            child: SizedBox(
+                                                height: SizeConfig.blockHeight*3,
+                                                width: SizeConfig.blockWidth*10,
+                                                child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
+                                          ),
+                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
+                                        ],
+                                      ),
+                                    ],
+                                  )), // Background for left swipe
+                              confirmDismiss: (direction) async {
+                                // Optionally confirm action here
+                                if (direction == DismissDirection.endToStart) {
+                                  // Call function for left swipe
+
+                                } else {
+                                  // Call function for right swipe
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>CreateActivityBloc(),child:const ScheduleActivityScreen(),)));
+
+                                }
+
+                                return false; // Return true to dismiss
+                              },
+                              onDismissed: (direction) {
+
+                              },
+                              child: opportunityCard(
+                                  name: "${state.opportunityList[index].opportunityCompanyName}",
+                                  source: "${state.opportunityList[index].opportunitySource}",
+                                  stage: "${state.opportunityList[index].opportunityStage}",
+                                  contact: "${state.opportunityList[index].opportunityEmail}",
+                                  status: "new",
+                                  menuTap: (){},
+                                  cardTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                      BlocProvider(create: (context)=>GetOpportunityByIdBloc()..add(TriggerGetOpportunityByIdEvent(id: state.opportunityList[index].opportunityId.toString()))),
+                                      BlocProvider(create: (context)=>EditOpportunityBloc()),
+                                    ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
+                                    ));
+
+                                  }),
+                            );
+                          },):EmptyScreen(text: "Opportunity Not Found!",distanceFromTop: 10,),
                       ),
-                      Positioned(
-                          bottom: SizeConfig.blockHeight*2,
-                          left: SizeConfig.screenWidth*0.3,
-                          child:  Align(
-                            alignment: Alignment.bottomCenter,
-                            child: AddNewButton(title: "New Opportunity", onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                BlocProvider(create: (context)=>GetOpportunityByIdBloc()),
-                                BlocProvider(create: (context)=>EditOpportunityBloc()),
-                              ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
-                                  ));
-                            }),
-                          )
-                      )
+                     if(showNewOpportunityButton)...[
+                       Positioned(
+                           bottom: SizeConfig.blockHeight*2,
+                           left: SizeConfig.screenWidth*0.3,
+                           child:  Align(
+                             alignment: Alignment.bottomCenter,
+                             child: AddNewButton(title: "New Opportunity", onTap: (){
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                                 BlocProvider(create: (context)=>GetOpportunityByIdBloc()),
+                                 BlocProvider(create: (context)=>EditOpportunityBloc()),
+                               ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
+                               ));
+                             }),
+                           )
+                       )
+                     ]
                     ],
                   ),
                 ),
@@ -215,6 +217,78 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
         },)
 
 
+    );
+  }
+
+  Widget opportunityCard({required String name,required String source,required String stage,required String contact,required String status,required VoidCallback menuTap,required VoidCallback cardTap,})
+  {
+    return InkWell(
+      onTap: cardTap,
+      splashColor: COLORS.backgroundColor,
+      child: Container(
+        width: SizeConfig.screenWidth,
+        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+        margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+
+        decoration: BoxDecoration(
+          /*boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              spreadRadius: 0.1,
+              blurRadius: 10,
+              offset: Offset(0, 1),
+            ),
+          ],*/
+            border: Border.all(color: COLORS.cardBorder),
+            color: COLORS.white,
+            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
+        ),
+        child:Column(
+            children: [
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: toUpperCamelCase(name)),
+                  NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$source"),
+                ],
+              ),
+              Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: stage)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact"),
+                      NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "${toUpperCamelCase(contact)}"),
+
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1.5,vertical: SizeConfig.blockHeight*0.2),
+                        decoration: BoxDecoration(
+                            color:status=="new"? COLORS.red.withOpacity(0.2):status=="Completed"?COLORS.green.withOpacity(0.2):COLORS.yellow.withOpacity(0.2),
+                            border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
+                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.2)
+                            )),
+                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.7, text:toUpperCamelCase(status)),
+                      ),
+                      SizedBox(width: SizeConfig.blockWidth*5,),
+                      InkWell(
+                          onTap: menuTap,
+                          child:const SvgImageHelper(image: "assets/image/svg_icons/more_icon.svg"))
+                    ],
+                  )
+                ],
+              ),
+
+            ]
+        ) ,
+      ),
     );
   }
 }

@@ -15,7 +15,7 @@ class EditButtonComponent extends StatelessWidget {
       child:  ElevatedButton(
         child: Center(child: SvgImageHelper(image: "assets/image/svg_icons/edit-outline.svg",)),
         style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(COLORS.darkBlue),
+            backgroundColor: MaterialStatePropertyAll(COLORS.primaryColor),
             shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
         ),
         onPressed: onTap,

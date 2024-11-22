@@ -1,7 +1,7 @@
 part of 'activity_list_bloc.dart';
 
 @immutable
-sealed class ActivityListEvent extends Equatable{
+abstract class ActivityListEvent extends Equatable{
   const ActivityListEvent();
   @override
   List<Object> get props => [];

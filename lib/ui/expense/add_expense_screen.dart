@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fieldsales/bloc/add_expense/add_expense_bloc.dart';
 import 'package:fieldsales/bloc/expense_list_bloc/expense_list_bloc.dart';
 import 'package:fieldsales/components/app_bar_component/app_bar_component.dart';
+import 'package:fieldsales/components/button_component/file_upload_button.dart';
 import 'package:fieldsales/components/button_component/normal_button.dart';
 import 'package:fieldsales/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldsales/components/text_component/input_field_title_text.dart';
@@ -358,16 +359,12 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                         isReadOnly: false,
                         labelText: "Description"),
                     SizedBox(height: SizeConfig.blockHeight*2,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const NormalText(fontWeight: FontWeight.w500, color: COLORS.blue, fontSize: 3, text: "Attach Document *"),
-                        IconButton(onPressed: (){
-                          _pickFiles();
-                        }, icon: Icon(Icons.add_box,size: SizeConfig.blockHeight*5,color: COLORS.blue,))
-                      ],
-                    ),
+                    const NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 3, text: "Attach Document *"),
+                    FileUploadButton(onTap:(){
+                      _pickFiles();
+                    } ,actionText: "Upload",leadingText: "Upload Documents",),
                     if(_paths!=null)...[
+                      SizedBox(height: SizeConfig.blockHeight*2,),
                       GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
@@ -392,7 +389,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                 decoration: BoxDecoration(
 
                                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                                    border: Border.all(color: COLORS.blue)
+                                    border: Border.all(color: COLORS.primaryColor)
                                 ),
                                 height: SizeConfig.blockHeight*10,
                                 width: SizeConfig.blockWidth*20,
@@ -402,12 +399,12 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                 decoration: BoxDecoration(
 
                                     borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                                    border: Border.all(color: COLORS.blue)
+                                    border: Border.all(color: COLORS.primaryColor)
                                 ),
                                 height: SizeConfig.blockHeight*10,
                                 width: SizeConfig.blockWidth*20,
-                                child:const Center(
-                                  child: Icon(Icons.file_present_sharp,color: COLORS.blue,),
+                                child: Center(
+                                  child: Icon(Icons.file_present_sharp,color: COLORS.primaryColor,),
                                 ),
                               ),
                               Positioned(
@@ -425,41 +422,50 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                         },)
                     ],
                     SizedBox(height: SizeConfig.blockHeight*2,),
-                    NormalButton(title: "ADD", onTap: (){
-                      if(selectedProduct==null||selectedProduct!.isEmpty)
-                        {
-                        setState(() {
-                          isProductDropdownEmpty=true;
-                        });
-                        }
-                      if(_formKey.currentState!.validate())
-                        {
-                          if(isProductDropdownEmpty==false)
-                            {
-                              setState(() {
-                                late AddExpenseModel expenseDetails;
-                                expenseDetails=AddExpenseModel(
-                                    expenseProduct:selectedProduct,
-                                    expenseStationType: selectedStationType,
-                                    expenseReportingPlace: reportingPlaceController.text,
-                                    expenseClaimPrice: claimPriceController.text,
-                                    expenseClaimQuantity: claimQuantityController.text,
-                                    expenseTotalPrice: totalController.text,
-                                    expenseDate: dateController.text.isEmpty?null:dateController.text,
-                                    expenseBillReference: billReferenceController.text,
-                                    expenseDescription: descriptionController.text,
-                                    expenseAttachDocuments: []
-                                );
-                                addExpenseBloc.add(TriggerAddExpenseEvent(expenseDetails: expenseDetails));
-                              });
-                            }
-                        }
-
-                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
 
 
                   ],
                 ),
+              ),
+            ),
+            bottomNavigationBar: Container(
+              height: SizeConfig.blockHeight*8,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              child: Column(
+                children: [
+                  NormalButton(title: "ADD", onTap: (){
+                    if(selectedProduct==null||selectedProduct!.isEmpty)
+                    {
+                      setState(() {
+                        isProductDropdownEmpty=true;
+                      });
+                    }
+                    if(_formKey.currentState!.validate())
+                    {
+                      if(isProductDropdownEmpty==false)
+                      {
+                        setState(() {
+                          late AddExpenseModel expenseDetails;
+                          expenseDetails=AddExpenseModel(
+                              expenseProduct:selectedProduct,
+                              expenseStationType: selectedStationType,
+                              expenseReportingPlace: reportingPlaceController.text,
+                              expenseClaimPrice: claimPriceController.text,
+                              expenseClaimQuantity: claimQuantityController.text,
+                              expenseTotalPrice: totalController.text,
+                              expenseDate: dateController.text.isEmpty?null:dateController.text,
+                              expenseBillReference: billReferenceController.text,
+                              expenseDescription: descriptionController.text,
+                              expenseAttachDocuments: []
+                          );
+                          addExpenseBloc.add(TriggerAddExpenseEvent(expenseDetails: expenseDetails));
+                        });
+                      }
+                    }
+
+                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+
+                ],
               ),
             ),
           ),

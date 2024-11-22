@@ -1,5 +1,6 @@
 import 'package:fieldsales/bloc/lead_list_bloc/lead_list_bloc.dart';
 import 'package:fieldsales/bloc/opportunity_list_bloc/opportunity_list_bloc.dart';
+import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
@@ -43,45 +44,25 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*20), child: Container(
-            width: SizeConfig.screenWidth,
-            color: COLORS.blue,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(SizeConfig.blockHeight*2),
-                  child: Row(
-                    children: [
-                      InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(Icons.arrow_back_rounded,color: COLORS.white,size: SizeConfig.blockHeight*4,)),
-                      SizedBox(width: SizeConfig.blockWidth*5,),
-                      const NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3, text: "CRM"),
-                      const Spacer(),
-                     if( _tabController.index==0)...[
-                       InkWell(
-                           onTap: () {
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=>const LeadFilterScreen()));
-                           },
-                           child: const Icon(Icons.filter_alt_sharp,color: COLORS.white,)),
-                     ]
-
-                    ],
-                  ),
+          backgroundColor: COLORS.backgroundColor,
+          body: Column(
+            children: [
+              SizedBox(height: SizeConfig.blockHeight*2,),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
+                decoration: BoxDecoration(
+                    color: COLORS.white,
+                    borderRadius: BorderRadius.only(topLeft:  Radius.circular(SizeConfig.blockWidth*2),topRight: Radius.circular(SizeConfig.blockWidth*2))
                 ),
-                SizedBox(height: SizeConfig.blockHeight*3,),
-                TabBar(
+                child: TabBar(
                   controller: _tabController,
-                  labelColor: COLORS.white,
-                  indicatorColor: COLORS.white,
-                  dividerColor: COLORS.blue,
+                  labelColor: COLORS.black,
+                  indicatorColor: COLORS.primaryColor,
+                  dividerColor: COLORS.white,
                   indicatorSize: TabBarIndicatorSize.tab,
                   padding: EdgeInsets.all(SizeConfig.blockWidth * 0),
                   labelPadding: EdgeInsets.all(SizeConfig.blockWidth * 0),
-                  unselectedLabelColor: COLORS.white,
+                  unselectedLabelColor: COLORS.black.withOpacity(0.5).withOpacity(0.6),
                   onTap: (value){
                     setState(() {
 
@@ -98,15 +79,17 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
                     Tab(text: "OPPORTUNITY"),
                   ],
                 ),
-              ],
-            ),
-          )),
-          body: DefaultTabController(
-            length: 2,
-            child: TabBarView(
-              controller: _tabController,
-              children: _tabs,
-            ),
+              ),
+              Expanded(
+                child: DefaultTabController(
+                  length: 2,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: _tabs,
+                  ),
+                ),
+              ),
+            ],
           ),
         ));
   }

@@ -18,12 +18,12 @@ class AuthScreenButton extends StatelessWidget {
         onPressed:onPressed,
         style: ButtonStyle(
           shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)))),
-          backgroundColor: MaterialStatePropertyAll(COLORS.darkBlue)
+          backgroundColor: MaterialStatePropertyAll(COLORS.primaryColor)
 
         ),
-        child:isLoding==false? NormalText(fontWeight: FontWeight.w500, color: COLORS.white, fontSize: 2.3, text: text):
+        child:isLoding==false? NormalText(fontWeight: FontWeight.w500, color: COLORS.onPrimaryColor, fontSize: 2.3, text: text):
         CircularProgressIndicator(
-          color: COLORS.white,
+          color: COLORS.onPrimaryColor,
           strokeWidth: SizeConfig.blockWidth*1,
           strokeAlign:SizeConfig.blockWidth*-1,
         ),

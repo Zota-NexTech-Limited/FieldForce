@@ -18,12 +18,12 @@ class NormalButtonWithIcon extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            NormalText(fontWeight: FontWeight.w500, color: COLORS.white, fontSize:2.3, text: title),
-            Icon(Icons.arrow_forward,color: COLORS.white,)
+            NormalText(fontWeight: FontWeight.w500, color: COLORS.onPrimaryColor, fontSize:2.3, text: title),
+            Icon(Icons.arrow_forward,color: COLORS.onPrimaryColor,)
           ],
         ) ,
         style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(COLORS.darkBlue),
+            backgroundColor: MaterialStatePropertyAll(COLORS.primaryColor),
             shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
         ),
         onPressed: onTap,

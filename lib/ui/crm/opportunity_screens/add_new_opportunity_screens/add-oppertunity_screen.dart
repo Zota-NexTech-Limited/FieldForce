@@ -128,11 +128,11 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
           }
         },)
       ],
-        child: isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){}): Scaffold(
-        appBar: appBarComponent(title: "Add Opportunity", context: context),
-        body:Form(
+        child: isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){}): Form(
           key: _formKey,
-          child: Container(
+          child: Scaffold(
+          appBar: appBarComponent(title: "Add Opportunity", context: context),
+          body:Container(
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
             padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
@@ -244,7 +244,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                           shouldAlwaysShowTooltip: false,
                           stepSize: 1,
                           minorTicksPerInterval: 1,
-                          activeColor: COLORS.blue,
+                          activeColor: COLORS.primaryColor,
                           onChanged: (dynamic value){
                             setState(() {
                               if(readOnly==false)
@@ -259,13 +259,23 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                       Container(
                         height: SizeConfig.blockHeight*3.5,
                         width: SizeConfig.blockWidth*10,
-                        color: COLORS.grayLight,
+                        color: COLORS.gray,
                         child: Center(child: NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2, text: "${(probabilityOfClose.toInt())}")),
                       )
 
                     ],
                   ),
                   SizedBox(height: SizeConfig.blockHeight*9,),
+
+                ],
+              ),
+            ),
+          ) ,
+            bottomNavigationBar: Container(
+              height: SizeConfig.blockHeight*8,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              child: Column(
+                children: [
                   if(isView==false)...[
 
                     NormalButtonWithIcon(title: "Next Step", onTap: (){
@@ -316,9 +326,8 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                 ],
               ),
             ),
-          ),
-        ) ,
-      ),)
+                ),
+        ),)
 
     );
   }

@@ -244,100 +244,111 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                     ],
 
                     SizedBox(height: SizeConfig.blockHeight*3,),
-                    if(isView==false)...[
-                      NormalButtonWithIcon(title: "Next Step", onTap: (){
+
+
+                    ],
+                ),
+              ),
+            ),
+
+            bottomNavigationBar: Container(
+              height: SizeConfig.blockHeight*8,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              child: Column(
+                children: [
+                  if(isView==false)...[
+                    NormalButtonWithIcon(title: "Next Step", onTap: (){
+                      setState(() {
+                        if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                        {
+                          isCustomerSourceDropdownEmpty=true;
+                        }
+                      });
+                      if(_formKey.currentState!.validate())
+                      {
                         setState(() {
                           if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
                           {
                             isCustomerSourceDropdownEmpty=true;
+                          }else{
+                            updateLeadDetailsModel();
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                MultiBlocProvider(providers: [
+                                  BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),),
+                                  BlocProvider(create: (context)=>EditLeadBloc(),),
+                                ], child:ContactDetailsScreen(leadDetails:leadDetails,) ,)
+                            ));
+
                           }
+
+
+
+
                         });
-                        if(_formKey.currentState!.validate())
-                        {
-                          setState(() {
-                            if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                      }
+
+
+                    }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+                  ]
+                  else...[
+                    if(isEdit==false)...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          EditButtonComponent(onTap: (){
+                            setState(() {
+                              isEdit=true;
+                              readOnly=false;
+                            });
+                          },),
+                          NormalButtonWithIcon(title: "Next Step", onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                              BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),),
+                              BlocProvider(create: (context)=>EditLeadBloc(),),
+                            ],child:ContactDetailsScreen(leadDetails:leadDetails,) )
+
+                            ));
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
+                        ],
+                      )
+                    ]else...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          NormalButton(title: "Cancel", onTap: (){
+                            setState(() {
+                              isEdit=false;
+                              readOnly=true;
+                              updateInputFields(leadDetails:leadDetails);
+                            });
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
+                          NormalButton(title: "Update", onTap: (){
+                            setState(() {
+                              if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
+                              {
+                                isCustomerSourceDropdownEmpty=true;
+                              }
+                            });
+                            if(_formKey.currentState!.validate())
                             {
-                              isCustomerSourceDropdownEmpty=true;
-                            }else{
-                             updateLeadDetailsModel();
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                  MultiBlocProvider(providers: [
-                                    BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),),
-                                    BlocProvider(create: (context)=>EditLeadBloc(),),
-                                  ], child:ContactDetailsScreen(leadDetails:leadDetails,) ,)
-                                  ));
-
-                            }
-
-
-
-
-                          });
-                        }
-
-
-                      }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
-                    ]
-                    else...[
-                      if(isEdit==false)...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            EditButtonComponent(onTap: (){
-                              setState(() {
-                                isEdit=true;
-                                readOnly=false;
-                              });
-                            },),
-                            NormalButtonWithIcon(title: "Next Step", onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),),
-                                BlocProvider(create: (context)=>EditLeadBloc(),),
-                              ],child:ContactDetailsScreen(leadDetails:leadDetails,) )
-
-                                  ));
-                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
-                          ],
-                        )
-                      ]else...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            NormalButton(title: "Cancel", onTap: (){
-                              setState(() {
-                                isEdit=false;
-                                readOnly=true;
-                                updateInputFields(leadDetails:leadDetails);
-                              });
-                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4),
-                            NormalButton(title: "Update", onTap: (){
                               setState(() {
                                 if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
                                 {
                                   isCustomerSourceDropdownEmpty=true;
+                                }else{
+                                  updateLeadDetailsModel();
+                                  editLeadBloc.add(TriggerEditLeadEvent(leadDetails: leadDetails));
                                 }
+
                               });
-                              if(_formKey.currentState!.validate())
-                              {
-                                setState(() {
-                                  if(selectedCustomerSource==null||selectedCustomerSource!.isEmpty)
-                                  {
-                                    isCustomerSourceDropdownEmpty=true;
-                                  }else{
-                                    updateLeadDetailsModel();
-                                    editLeadBloc.add(TriggerEditLeadEvent(leadDetails: leadDetails));
-                                  }
+                            }
 
-                                });
-                              }
-
-                            }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
-                          ],
-                        )
-                      ]
+                          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.4)
+                        ],
+                      )
                     ]
-                    ],
-                ),
+                  ]
+                ],
               ),
             ),
           ),

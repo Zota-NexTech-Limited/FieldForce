@@ -7,6 +7,7 @@ import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
+import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/models/my_activity_models/activiti_list_model.dart';
 import 'package:fieldsales/ui/my_activity/utils.dart';
@@ -150,144 +151,167 @@ bool isSelectedEventsInitialized=false;
              }
           isSelectedEventsInitialized=true;
           return  Scaffold(
-            appBar:AppBar(backgroundColor: COLORS.blue,
+
+            /*appBar:AppBar(backgroundColor: COLORS.blue,
               leading: InkWell(
                   onTap: (){
                     Navigator.pop(context);
                   },
                   child: const Icon(Icons.arrow_back_ios_new,color: COLORS.white,)),
               title:const NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 3.3, text: "My Activity") ,
-            ),
+            ),*/
             body: Container(
               width: SizeConfig.screenWidth,
               height: SizeConfig.screenHeight,
-              color: COLORS.white,
+              color: COLORS.backgroundColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  TableCalendar<Activity>(
-                    firstDay: kFirstDay,
-                    lastDay: kLastDay,
-                    focusedDay: _focusedDay,
-                    selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-                    rangeStartDay: _rangeStart,
-                    rangeEndDay: _rangeEnd,
-                    calendarFormat: _calendarFormat,
-                    rangeSelectionMode: _rangeSelectionMode,
-                    eventLoader: _getEventsForDay,
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    ///header style of cakender
-                    headerStyle:  HeaderStyle(
-                      formatButtonVisible: false,
-                      titleCentered: true,
-                      titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.white,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
-                      decoration: const BoxDecoration(color: COLORS.blue,),
-                      rightChevronIcon:const  Icon(Icons.arrow_forward,color:COLORS.white),
-                      leftChevronIcon:const Icon(Icons.arrow_back,color: COLORS.white,),
+                  Container(
+                     decoration: BoxDecoration( color: COLORS.white,borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),bottomRight:  Radius.circular(SizeConfig.blockWidth*2)) ) ,
+                    child: TableCalendar<Activity>(
+                      firstDay: kFirstDay,
+                      lastDay: kLastDay,
+                      focusedDay: _focusedDay,
+                      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                      rangeStartDay: _rangeStart,
+                      rangeEndDay: _rangeEnd,
+                      calendarFormat: _calendarFormat,
+                      rangeSelectionMode: _rangeSelectionMode,
+                      eventLoader: _getEventsForDay,
+                      startingDayOfWeek: StartingDayOfWeek.monday,
+                      ///header style of cakender
+                      headerStyle:  HeaderStyle(
+                        formatButtonVisible: false,
+                        titleCentered: true,
+                        titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.iconColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                        decoration: const BoxDecoration(color: COLORS.white,),
+                        rightChevronIcon:  Container(
+                          padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: COLORS.blueExtraLight),
+                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                            ),
+                            child: Icon(Icons.arrow_forward_ios,color:COLORS.iconColor,size: SizeConfig.blockHeight*2.5,)),
+                        leftChevronIcon: Container(
+                            padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: COLORS.blueExtraLight),
+                                borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                            ),
+                            child: Icon(Icons.arrow_back_ios_new,color:COLORS.iconColor,size: SizeConfig.blockHeight*2.5,)),
+
+                      ),
+                      calendarStyle: CalendarStyle(
+                        outsideDaysVisible: false,
+                        defaultTextStyle:   textStyleComponent,//all exept sat and sunday
+                        weekendTextStyle:textStyleComponent,//weelkend text style
+                        selectedTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.onPrimaryColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                        selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle),//decoration of selected date
+                        todayDecoration:BoxDecoration(color:COLORS.primaryColor.withOpacity(0.4),shape:BoxShape.circle ),
+                        markerDecoration:  BoxDecoration(color: COLORS.primaryColor,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
+
+
+                        //  weekNumberTextStyle: const TextStyle(color: Colors.red),
+                        //  disabledTextStyle: const TextStyle(color: Colors.blue),//which not in range
+                        // holidayTextStyle: const TextStyle(color: Colors.green),
+                        //  outsideTextStyle:const TextStyle(color: Colors.brown),
+                        //  withinRangeTextStyle: const TextStyle(color: Colors.red),
+                      ),
+                      onDaySelected: _onDaySelected,
+                      onRangeSelected: _onRangeSelected,
+                      onFormatChanged: (format) {
+                        if (_calendarFormat != format) {
+                          setState(() {
+                            _calendarFormat = format;
+                          });
+                        }
+                      },
+                      onPageChanged: (focusedDay) {
+                        _focusedDay = focusedDay;
+                      },
 
                     ),
-                    calendarStyle: CalendarStyle(
-                      outsideDaysVisible: false,
-                      defaultTextStyle:   textStyleComponent,//all exept sat and sunday
-                      weekendTextStyle:textStyleComponent,//weelkend text style
-                      selectedDecoration: const BoxDecoration(color:COLORS.blue,shape:BoxShape.circle ),//decoration of selected date
-                      todayDecoration:BoxDecoration(color:COLORS.blue.withOpacity(0.4),shape:BoxShape.circle ),
-                      markerDecoration: const BoxDecoration(color: COLORS.black,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
-
-
-                      //  weekNumberTextStyle: const TextStyle(color: Colors.red),
-                      //  disabledTextStyle: const TextStyle(color: Colors.blue),//which not in range
-                      // holidayTextStyle: const TextStyle(color: Colors.green),
-                      //  outsideTextStyle:const TextStyle(color: Colors.brown),
-                      //  withinRangeTextStyle: const TextStyle(color: Colors.red),
-                    ),
-                    onDaySelected: _onDaySelected,
-                    onRangeSelected: _onRangeSelected,
-                    onFormatChanged: (format) {
-                      if (_calendarFormat != format) {
-                        setState(() {
-                          _calendarFormat = format;
-                        });
-                      }
-                    },
-                    onPageChanged: (focusedDay) {
-                      _focusedDay = focusedDay;
-                    },
-
                   ),
                   const SizedBox(height: 8.0),
                   Expanded(
                     child: ValueListenableBuilder<List<Activity>>(
                       valueListenable: _selectedEvents,
                       builder: (context, value, _) {
-                        return value.length==0?EmptyScreen(text: "Activity Not Found!",distanceFromTop: 10): ListView.builder(
-                          itemCount: value.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin:  EdgeInsets.symmetric(
-                                horizontal: SizeConfig.blockWidth*2,
-                                vertical: SizeConfig.blockHeight*1,
-                              ),
-                              padding:  EdgeInsets.symmetric(
-                                horizontal: SizeConfig.blockWidth*2,
-                                vertical: SizeConfig.blockHeight*2,
-                              ),
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.3),
-                                      spreadRadius: 0.1,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 1),
+                        return value.length==0?SingleChildScrollView(child: EmptyScreen(text: "Activity Not Found!",distanceFromTop: 0)): Container(
+                          color: COLORS.backgroundColor,
+                          child: ListView.builder(
+                            itemCount: value.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin:  EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.blockWidth*2,
+                                  vertical: SizeConfig.blockHeight*1,
+                                ),
+                                padding:  EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.blockWidth*2,
+                                  vertical: SizeConfig.blockHeight*2,
+                                ),
+                                decoration: BoxDecoration(
+                                    /*boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        spreadRadius: 0.1,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 1),
+                                      ),
+                                    ],*/
+                                    border: Border.all(color: COLORS.cardBorder),
+                                    color: COLORS.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: toUpperCamelCase(value[index].activityName!)),
+                                        subTitleText(text: "Description"),
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 1.8, text: value[index].activitySummary!),
+
+
+                                      ],
                                     ),
-                                  ],
-                                  color: COLORS.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                      NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].activityId!),
-                                      subTitleText(text: "Clime Amount : ₹ 10"),
-                                      subTitleText(text: "Approve Amount : ₹ 10"),
 
-                                    ],
-                                  ),
+                                    Column(
+                                      children: [
+                                        subTitleText(text:DateFormetConvertHelper(date: value[index].updateDate!) ),
+                                        SizedBox(height: SizeConfig.blockHeight*1,),
+                                        SizedBox(
+                                          width: SizeConfig.blockWidth*18,
+                                          height:SizeConfig.blockHeight*3.5,
+                                          child:  ElevatedButton(
+                                            child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.3, text: "To Submit") ,
+                                            style: ButtonStyle(
 
-                                  Column(
-                                    children: [
-                                      subTitleText(text:DateFormetConvertHelper(date: value[index].updateDate!) ),
-                                      SizedBox(height: SizeConfig.blockHeight*1,),
-                                      SizedBox(
-                                        width: SizeConfig.blockWidth*20,
-                                        height:SizeConfig.blockHeight*4,
-                                        child:  ElevatedButton(
-                                          child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.8, text: "To Submit") ,
-                                          style: ButtonStyle(
-                                              elevation: WidgetStatePropertyAll(0),
-                                              padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),),
-                                              backgroundColor: MaterialStatePropertyAll(COLORS.yellow),
-                                              shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))))
+                                                elevation: WidgetStatePropertyAll(0),
+                                                padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),),
+                                                backgroundColor: MaterialStatePropertyAll(COLORS.green.withOpacity(.3)),
+                                                shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)))),
+                                                 side: WidgetStatePropertyAll(BorderSide(color: COLORS.green))
+                                            ),
+                                            onPressed: (){},
                                           ),
-                                          onPressed: (){},
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
 
-                            );
-                          },
+                              );
+                            },
+                          ),
                         );
                       },
                     ),
                   ),
-
                 ],
               ),
             ),

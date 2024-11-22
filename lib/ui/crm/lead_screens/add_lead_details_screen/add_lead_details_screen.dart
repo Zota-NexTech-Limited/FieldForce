@@ -11,7 +11,7 @@ import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/reuse_functions/date_picker.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/ui/crm/lead_screens/history_screen.dart';
-import 'package:fieldsales/ui/crm/lead_screens/schedule_activity_screen.dart';
+import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -87,7 +87,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                                 radius: SizeConfig.blockWidth*5.5,
                                 lineWidth: SizeConfig.blockWidth*0.3,
                                 percent: 0.4,
-                                progressColor: COLORS.blue,
+                                progressColor: COLORS.primaryColor,
                         
                               ),
                             ),

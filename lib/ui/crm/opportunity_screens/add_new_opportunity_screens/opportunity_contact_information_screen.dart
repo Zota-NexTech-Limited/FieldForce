@@ -96,16 +96,16 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },child:
-      Scaffold(
-        appBar: appBarComponent(title: "contact Information", context: context),
-        body: Form(
-          key: _formKey,
-          child: Container(
+      Form(
+        key: _formKey,
+        child: Scaffold(
+          appBar: appBarComponent(title: "contact Information", context: context),
+          body: Container(
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
             padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
+              //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const InputFieldTitleText(text: "Contact Name *"),
                 NormalTextFormField(
@@ -189,21 +189,29 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                       isError: false),
                 ],
 
-                const Spacer(),
+
+              ],
+            ),
+          ),
+          bottomNavigationBar: Container(
+            height: SizeConfig.blockHeight*8,
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+            child: Column(
+              children: [
                 if(isView==false)...[
-                   NormalButtonWithIcon(title: "Next Step", onTap: (){
-                  if(_formKey.currentState!.validate())
-                  {
-                    updateOpportunityDetailsModel();
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                      BlocProvider(create: (context)=>AddOpportunityBloc(),),
-                      BlocProvider(create: (context)=>EditOpportunityBloc(),),
-                    ],child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)
-                       ));
+                  NormalButtonWithIcon(title: "Next Step", onTap: (){
+                    if(_formKey.currentState!.validate())
+                    {
+                      updateOpportunityDetailsModel();
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
+                        BlocProvider(create: (context)=>AddOpportunityBloc(),),
+                        BlocProvider(create: (context)=>EditOpportunityBloc(),),
+                      ],child: OpportunitySourceInformationScreen(opportunityDetails: opportunityDetails,pageRefreshFunction: widget.pageRefreshFunction,),)
+                      ));
 
-                  }
+                    }
 
-                }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
+                  }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
                 ]else...[
                   if(isEdit==false)...[
                     Row(
@@ -246,8 +254,6 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                     )
                   ]
                 ],
-                SizedBox(height: SizeConfig.blockHeight*3,),
-
               ],
             ),
           ),
