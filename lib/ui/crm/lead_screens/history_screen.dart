@@ -62,8 +62,8 @@ class _LeadHistoryScreenState extends State<LeadHistoryScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 2.2, text: "Mahesh Kumara M P"),
-                                NormalText(fontWeight: FontWeight.w400, color: COLORS.black.withOpacity(0.7), fontSize: 1.8, text: "15-07-2024"),
+                                NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 2.2, text: "Mahesh Kumara M P"),
+                                NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor.withOpacity(0.7), fontSize: 1.8, text: "15-07-2024"),
                               ],
                             ),
                             subTextComponent(text: "Event Name Goes Here...."),
@@ -82,6 +82,6 @@ class _LeadHistoryScreenState extends State<LeadHistoryScreen> {
   }
   Widget subTextComponent({required String text})
   {
-    return NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.8, text:text );
+    return NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 1.8, text:text );
   }
 }

@@ -278,7 +278,7 @@ class _LeadScreenState extends State<LeadScreen> {
                   text: title),
               NormalText(
                   fontWeight: FontWeight.w400,
-                  color: COLORS.black,
+                  color: COLORS.textColor,
                   fontSize: 2.5,
                   text: date),
             ],
@@ -292,7 +292,7 @@ class _LeadScreenState extends State<LeadScreen> {
     return SizedBox(
     width: SizeConfig.screenWidth*width,
         child: Text("${title} : ${subTitle}",
-  style: TextStyle(fontSize: SizeConfig.blockHeight*1.8,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+  style: TextStyle(fontSize: SizeConfig.blockHeight*1.8,color:COLORS.textColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
   overflow: TextOverflow.ellipsis,
   )
   );
@@ -315,7 +315,7 @@ class _LeadScreenState extends State<LeadScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1))
               ),
 
-              child: NormalText(text: "From Date:$fromDate",color: COLORS.black,fontSize: 2,fontWeight: FontWeight.w600,)),
+              child: NormalText(text: "From Date:$fromDate",color: COLORS.textColor,fontSize: 2,fontWeight: FontWeight.w600,)),
         ),
         PopupMenuItem(
           value: "To Date",
@@ -326,7 +326,7 @@ class _LeadScreenState extends State<LeadScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1))
               ),
 
-              child: NormalText(text: "To Date:$toDate",color: COLORS.black,fontSize:2,fontWeight: FontWeight.w600,)),
+              child: NormalText(text: "To Date:$toDate",color: COLORS.textColor,fontSize:2,fontWeight: FontWeight.w600,)),
         ),
       ],
     ).then((value) {
@@ -385,7 +385,7 @@ class _LeadScreenState extends State<LeadScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: toUpperCamelCase(name)),
+                  NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize:2.2, text: toUpperCamelCase(name)),
                   NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$enquiry"),
                 ],
               ),
@@ -399,7 +399,7 @@ class _LeadScreenState extends State<LeadScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact Name"),
-                      NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "${toUpperCamelCase(contactName)}"),
+                      NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize:2.2, text: "${toUpperCamelCase(contactName)}"),
 
                     ],
                   ),
@@ -412,7 +412,7 @@ class _LeadScreenState extends State<LeadScreen> {
                             border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.2)
                             )),
-                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.7, text:toUpperCamelCase(status)),
+                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 1.7, text:toUpperCamelCase(status)),
                       ),
                       SizedBox(width: SizeConfig.blockWidth*5,),
                       InkWell(

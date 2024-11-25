@@ -56,13 +56,13 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
                 ),
                 child: TabBar(
                   controller: _tabController,
-                  labelColor: COLORS.black,
+                  labelColor: COLORS.textColor,
                   indicatorColor: COLORS.primaryColor,
                   dividerColor: COLORS.white,
                   indicatorSize: TabBarIndicatorSize.tab,
                   padding: EdgeInsets.all(SizeConfig.blockWidth * 0),
                   labelPadding: EdgeInsets.all(SizeConfig.blockWidth * 0),
-                  unselectedLabelColor: COLORS.black.withOpacity(0.5).withOpacity(0.6),
+                  unselectedLabelColor: COLORS.textColor.withOpacity(0.5).withOpacity(0.6),
                   onTap: (value){
                     setState(() {
 

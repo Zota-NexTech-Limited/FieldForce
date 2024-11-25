@@ -315,7 +315,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                              border: Border.all(color: COLORS.gray,width: 1.5),
                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5))
                          ),
-                         child: NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.5, text: _controller.selectedOptions[index].label),
+                         child: NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.5, text: _controller.selectedOptions[index].label),
                        );
                      },),
                    )
@@ -330,16 +330,16 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                       searchLabel: "search",
                       options: competitorsList,
                       //maxItems: 4,
-                      singleSelectItemStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
+                      singleSelectItemStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.textColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
                       chipConfig:  ChipConfig(
                         radius:6 ,
 
                         wrapType: WrapType.scroll,
                         backgroundColor: COLORS.black.withOpacity(0.1),
-                        labelColor: COLORS.black,
+                        labelColor: COLORS.textColor,
                         deleteIcon: const Icon(CupertinoIcons.multiply,color: COLORS.black,),
                       ),
-                      optionTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
+                      optionTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.textColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
                       // selectedOptionIcon: const Icon(
                       //   CupertinoIcons.multiply,
                       //   color: Colors.pink,

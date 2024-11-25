@@ -249,7 +249,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: toUpperCamelCase(name)),
+                  NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize:2.2, text: toUpperCamelCase(name)),
                   NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$source"),
                 ],
               ),
@@ -262,7 +262,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact"),
-                      NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize:2.2, text: "${toUpperCamelCase(contact)}"),
+                      NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize:2.2, text: "${toUpperCamelCase(contact)}"),
 
                     ],
                   ),
@@ -275,7 +275,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                             border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.2)
                             )),
-                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.7, text:toUpperCamelCase(status)),
+                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 1.7, text:toUpperCamelCase(status)),
                       ),
                       SizedBox(width: SizeConfig.blockWidth*5,),
                       InkWell(

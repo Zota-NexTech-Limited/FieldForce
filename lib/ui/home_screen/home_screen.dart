@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Align(
                     alignment: Alignment.bottomRight,
-                    child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 2.2, text: title)),
+                    child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 2.2, text: title)),
 
               ),
               Positioned(

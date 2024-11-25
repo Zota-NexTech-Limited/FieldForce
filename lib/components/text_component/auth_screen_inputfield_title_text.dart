@@ -9,7 +9,7 @@ class AuthScreenInputFieldTitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,style: TextStyle(fontSize: SizeConfig.blockHeight*2.2,color:COLORS.black,fontFamily: "Manrope",fontWeight:FontWeight.w600,),);
+    return Text(text,style: TextStyle(fontSize: SizeConfig.blockHeight*2.2,color:COLORS.textColor,fontFamily: "Manrope",fontWeight:FontWeight.w600,),);
   }
 }
 

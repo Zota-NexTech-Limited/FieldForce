@@ -30,7 +30,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2,  text: "Sales / Purchase Reports"),
+                NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2,  text: "Sales / Purchase Reports"),
                 SizedBox(height: SizeConfig.blockHeight*2,),
                 Container(
                   decoration: BoxDecoration(
@@ -50,7 +50,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                   ),
                 ),
                 SizedBox(height: SizeConfig.blockHeight*2,),
-                NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2,  text: "ABC Reports"),
+                NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2,  text: "ABC Reports"),
                 SizedBox(height: SizeConfig.blockHeight*2,),
                 Container(
                   decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.7,  text:title),
+            NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.7,  text:title),
             Icon(Icons.arrow_forward_ios_sharp,color: COLORS.black,size: SizeConfig.blockHeight*2.5,)
           ],
         ),

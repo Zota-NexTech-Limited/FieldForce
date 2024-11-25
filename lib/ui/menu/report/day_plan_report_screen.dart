@@ -116,7 +116,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                                        ],
                                      ),
                                      Divider(color: COLORS.gray.withOpacity(0.2),),
-                                     NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Working Hours"),
+                                     NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2,  text:"Working Hours"),
                                      spacing(),
                                      Row(
                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,7 +187,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
 
                                      ),
                                      spacing(),
-                                     NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Start Time"),
+                                     NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2,  text:"Start Time"),
                                      spacing(),
                                      Row(
                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,7 +258,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
 
                                      ),
                                      spacing(),
-                                     const NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Text Field"),
+                                     const NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2,  text:"Text Field"),
                                      spacing(),
                                      SizedBox(
                                        width: SizeConfig.screenWidth,
@@ -270,7 +270,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                                        }, hint: "Select", isError: false),
                                      ),
                                      spacing(),
-                                     const NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:"Multi Select"),
+                                     const NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2,  text:"Multi Select"),
                                      spacing(),
                                      Wrap(
                                        spacing: SizeConfig.blockWidth*2,
@@ -284,7 +284,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                                              color: COLORS.gray.withOpacity(0.4),
                                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4)),
                                            ),
-                                           child:NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.7,  text:item),
+                                           child:NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.7,  text:item),
                                          )
                                        ]
                                        ],
@@ -307,7 +307,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                            children: [
                              SvgImageHelper(image: "assets/image/svg_icons/filter_icon2.svg"),
                              SizedBox(width: SizeConfig.blockWidth*2,),
-                             NormalText(fontWeight: FontWeight.w400, color: COLORS.black.withOpacity(0.35), fontSize: 2, text: "Filter")
+                             NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor.withOpacity(0.35), fontSize: 2, text: "Filter")
                            ],
                          ),
                        ),
@@ -338,7 +338,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                   width: SizeConfig.blockWidth*55,
                   child: Row(
                     children: [
-                      NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.8,  text:"Punch Date"),
+                      NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 1.8,  text:"Punch Date"),
                       SizedBox(width: SizeConfig.blockWidth*2,),
                       SvgImageHelper(image: "assets/image/svg_icons/arrow_up_down.svg")
                     ],
@@ -346,7 +346,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                 ),
                 Row(
                   children: [
-                    NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 1.8,  text:"Punch Date"),
+                    NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 1.8,  text:"Punch Date"),
                     SizedBox(width: SizeConfig.blockWidth*2,),
                     SvgImageHelper(image: "assets/image/svg_icons/arrow_up_down.svg")
                   ],
@@ -379,7 +379,7 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.3,  text:"Feb 30, 2023"),
+                                NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2.3,  text:"Feb 30, 2023"),
                                 InkWell(
                                   onTap: (){
                                     Navigator.pop(context);
@@ -455,8 +455,8 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
           children: [
             SizedBox(
               width: SizeConfig.blockWidth*55,
-                child: NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.7,  text:date)),
-            NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.7,  text:workingHrs),
+                child: NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.7,  text:date)),
+            NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.7,  text:workingHrs),
             Spacer(),
             Icon(Icons.remove_red_eye,color: COLORS.black,size: SizeConfig.blockHeight*2.5,)
           ],
@@ -472,8 +472,8 @@ class _DayPlanReportScreenState extends State<DayPlanReportScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          NormalText(fontWeight: FontWeight.w400, color: COLORS.black.withOpacity(0.48), fontSize: 1.7,  text:title),
-          NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2,  text:subTitle),
+          NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor.withOpacity(0.48), fontSize: 1.7,  text:title),
+          NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2,  text:subTitle),
         ],
       ),
     );

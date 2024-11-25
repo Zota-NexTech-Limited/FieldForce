@@ -28,7 +28,7 @@ class _DayPlanScreenState extends State<DayPlanScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.2,  text: "Work With"),
+            NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2.2,  text: "Work With"),
            SizedBox(height: SizeConfig.blockHeight*2,),
            SizedBox(
              height: SizeConfig.screenHeight*0.73,
@@ -75,7 +75,7 @@ class _DayPlanScreenState extends State<DayPlanScreen> {
                        Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
-                           NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2,  text: "Alice Johnson"),
+                           NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2,  text: "Alice Johnson"),
                            NormalText(fontWeight: FontWeight.w400, color: COLORS.gray, fontSize: 1.6,  text: "Assistant Manager"),
 
                          ],

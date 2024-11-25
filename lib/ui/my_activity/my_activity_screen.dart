@@ -272,9 +272,9 @@ bool isSelectedEventsInitialized=false;
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: toUpperCamelCase(value[index].activityName!)),
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2, text: toUpperCamelCase(value[index].activityName!)),
                                         subTitleText(text: "Description"),
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 1.8, text: value[index].activitySummary!),
+                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 1.8, text: value[index].activitySummary!),
 
 
                                       ],
@@ -288,7 +288,7 @@ bool isSelectedEventsInitialized=false;
                                           width: SizeConfig.blockWidth*18,
                                           height:SizeConfig.blockHeight*3.5,
                                           child:  ElevatedButton(
-                                            child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.3, text: "To Submit") ,
+                                            child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize:1.3, text: "To Submit") ,
                                             style: ButtonStyle(
 
                                                 elevation: WidgetStatePropertyAll(0),
@@ -333,9 +333,9 @@ bool isSelectedEventsInitialized=false;
     );
   }
 
-  TextStyle textStyleComponent=TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500);
+  TextStyle textStyleComponent=TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.textColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500);
   Widget subTitleText({required String text}){
-    return  NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.6, text: text);
+    return  NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.6, text: text);
   }
 }
 

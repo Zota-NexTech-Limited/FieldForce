@@ -260,7 +260,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                         height: SizeConfig.blockHeight*3.5,
                         width: SizeConfig.blockWidth*10,
                         color: COLORS.gray,
-                        child: Center(child: NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2, text: "${(probabilityOfClose.toInt())}")),
+                        child: Center(child: NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2, text: "${(probabilityOfClose.toInt())}")),
                       )
 
                     ],

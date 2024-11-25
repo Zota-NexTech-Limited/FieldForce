@@ -359,7 +359,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                         isReadOnly: false,
                         labelText: "Description"),
                     SizedBox(height: SizeConfig.blockHeight*2,),
-                    const NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 3, text: "Attach Document *"),
+                    const NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 3, text: "Attach Document *"),
                     FileUploadButton(onTap:(){
                       _pickFiles();
                     } ,actionText: "Upload",leadingText: "Upload Documents",),

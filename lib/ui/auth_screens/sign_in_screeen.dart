@@ -164,13 +164,13 @@ class _SignInScreenState extends State<SignInScreen> {
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>HostUrlScreen()));
                               },
-                              child: NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "Update Host URL")),
+                              child: NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2, text: "Update Host URL")),
                           Spacer(),
                           InkWell(
                               onTap: (){
                               //  Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ResetPasswordBloc(),child:const ForgotPasswordScreen(),)));
                               },
-                              child: NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize:2.2, text: "Forgot password?")),
+                              child: NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize:2.2, text: "Forgot password?")),
                         ],
                       ),
                       SizedBox(
