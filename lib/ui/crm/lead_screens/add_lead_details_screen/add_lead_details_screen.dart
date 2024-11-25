@@ -77,7 +77,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                           child: Image.asset("assets/image/common/profile_image.png",fit: BoxFit.fill,),
                         ),
                        SizedBox(width: SizeConfig.blockWidth*2,),
-                       const NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 2.4, text: "MaheshKumara M P"),
+                       const NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2.4, text: "MaheshKumara M P"),
                         const Spacer(),
                         Stack(
                           children: [
@@ -94,7 +94,7 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                             Positioned(
                                 top: SizeConfig.blockHeight*2,
                                 left: SizeConfig.blockWidth*4,
-                                child: NormalText(color:COLORS.black ,fontSize: 1.7,fontWeight: FontWeight.w500,text: "40%",))
+                                child: NormalText(color:COLORS.textColor ,fontSize: 1.7,fontWeight: FontWeight.w500,text: "40%",))
                           ],
                         ),
                       ],

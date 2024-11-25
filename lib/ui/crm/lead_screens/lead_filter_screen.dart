@@ -123,7 +123,7 @@ class _LeadFilterScreenState extends State<LeadFilterScreen> {
         value:value ,
         title: Transform.scale(
           scale: 1.15,
-          child: NormalText(color: COLORS.black,fontSize:1.9,fontWeight: FontWeight.w500,text: title,),
+          child: NormalText(color: COLORS.textColor,fontSize:1.9,fontWeight: FontWeight.w500,text: title,),
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*0),
         activeColor: COLORS.primaryColor,

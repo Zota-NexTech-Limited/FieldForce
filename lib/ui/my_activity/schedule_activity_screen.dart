@@ -62,7 +62,7 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
             padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.blockWidth*2,
+              horizontal: SizeConfig.blockWidth*3,
             ),
             child: ListView(
              // crossAxisAlignment: CrossAxisAlignment.start,

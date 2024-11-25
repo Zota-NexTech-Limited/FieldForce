@@ -25,7 +25,7 @@ class ErrorScreen extends StatelessWidget {
               Text(
                 "Oops!",
                 style: TextStyle(
-                    color: COLORS.black,
+                    color: COLORS.textColor,
                     fontFamily: Config.fountFamilyPrimary,
                     fontSize: SizeConfig.blockWidth * 9.5,
                     letterSpacing: 0.5,
@@ -36,7 +36,7 @@ class ErrorScreen extends StatelessWidget {
                 "Something went wrong.\nDont't worry let's try again.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: COLORS.black,
+                    color: COLORS.textColor,
                     fontFamily: Config.fountFamilyPrimary,
                     fontSize: SizeConfig.blockWidth * 4.5,
                     fontWeight: FontWeight.w500),

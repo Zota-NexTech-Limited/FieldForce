@@ -170,7 +170,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                           },
                             child: Icon(Icons.arrow_back)),
                         SizedBox(width: SizeConfig.blockWidth*5,),
-                        NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.7, text:"Expence"),
+                        NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2.7, text:"Expence"),
                        // const Spacer(),
                         //SvgImageHelper(image: "assets/image/svg_icons/notification.svg"),
                         //SizedBox(width: SizeConfig.blockWidth*6,),
@@ -330,7 +330,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                              NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: value[index].expenseProduct!),
+                                              NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2, text: value[index].expenseProduct!),
                                               subTitleText(text: "Claim Amount : ₹ ${ value[index].expenseClaimPrice!}"),
                                               subTitleText(text: "Approved Amount : ₹ ${ value[index].expenseTotalPrice!}"),
 
@@ -347,7 +347,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                                                 width: SizeConfig.blockWidth*18,
                                                 height:SizeConfig.blockHeight*3.5,
                                                 child:  ElevatedButton(
-                                                  child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize:1.3, text: "To Submit") ,
+                                                  child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize:1.3, text: "To Submit") ,
                                                   style: ButtonStyle(
 
                                                       elevation: WidgetStatePropertyAll(0),
@@ -439,9 +439,9 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
     );
   }
 
-  TextStyle textStyleComponent=TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.black,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500);
+  TextStyle textStyleComponent=TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.textColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500);
   Widget subTitleText({required String text}){
-    return  NormalText(fontWeight: FontWeight.w400, color: COLORS.black, fontSize: 1.6, text: text);
+    return  NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.6, text: text);
   }
 }
 

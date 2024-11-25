@@ -55,7 +55,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             padding: EdgeInsets.all(SizeConfig.blockWidth*3),
             child: Row(
               children: [
-                 NormalText(fontWeight: FontWeight.w700, color: COLORS.black, fontSize: 2.7, text:_selectedIndex==0? "Leads":_selectedIndex==1?"My Activity":_selectedIndex==2?"Reports":"Menu"),
+                 NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2.7, text:_selectedIndex==0? "Leads":_selectedIndex==1?"My Activity":_selectedIndex==2?"Reports":"Menu"),
                 const Spacer(),
                 SvgImageHelper(image: "assets/image/svg_icons/notification.svg"),
                 SizedBox(width: SizeConfig.blockWidth*6,),
@@ -84,7 +84,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             backgroundColor: COLORS.white,
             elevation: 0,
             selectedItemColor: COLORS.primaryColor,
-            unselectedItemColor:COLORS.black ,
+            unselectedItemColor:COLORS.textColor ,
             showSelectedLabels: false,
             showUnselectedLabels: false,
             selectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.blue, fontSize: SizeConfig.blockHeight*0, fontFamily: Config.fountFamilyPrimary),
@@ -140,7 +140,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
           ),
          SizedBox(height: SizeConfig.blockHeight*1,),
-          NormalText(fontWeight: FontWeight.w500, color: _selectedIndex==index?COLORS.primaryColor:COLORS.black, fontSize: 1.5, text: label)
+          NormalText(fontWeight: FontWeight.w500, color: _selectedIndex==index?COLORS.primaryColor:COLORS.textColor, fontSize: 1.5, text: label)
         ],
       ),
     );

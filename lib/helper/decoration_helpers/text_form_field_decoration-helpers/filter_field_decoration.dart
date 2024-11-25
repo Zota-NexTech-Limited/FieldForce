@@ -64,7 +64,7 @@ InputDecoration filterFieldDecoration({required String labelText,required VoidCa
                       border: Border.all(color:COLORS.gray),
                       borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5)
                       )),
-                  child: NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: SizeConfig.blockHeight*2, text:filterText),
+                  child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: SizeConfig.blockHeight*2, text:filterText),
                 ),
               ]
             ],

@@ -103,7 +103,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 width: SizeConfig.blockWidth*6,
                 child: SvgImageHelper(image:icon)),
             SizedBox(width: SizeConfig.blockWidth*2,),
-            NormalText(fontWeight: FontWeight.w500, color: COLORS.black, fontSize: 2.2, text: title)
+            NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 2.2, text: title)
           ],
         ),
       ),

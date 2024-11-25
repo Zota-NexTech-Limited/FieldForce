@@ -36,7 +36,7 @@ class _MultiLineTextFormFieldState extends State<MultiLineTextFormField> {
       readOnly: widget.isReadOnly,
       controller: controller,
       style: TextStyle(
-          color: COLORS.black,
+          color: COLORS.textColor,
           fontFamily: Config.fountFamilyPrimary,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.3,

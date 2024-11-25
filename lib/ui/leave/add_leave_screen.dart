@@ -147,7 +147,7 @@ class _AddLeaveScreenState extends State<AddLeaveScreen> {
 
                             });
                           }),
-                      NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2.2, text:"Half Day"),
+                      NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2.2, text:"Half Day"),
                     ],
                   ),
                   SizedBox(height: SizeConfig.blockHeight*3,),
