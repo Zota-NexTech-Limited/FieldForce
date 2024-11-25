@@ -22,6 +22,7 @@ import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 class OpportunityScreen extends StatefulWidget {
   const OpportunityScreen({super.key});
 
@@ -156,6 +157,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                                 // Optionally confirm action here
                                 if (direction == DismissDirection.endToStart) {
                                   // Call function for left swipe
+                                  launchUrl(Uri.parse('tel:+91 ${state.opportunityList[index].opportunityNumber!}'));
 
                                 } else {
                                   // Call function for right swipe

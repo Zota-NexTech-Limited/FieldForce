@@ -26,6 +26,7 @@ import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 class LeadScreen extends StatefulWidget {
   const LeadScreen({super.key});
 
@@ -168,6 +169,7 @@ class _LeadScreenState extends State<LeadScreen> {
                                      confirmDismiss: (direction) async {
                                        if (direction == DismissDirection.endToStart) {
                                          // Call function for left swipe
+                                         launchUrl(Uri.parse('tel:+91 ${leadList[index].leadPhoneNumber!}'));
 
                                        } else {
                                          // Call function for right swipe
