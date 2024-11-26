@@ -23,7 +23,7 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
   late TabController _tabController;
   final List<Widget> _tabs=[
      BlocProvider(create: (context)=>LeadListBloc()..add(const FetchLeadListEvent(fromDate: "", toDate: "", search: "")),child:const  LeadScreen(),),
-    BlocProvider(create: (context)=>OpportunityListBloc()..add(const GetOpportunityListEvent()),child:const  OpportunityScreen(),),
+    BlocProvider(create: (context)=>OpportunityListBloc()..add(const GetOpportunityListEvent(leadId: "",search: "")),child:const  OpportunityScreen(),),
 
 
   ];

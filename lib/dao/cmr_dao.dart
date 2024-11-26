@@ -155,8 +155,8 @@ class CmrDao{
   }
 
 
-  Future opportunityList() async {
-    var url='${Config.url}/field-force/opportunity/get-list';
+  Future opportunityList({required String leadId,required String search}) async {
+    var url='${Config.url}/field-force/opportunity/get-list?search=$search&lead_id=$leadId';
 
     final response = await http.get(Uri.parse(url),
         headers: Config.authHeaders(),
