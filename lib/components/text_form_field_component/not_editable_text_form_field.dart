@@ -4,10 +4,10 @@ import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:flutter/material.dart';
 
-class NotEditableDropdownComponent extends StatelessWidget {
+class NotEditableTextFormComponent extends StatelessWidget {
   final String text;
   final String label;
-  const NotEditableDropdownComponent({super.key,required this.text,this.label=""});
+  const NotEditableTextFormComponent({super.key,required this.text,required this.label});
 
   @override
   Widget build(BuildContext context) {
