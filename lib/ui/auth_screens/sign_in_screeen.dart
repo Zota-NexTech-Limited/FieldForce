@@ -65,7 +65,7 @@ class _SignInScreenState extends State<SignInScreen> {
           });
         },child: SafeArea(
         child: Scaffold(
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.backgroundColor,
           body:Form(
             key: _formKey,
             child: Container(
