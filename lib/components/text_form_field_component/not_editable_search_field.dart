@@ -30,7 +30,7 @@ class NotEditableSearchField extends StatelessWidget {
                 letterSpacing: 0.3,
                 fontSize: SizeConfig.blockWidth * 4),overflow:TextOverflow.clip ,),
             Spacer(),
-            SvgImageHelper(image: "assets/svg_image_icons/Filter.svg",),
+            SvgImageHelper(image: "assets/image/svg_icons/Filter.svg",),
           ],
         ) ,
       ),
