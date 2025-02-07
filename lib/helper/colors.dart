@@ -19,4 +19,8 @@ class COLORS{
   static const Color blueExtraLight = Color(0xffCED3DE);
   static const Color profileGrayColor = Color(0xff9B9B9B);
   static const Color billingCardBorder = Color(0xffE4E4E7);
+
+  static const Color grayFilterBackColor = Color(0xffF4F4F5);
+  static const Color grayFilterTextColor = Color(0xff71717A);
+  static const Color hintColor = Color(0xff9E9E9E);
 }

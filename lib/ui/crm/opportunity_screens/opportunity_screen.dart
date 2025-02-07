@@ -6,11 +6,13 @@ import 'package:fieldsales/components/state_management_components/empty_screen_c
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
 import 'package:fieldsales/components/svg_image_component.dart';
+import 'package:fieldsales/components/text_form_field_component/not_editable_search_field.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
 import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_new_opportunity_screens/add-oppertunity_screen.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_opportunity_details_screen.dart';
+import 'package:fieldsales/ui/home_screen/filter_screen.dart';
 import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fieldsales/components/button_component/add_new_button.dart';
@@ -36,6 +38,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
   TextEditingController filterController=TextEditingController();
   double lastOffset = 0.0;
   bool  showNewOpportunityButton=true;
+  String selectedFilterType="";
   @override
   void initState() {
     // TODO: implement initState
@@ -191,7 +194,31 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                       ),
                       Positioned(
                           top: SizeConfig.blockHeight*0,
-                          child: SizedBox(
+                          child:  Container(
+                            width: SizeConfig.screenWidth,
+                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+                            child: NotEditableSearchField(text: filterController.text.isNotEmpty?filterController.text:"Search",onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterScreen(
+                                filterText: filterController.text,
+                                filterType: selectedFilterType,
+                                onSearch: (value){
+                                  selectedFilterType=value['filter_type'];
+                                  filterController.text=value['filter_text'];
+                                  print("selectedFilterType-----------$selectedFilterType");
+                                  print("filterController-----------${filterController.text}");
+
+                                  state.opportunityList.clear();
+
+                                  opportunityListBloc.add( GetOpportunityListEvent(leadId: "",search:filterController.text ));
+
+                                },
+                                screenName: "customer_screen",
+
+                              )))  ;
+                            },),
+                          )
+
+                        /*SizedBox(
                             width: SizeConfig.screenWidth,
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
@@ -223,7 +250,9 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                                 filterText: "",
                               ),
                             ),
-                          )),
+                          )*/
+
+                      ),
                      if(showNewOpportunityButton)...[
                        Positioned(
                            bottom: SizeConfig.blockHeight*2,
