@@ -76,6 +76,11 @@ import 'package:flutter/material.dart';
                    backButtonTap: (){
                      Navigator.pop(context);
                    },
+                   clearButtonTap: (){
+                     setState(() {
+                       filterController.clear();
+                     });
+                   },
                    inputType: TextInputType.text,
                    isReadOnly: false,
                    onChanged: (value){},

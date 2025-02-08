@@ -28,7 +28,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        scaffoldBackgroundColor: COLORS.white
+        scaffoldBackgroundColor: COLORS.white,
+        splashFactory: NoSplash.splashFactory, // Removes splash effect
+        highlightColor: Colors.transparent, // Removes highlight color
+        hoverColor: Colors.transparent,
       ),
       home:const SplashScreen()
 

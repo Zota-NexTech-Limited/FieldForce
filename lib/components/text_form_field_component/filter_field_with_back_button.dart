@@ -13,8 +13,9 @@ class FilterFieldWithBackButton extends StatefulWidget {
   ValueChanged onSubmit;
   bool isReadOnly;
   VoidCallback backButtonTap;
+  VoidCallback clearButtonTap;
   String? Function(String?)? validator;
-  FilterFieldWithBackButton({super.key,required this.onChanged,required this.controller,required this.hintText,required this.inputType,required this.validator,required this.isReadOnly,required this.backButtonTap,required this.onSubmit});
+  FilterFieldWithBackButton({super.key,required this.onChanged,required this.controller,required this.hintText,required this.inputType,required this.validator,required this.isReadOnly,required this.backButtonTap,required this.onSubmit,required this.clearButtonTap});
 
   @override
   State<FilterFieldWithBackButton> createState() => _FilterFieldWithBackButtonState();
@@ -59,7 +60,7 @@ class _FilterFieldWithBackButtonState extends State<FilterFieldWithBackButton> {
       keyboardType: inputType,
       textCapitalization: TextCapitalization.words,
       cursorColor: COLORS.gray,
-      decoration: filterFieldWithBackButtonDecoration(iconTap: widget.backButtonTap,labelText: widget.hintText,controller: widget.controller,backButtonTap: widget.backButtonTap),
+      decoration: filterFieldWithBackButtonDecoration(iconTap: widget.backButtonTap,labelText: widget.hintText,controller: widget.controller,backButtonTap: widget.backButtonTap,clearButtonTap:widget.clearButtonTap ),
     );
   }
 }

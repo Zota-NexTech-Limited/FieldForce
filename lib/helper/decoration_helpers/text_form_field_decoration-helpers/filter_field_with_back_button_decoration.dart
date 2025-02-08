@@ -1,8 +1,9 @@
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-InputDecoration filterFieldWithBackButtonDecoration({required String labelText,required VoidCallback iconTap,required TextEditingController  controller,required VoidCallback  backButtonTap}) {
+InputDecoration filterFieldWithBackButtonDecoration({required String labelText,required VoidCallback iconTap,required TextEditingController  controller,required VoidCallback  backButtonTap,required VoidCallback  clearButtonTap}) {
   return InputDecoration(
       filled: true, // Fill the TextFormField with color
       fillColor: COLORS.white,
@@ -43,6 +44,9 @@ InputDecoration filterFieldWithBackButtonDecoration({required String labelText,r
       prefixIconConstraints: BoxConstraints(minWidth: SizeConfig.blockWidth*9),
       prefixIcon:  InkWell(
           onTap:backButtonTap,
-          child: Icon(Icons.arrow_back,size: SizeConfig.blockHeight*3,color: COLORS.black,))
+          child: Icon(Icons.arrow_back,size: SizeConfig.blockHeight*3,color: COLORS.black,)),
+      suffixIcon: InkWell(
+          onTap:clearButtonTap,
+          child: Icon(CupertinoIcons.multiply,size: SizeConfig.blockHeight*3,color: COLORS.black,)),
   );
 }
