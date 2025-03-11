@@ -36,7 +36,7 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
   List<String> inquiryMediumList=["Web Form","Live Chat","SMS","Email","Phone Call","Other"];
 
   String? selectedInquirySource;
-  List<String> inquirySourceList=["Website","Phone Call","Email","Social Media","Events or Trade Show","Referral","Other"];
+  List<String> inquirySourceList=["Website","Whats App","Store Hunt","Google","IVR","Phone Call","Email","Social Media","Events or Trade Show","Referral","Other"];
 
   bool isInquirySourceIsEmpty=false;
   bool isInquiryMediumEmpty=false;

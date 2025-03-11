@@ -26,7 +26,7 @@ class AddLeaveScreen extends StatefulWidget {
 class _AddLeaveScreenState extends State<AddLeaveScreen> {
   String? selectedLeaveType;
   String? selectedAssignedTo;
-  List<String> leaveTypeList=["example1"];
+  List<String> leaveTypeList=["Paid Time Off (PL)","CL + SL-2023","Unpaid (LWP)"];
   List<String> assignedToList=["example1"];
 
   TextEditingController fromDateController=TextEditingController();
