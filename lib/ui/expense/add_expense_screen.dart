@@ -83,7 +83,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     try {
       _directoryPath = null;
       List<PlatformFile>? _pathsSelected;
-      _pathsSelected = (await FilePicker.platform.pickFiles(
+      _pathsSelected = (await FilePicker.pickFiles(
         compressionQuality: 30,
         type: _pickingType,
         allowMultiple: _multiPick,
