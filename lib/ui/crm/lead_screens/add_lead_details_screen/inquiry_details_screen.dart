@@ -18,7 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class InquiryDetailsScreen extends StatefulWidget {
   final NewLeadModel leadDetails;
-  const InquiryDetailsScreen({super.key,required this.leadDetails});
+  final VoidCallback onSuccessFunction;
+  const InquiryDetailsScreen({super.key,required this.leadDetails,required this.onSuccessFunction});
 
   @override
   State<InquiryDetailsScreen> createState() => _InquiryDetailsScreenState();
@@ -103,12 +104,14 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                 }else if(state is NewLeadSuccessState)
                 {
                   setState(() {
+                    widget.onSuccessFunction();
                     final snackBar = SnackBar(content: Text(state.message));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.pop(context);
+
                   });
                 }else if(state is NewLeadFailedState)
                 {
@@ -133,6 +136,7 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                 isView=true;
                 readOnly=true;
                 isEdit=false;
+                widget.onSuccessFunction();
                 // updateInputFields(opportunityDetails: state.opportunityDetails);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
               });

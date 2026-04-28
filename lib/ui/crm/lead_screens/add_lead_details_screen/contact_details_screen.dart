@@ -17,7 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class ContactDetailsScreen extends StatefulWidget {
    NewLeadModel leadDetails;
-   ContactDetailsScreen({super.key,required this.leadDetails});
+   final VoidCallback onSuccessFunction;
+   ContactDetailsScreen({super.key,required this.leadDetails,required this.onSuccessFunction});
 
   @override
   State<ContactDetailsScreen> createState() => _ContactDetailsScreenState();
@@ -146,6 +147,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                 isView=true;
                 readOnly=true;
                 isEdit=false;
+                widget.onSuccessFunction();
                 // updateInputFields(opportunityDetails: state.opportunityDetails);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
               });
@@ -312,7 +314,9 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                           if(isStateDropdownIsEmpty==false&&isCityDropdownIsEmpty==false){
                             setState(() {
                               updateLeadDetailsModel();
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>EditLeadBloc(),child:ProductOrServiceDetailsScreen(leadDetails:leadDetails,) ,)  ));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>EditLeadBloc(),child:ProductOrServiceDetailsScreen(leadDetails:leadDetails,onSuccessFunction: (){
+                                widget.onSuccessFunction();
+                              },) ,)  ));
                             });
                           }
 
@@ -332,7 +336,9 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                             });
                           },),
                           NormalButtonWithIcon(title: "Next Step", onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>EditLeadBloc(),child:ProductOrServiceDetailsScreen(leadDetails:leadDetails,) ,)  ));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>EditLeadBloc(),child:ProductOrServiceDetailsScreen(leadDetails:leadDetails,onSuccessFunction: (){
+                              widget.onSuccessFunction();
+                            },) ,)  ));
                           }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
                         ],
                       )

@@ -189,7 +189,9 @@ class _LeadScreenState extends State<LeadScreen> {
                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                                          BlocProvider(create: (context)=>GetLeadByIdBloc()..add(TriggerGetLeadByIdEvent(id: leadList[index].leadId!))),
                                          BlocProvider(create: (context)=>EditLeadBloc()),
-                                       ], child: CustomerInformationScreen(id:leadList[index].leadId!,))));
+                                       ], child: CustomerInformationScreen(id:leadList[index].leadId!,onSuccessFunction: (){
+                                         _refreshPage();
+                                       },))));
                                      })
 
                                  );
@@ -276,7 +278,9 @@ class _LeadScreenState extends State<LeadScreen> {
                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                                      BlocProvider(create: (context)=>GetLeadByIdBloc()),
                                      BlocProvider(create: (context)=>EditLeadBloc()),
-                                   ], child: CustomerInformationScreen(id:"",))));
+                                   ], child: CustomerInformationScreen(id:"",onSuccessFunction: (){
+                                     _refreshPage();
+                                   },))));
                                  }),
                                ))
                          ]
