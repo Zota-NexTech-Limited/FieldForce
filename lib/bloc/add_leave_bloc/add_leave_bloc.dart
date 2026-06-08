@@ -9,7 +9,7 @@ import 'package:meta/meta.dart';
 part 'add_leave_event.dart';
 part 'add_leave_state.dart';
 
-class AddLeaveBloc extends Bloc<AddLeaveEvent, AddLeaveState> {
+class AddLeaveBloc extends Bloc<AddLeaveEvent, AddLeaveState>  {
   late LeaveDao leaveDao;
   AddLeaveBloc() : super(AddLeaveInitial()) {
     leaveDao=LeaveDao();
