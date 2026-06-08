@@ -16,6 +16,7 @@ import 'package:fieldsales/ui/leave/leave_screen.dart';
 //import 'package:fieldsales/models/crm_models/create_activity_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 class AddLeaveScreen extends StatefulWidget {
   const AddLeaveScreen({super.key});
 
@@ -26,7 +27,7 @@ class AddLeaveScreen extends StatefulWidget {
 class _AddLeaveScreenState extends State<AddLeaveScreen> {
   String? selectedLeaveType;
   String? selectedAssignedTo;
-  List<String> leaveTypeList=["example1"];
+  List<String> leaveTypeList=["Paid Time Off (PL)","CL + SL-2023","Unpaid (LWP)"];
   List<String> assignedToList=["example1"];
 
   TextEditingController fromDateController=TextEditingController();
@@ -166,8 +167,8 @@ class _AddLeaveScreenState extends State<AddLeaveScreen> {
 
                     Leave leaveDetails=Leave(
                       leaveType: selectedLeaveType,
-                      leaveFromDate:DateTime.parse(fromDateController.text).add(Duration(hours: 5, minutes: 30)) ,
-                      leaveToDate: DateTime.parse(toDateController.text).add(Duration(hours: 5, minutes: 30)),
+                      leaveFromDate:DateFormat('yyyy-MM-dd').parse(fromDateController.text).add(Duration(hours: 5, minutes: 30)) ,
+                      leaveToDate: DateFormat('yyyy-MM-dd').parse(toDateController.text).add(Duration(hours: 5, minutes: 30)),
                       description: descriptionController.text,
                       isHalfday: isHalfDay
                     );

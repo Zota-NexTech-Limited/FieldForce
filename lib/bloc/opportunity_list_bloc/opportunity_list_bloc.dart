@@ -25,7 +25,7 @@ class OpportunityListBloc extends Bloc<OpportunityListEvent, OpportunityListStat
       emit(const OpportunityListLoadingState());
 
       print("------------------2--------------------");
-      var response = await cmrDao.opportunityList();
+      var response = await cmrDao.opportunityList(search: event.search,leadId: event.leadId);
 
       print("------------------3--------------------");
       Map<String,dynamic> jsonDecoded = jsonDecode(response.body);

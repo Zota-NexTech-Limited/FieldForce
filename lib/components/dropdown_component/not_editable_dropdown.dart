@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class NotEditableDropdownComponent extends StatelessWidget {
   final String text;
-  const NotEditableDropdownComponent({super.key,required this.text});
+  final String label;
+  const NotEditableDropdownComponent({super.key,required this.text,this.label=""});
 
   @override
   Widget build(BuildContext context) {

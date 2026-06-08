@@ -6,6 +6,7 @@ import 'package:fieldsales/components/text_component/input_field_title_text.dart
 import 'package:fieldsales/components/text_form_field_component/multy_line_text_form_field.dart';
 import 'package:fieldsales/components/text_form_field_component/textformfield_with_suffix_icon.dart';
 import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/reuse_functions/date_picker.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/models/crm_models/create_activity_model.dart';
@@ -21,7 +22,22 @@ class ScheduleActivityScreen extends StatefulWidget {
 class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
   String? selectedActivity;
   String? selectedAssignedTo;
-  List<String> activityList=["example1"];
+  List<String> activityList=[
+    "Email",
+    "Call",
+    "Meeting",
+    "Tax Report For Company My Company",
+    "Order Upsell",
+    "Time Off Approval",
+    "Time Off Second Approval",
+    "Allocation Approval",
+    "Allocation Second Approve",
+    "Alert Date Reached",
+    "Expense Approval",
+    "To Do",
+    "Upload Document",
+    "Exception",
+  ] ;    //Config.userRole.toLowerCase()=="hr"?["Pharmacy Store Visit"]:Config.userRole.toLowerCase()=="ib"?["Client site visit","Hospital Visit"]:Config.userRole.toLowerCase()=="mrk"?["Health Camp visit","Store Visit","Vendor Location Visit","Store Neighborhood Visit"]:["Client site visit","Doctor Visit","Pharmacy Visit"];
   List<String> assignedToList=["example1"];
 
   TextEditingController dueDateController=TextEditingController();

@@ -18,7 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class InquiryDetailsScreen extends StatefulWidget {
   final NewLeadModel leadDetails;
-  const InquiryDetailsScreen({super.key,required this.leadDetails});
+  final VoidCallback onSuccessFunction;
+  const InquiryDetailsScreen({super.key,required this.leadDetails,required this.onSuccessFunction});
 
   @override
   State<InquiryDetailsScreen> createState() => _InquiryDetailsScreenState();
@@ -36,7 +37,7 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
   List<String> inquiryMediumList=["Web Form","Live Chat","SMS","Email","Phone Call","Other"];
 
   String? selectedInquirySource;
-  List<String> inquirySourceList=["Website","Phone Call","Email","Social Media","Events or Trade Show","Referral","Other"];
+  List<String> inquirySourceList=["Website","Whats App","Store Hunt","Google","IVR","Phone Call","Email","Social Media","Events or Trade Show","Referral","Other"];
 
   bool isInquirySourceIsEmpty=false;
   bool isInquiryMediumEmpty=false;
@@ -103,12 +104,14 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                 }else if(state is NewLeadSuccessState)
                 {
                   setState(() {
+                    widget.onSuccessFunction();
                     final snackBar = SnackBar(content: Text(state.message));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.pop(context);
+
                   });
                 }else if(state is NewLeadFailedState)
                 {
@@ -133,6 +136,7 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                 isView=true;
                 readOnly=true;
                 isEdit=false;
+                widget.onSuccessFunction();
                 // updateInputFields(opportunityDetails: state.opportunityDetails);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
               });

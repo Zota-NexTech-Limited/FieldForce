@@ -34,7 +34,7 @@ class _HostUrlScreenState extends State<HostUrlScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.backgroundColor,
           body:Form(
             key: _formKey,
             child: Container(

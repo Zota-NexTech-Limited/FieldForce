@@ -160,7 +160,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                   color: COLORS.backgroundColor,
                   child: Container(
                     //margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
-                    color: COLORS.appBarColor,
+                    color: COLORS.secondaryColor,
                     padding: EdgeInsets.all(SizeConfig.blockHeight*2),
                     child: Row(
                       children: [

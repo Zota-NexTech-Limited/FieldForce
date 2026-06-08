@@ -19,7 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class CustomerInformationScreen extends StatefulWidget {
   final String id;
-  const CustomerInformationScreen({super.key,required this.id});
+  final VoidCallback onSuccessFunction;
+  const CustomerInformationScreen({super.key,required this.id,required this.onSuccessFunction});
   @override
   State<CustomerInformationScreen> createState() => _CustomerInformationScreenState();
 }
@@ -123,6 +124,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                 isView=true;
                 readOnly=true;
                 isEdit=false;
+                widget.onSuccessFunction();
                 // updateInputFields(opportunityDetails: state.opportunityDetails);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
               });
@@ -276,7 +278,9 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                                 MultiBlocProvider(providers: [
                                   BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),),
                                   BlocProvider(create: (context)=>EditLeadBloc(),),
-                                ], child:ContactDetailsScreen(leadDetails:leadDetails,) ,)
+                                ], child:ContactDetailsScreen(leadDetails:leadDetails,onSuccessFunction: (){
+                                  widget.onSuccessFunction();
+                                },) ,)
                             ));
 
                           }
@@ -305,7 +309,9 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                               BlocProvider(create: (context)=>GetAddressByPinCodeBloc(),),
                               BlocProvider(create: (context)=>EditLeadBloc(),),
-                            ],child:ContactDetailsScreen(leadDetails:leadDetails,) )
+                            ],child:ContactDetailsScreen(leadDetails:leadDetails,onSuccessFunction: (){
+                              widget.onSuccessFunction();
+                            },) )
 
                             ));
                           }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)

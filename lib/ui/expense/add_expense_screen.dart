@@ -35,14 +35,21 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   String? selectedStationType;
 
   List<String> productList=[
-    "Healthcare Services",
-    "Education & Training",
-    "Travel & Hospitality",
-    "Automotive Parts Replacement",
-    "Hardware",
-    "Software",
-    "Consumer Electronics" ];
-  List<String> stationTypeList=["example1"];
+    "Daily Allowance",
+    "Food Expenses",
+    "Gift / Courier",
+    "HQ",
+    "Hotel Stay",
+    "Internet Charges",
+    "Out Station" ,
+    "Travelling by Auto" ,
+    "Travelling by Bus" ,
+    "Travelling by Cab" ,
+    "Travelling by Own Vehicle" ,
+    "Travelling by Train" ,
+
+  ];
+  List<String> stationTypeList=["HQ","Ex-HQ","Outstation"];
 
 
   bool isProductDropdownEmpty=false;
@@ -76,7 +83,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     try {
       _directoryPath = null;
       List<PlatformFile>? _pathsSelected;
-      _pathsSelected = (await FilePicker.platform.pickFiles(
+      _pathsSelected = (await FilePicker.pickFiles(
         compressionQuality: 30,
         type: _pickingType,
         allowMultiple: _multiPick,

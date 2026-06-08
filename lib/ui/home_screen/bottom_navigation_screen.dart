@@ -1,11 +1,14 @@
 import 'package:fieldsales/bloc/get_activity_list/activity_list_bloc.dart';
+import 'package:fieldsales/bloc/reset_password/reset_password_bloc.dart';
 import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
+import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/ui/crm/crm_screen.dart';
 import 'package:fieldsales/ui/home_screen/menu_screen.dart';
+import 'package:fieldsales/ui/home_screen/profile_screen.dart';
 import 'package:fieldsales/ui/menu/report/reports_screen.dart';
 import 'package:fieldsales/ui/my_activity/my_activity_screen.dart';
 import 'package:flutter/material.dart';
@@ -51,12 +54,34 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           color: COLORS.backgroundColor,
           child: Container(
             //margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
-            color: COLORS.appBarColor,
+            color: COLORS.secondaryColor,
             padding: EdgeInsets.all(SizeConfig.blockWidth*3),
             child: Row(
               children: [
-                 NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2.7, text:_selectedIndex==0? "Leads":_selectedIndex==1?"My Activity":_selectedIndex==2?"Reports":"Menu"),
-                const Spacer(),
+                InkWell(
+                  onTap:() {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>ResetPasswordBloc(),child:const ProfileScreen(),)));
+
+                    //_scaffoldKey.currentState!.openDrawer();
+                    print("open drawer-----------------------------------");
+
+                  },
+                  child:Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*5))),
+                        child: CircleAvatar(
+                            radius: SizeConfig.blockWidth*3.6,
+                            backgroundColor: COLORS.primaryColor,
+                            child: NormalText(color: COLORS.white,fontWeight: FontWeight.w800,fontSize: 2.7,text: Config.userName[0].toUpperCase(),)),
+                      ),
+                      SizedBox(width: SizeConfig.blockWidth*2,),
+                      NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2.7, text:_selectedIndex==0? "CRM":_selectedIndex==1?"My Activity":_selectedIndex==2?"Reports":"Menu"),
+
+                    ],
+                  ) ,
+                ),
+                   const Spacer(),
                 SvgImageHelper(image: "assets/image/svg_icons/notification.svg"),
                 SizedBox(width: SizeConfig.blockWidth*6,),
                 SvgImageHelper(image: "assets/image/svg_icons/settings_icon.svg"),
@@ -128,7 +153,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     return Container(
       height: SizeConfig.blockHeight*8,
       width: SizeConfig.blockWidth*34,
-      color:_selectedIndex==index?COLORS.appBarColor:COLORS.white,
+      color:_selectedIndex==index?COLORS.secondaryColor:COLORS.white,
       padding: EdgeInsets.symmetric(vertical: SizeConfig.blockWidth*1.5),
       child: Column(
         children: [

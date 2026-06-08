@@ -6,11 +6,13 @@ import 'package:fieldsales/components/state_management_components/empty_screen_c
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
 import 'package:fieldsales/components/svg_image_component.dart';
+import 'package:fieldsales/components/text_form_field_component/not_editable_search_field.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
 import 'package:fieldsales/helper/reuse_functions/upper_camel_case.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_new_opportunity_screens/add-oppertunity_screen.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_opportunity_details_screen.dart';
+import 'package:fieldsales/ui/home_screen/filter_screen.dart';
 import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fieldsales/components/button_component/add_new_button.dart';
@@ -22,6 +24,7 @@ import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 class OpportunityScreen extends StatefulWidget {
   const OpportunityScreen({super.key});
 
@@ -32,8 +35,10 @@ class OpportunityScreen extends StatefulWidget {
 class _OpportunityScreenState extends State<OpportunityScreen> {
   late OpportunityListBloc opportunityListBloc;
   ScrollController scrollController=ScrollController();
+  TextEditingController filterController=TextEditingController();
   double lastOffset = 0.0;
   bool  showNewOpportunityButton=true;
+  String selectedFilterType="";
   @override
   void initState() {
     // TODO: implement initState
@@ -43,7 +48,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
 
   void _refreshPage() {
     setState(() {
-      opportunityListBloc.add(const GetOpportunityListEvent());
+      opportunityListBloc.add(const GetOpportunityListEvent(search: "",leadId: ""));
     });
   }
   @override
@@ -73,7 +78,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                   body: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: SizeConfig.blockHeight*3,left: SizeConfig.blockWidth*3,right: SizeConfig.blockWidth*3),
+                        margin: EdgeInsets.only(top: SizeConfig.blockHeight*11,left: SizeConfig.blockWidth*3,right: SizeConfig.blockWidth*3),
                         width: SizeConfig.screenWidth,
                         height: SizeConfig.screenHeight,
                         child:state.opportunityList.isNotEmpty?ListView.builder(
@@ -156,6 +161,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                                 // Optionally confirm action here
                                 if (direction == DismissDirection.endToStart) {
                                   // Call function for left swipe
+                                  launchUrl(Uri.parse('tel:+91 ${state.opportunityList[index].opportunityNumber!}'));
 
                                 } else {
                                   // Call function for right swipe
@@ -169,7 +175,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
 
                               },
                               child: opportunityCard(
-                                  name: "${state.opportunityList[index].opportunityCompanyName}",
+                                  name: "${state.opportunityList[index].opportunityName}",
                                   source: "${state.opportunityList[index].opportunitySource}",
                                   stage: "${state.opportunityList[index].opportunityStage}",
                                   contact: "${state.opportunityList[index].opportunityEmail}",
@@ -185,6 +191,67 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                                   }),
                             );
                           },):EmptyScreen(text: "Opportunity Not Found!",distanceFromTop: 10,),
+                      ),
+                      Positioned(
+                          top: SizeConfig.blockHeight*0,
+                          child:  Container(
+                            width: SizeConfig.screenWidth,
+                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+                            child: NotEditableSearchField(text: filterController.text.isNotEmpty?filterController.text:"Search",onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterScreen(
+                                filterText: filterController.text,
+                                filterType: selectedFilterType,
+                                onSearch: (value){
+                                  selectedFilterType=value['filter_type'];
+                                  filterController.text=value['filter_text'];
+                                  print("selectedFilterType-----------$selectedFilterType");
+                                  print("filterController-----------${filterController.text}");
+
+                                  state.opportunityList.clear();
+
+                                  opportunityListBloc.add( GetOpportunityListEvent(leadId: "",search:filterController.text ));
+
+                                },
+                                screenName: "customer_screen",
+
+                              )))  ;
+                            },),
+                          )
+
+                        /*SizedBox(
+                            width: SizeConfig.screenWidth,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+                              child: FilterTextFormField(
+                                clearIconTap: (){
+
+                                  setState(() {
+                                    _refreshPage();
+                                    setState(() {
+
+                                      filterController.clear();
+                                    });
+                                  });
+                                },
+                                onChanged: (value){
+                                },
+                                controller: filterController,
+                                hintText: "Search",
+                                inputType: TextInputType.text,
+                                validator: (value){},
+                                isReadOnly: false,
+                                onSubmit: (value){
+                                  opportunityListBloc.add( GetOpportunityListEvent(search: filterController.text,leadId: ""));
+
+                                },
+                                iconTap: (){
+                                  _showPopupMenu(context);
+                                },
+                                filterText: "",
+                              ),
+                            ),
+                          )*/
+
                       ),
                      if(showNewOpportunityButton)...[
                        Positioned(
@@ -210,7 +277,7 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
           else if(state is OpportunityListFailedState)
             {
               return ErrorScreen(onPressed: (){
-                opportunityListBloc.add(const GetOpportunityListEvent());
+                opportunityListBloc.add( GetOpportunityListEvent(leadId: "",search:filterController.text ));
               });
             }
           return Container();
@@ -290,5 +357,37 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
         ) ,
       ),
     );
+  }
+
+
+
+  void _showPopupMenu(BuildContext context) {
+
+    showMenu<String>(
+      context: context,
+      color: COLORS.white,
+      position:RelativeRect.fromDirectional(textDirection: TextDirection.ltr, start: SizeConfig.blockHeight*1, top: SizeConfig.blockHeight*30, end: 0, bottom: 0),
+      items: [
+        PopupMenuItem(
+          value: "Lead",
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*1),
+              decoration: BoxDecoration(
+                  color: COLORS.backgroundColor,
+                  borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1))
+              ),
+
+              child: NormalText(text: "Lead",color: COLORS.textColor,fontSize: 2,fontWeight: FontWeight.w600,)),
+        ),
+
+      ],
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+
+
+        });
+      }
+    });
   }
 }

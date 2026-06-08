@@ -35,6 +35,31 @@ class AuthDao{
   }
 
 
+  Future resetPassword(
+      {
+        required String userEmail,
+      }) async {
+    var url = '${Config.url}/user/forgot/password';
+    print("----------Dao 1----------");
+    Map<String, dynamic> body ={
+      "user_email"  : userEmail,
+    };
+
+    final response = await http.post(Uri.parse(url),
+        headers: Config.headers(),
+        body: jsonEncode(body)
+    );
+
+    print("----------Dao 2-----------");
+
+    print("reset Password  Response Status Code : ${response.statusCode}");
+    print("reset Password  Response body : ${response.body}");
+
+    print("----------Dao 3-----------");
+
+    return response;
+  }
+
 /*  Future resetPassword(
       {
         required String userEmail,

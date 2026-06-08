@@ -8,7 +8,9 @@ sealed class OpportunityListEvent extends Equatable{
 }
 
 class GetOpportunityListEvent extends OpportunityListEvent{
-  const  GetOpportunityListEvent();
+  final String leadId;
+  final String search;
+  const  GetOpportunityListEvent({required this.leadId,required this.search});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [leadId,search];
 }

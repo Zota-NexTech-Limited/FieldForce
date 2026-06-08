@@ -17,7 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class ProductOrServiceDetailsScreen extends StatefulWidget {
   final NewLeadModel leadDetails;
-  const ProductOrServiceDetailsScreen({super.key,required this.leadDetails});
+  final VoidCallback onSuccessFunction;
+  const ProductOrServiceDetailsScreen({super.key,required this.leadDetails,required this.onSuccessFunction});
 
   @override
   State<ProductOrServiceDetailsScreen> createState() => _ProductOrServiceDetailsScreenState();
@@ -86,6 +87,7 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
               isView=true;
               readOnly=true;
               isEdit=false;
+              widget.onSuccessFunction();
               // updateInputFields(opportunityDetails: state.opportunityDetails);
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
             });
@@ -193,7 +195,9 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                             BlocProvider(create: (context)=>NewLeadBloc(),),
                             BlocProvider(create: (context)=>EditLeadBloc(),),
-                          ], child:InquiryDetailsScreen(leadDetails: leadDetails,) ,)
+                          ], child:InquiryDetailsScreen(leadDetails: leadDetails,onSuccessFunction: (){
+                            widget.onSuccessFunction();
+                          },) ,)
                           ));
                         });
                       }
@@ -215,7 +219,9 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                               BlocProvider(create: (context)=>NewLeadBloc(),),
                               BlocProvider(create: (context)=>EditLeadBloc(),),
-                            ], child:InquiryDetailsScreen(leadDetails: leadDetails,) ,)
+                            ], child:InquiryDetailsScreen(leadDetails: leadDetails,onSuccessFunction: (){
+                              widget.onSuccessFunction();
+                            },) ,)
                             ));
                           }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7)
                         ],

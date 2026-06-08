@@ -37,7 +37,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     _resetState();
     try {
       _directoryPath = null;
-      _paths = (await FilePicker.platform.pickFiles(
+      _paths = (await FilePicker.pickFiles(
         compressionQuality: 30,
         type: _pickingType,
         allowMultiple: _multiPick,
@@ -67,7 +67,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   void _clearCachedFiles() async {
     _resetState();
     try {
-      bool? result = await FilePicker.platform.clearTemporaryFiles();
+      bool? result = await FilePicker.clearTemporaryFiles();
       _scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
       _scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
@@ -93,7 +93,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   void _selectFolder() async {
     _resetState();
     try {
-      String? path = await FilePicker.platform.getDirectoryPath(
+      String? path = await FilePicker.getDirectoryPath(
         dialogTitle: _dialogTitleController.text,
         initialDirectory: _initialDirectoryController.text,
         lockParentWindow: _lockParentWindow,
@@ -114,7 +114,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   Future<void> _saveFile() async {
     _resetState();
     try {
-      String? fileName = await FilePicker.platform.saveFile(
+      String? fileName = await FilePicker.saveFile(
         allowedExtensions: (_extension?.isNotEmpty ?? false)
             ? _extension?.replaceAll(' ', '').split(',')
             : null,

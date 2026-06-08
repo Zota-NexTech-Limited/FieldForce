@@ -19,8 +19,7 @@ import 'package:fieldsales/models/crm_models/opportinuty_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-//import 'package:multiple_search_selection/multiple_search_selection.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:multi_dropdown/multi_dropdown.dart';
 class OpportunitySourceInformationScreen extends StatefulWidget {
   final OpportunityDetailsModel opportunityDetails;
   final VoidCallback pageRefreshFunction;
@@ -39,20 +38,20 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
   final MultiSelectController<String> _controller = MultiSelectController();
   String? selectedSource;
   List<String> sourceList=[];
-  List<ValueItem<String>> competitorsList=[
-    ValueItem(
+  List<DropdownItem<String>> competitorsList=[
+    DropdownItem(
       label: 'Option 1',
       value: 'User 1',),
-    ValueItem(
+    DropdownItem(
       label: 'Option 2',
       value: 'User 2',),
-    ValueItem(
+    DropdownItem(
       label: 'Option 3',
       value: 'User 3',),
-    ValueItem(
+    DropdownItem(
       label: 'Option 4',
       value: 'User 4',),
-    ValueItem(
+    DropdownItem(
       label: 'Option 5',
       value: 'User 5',),
   ];
@@ -81,13 +80,14 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
         isView=true;
         readOnly=true;
         updateInputFields(opportunityDetails: widget.opportunityDetails);
-        for(ValueItem<String> item in competitorsList)
-          {
-            if(widget.opportunityDetails.opportunityCompetitors!.contains(item.value))
-              {
-                _controller.selectedOptions.add(item);
-              }
-          }
+        final preselectedValues = widget.opportunityDetails.opportunityCompetitors ?? [];
+        _controller.setItems(
+          competitorsList
+              .map((item) => item.copyWith(
+                    selected: preselectedValues.contains(item.value),
+                  ))
+              .toList(),
+        );
       }
     });
   }
@@ -300,7 +300,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                      ),
                      child: ListView.builder(
                        scrollDirection: Axis.horizontal,
-                       itemCount: _controller.selectedOptions.length,
+                       itemCount: _controller.selectedItems.length,
                        itemBuilder: (context, index) {
                        return Container(
                          margin: EdgeInsets.symmetric(
@@ -315,51 +315,49 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                              border: Border.all(color: COLORS.gray,width: 1.5),
                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5))
                          ),
-                         child: NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.5, text: _controller.selectedOptions[index].label),
+                         child: NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.5, text: _controller.selectedItems[index].label),
                        );
                      },),
                    )
                   ]else...[
-                    MultiSelectDropDown<String>(
+                    MultiDropdown<String>(
                       controller: _controller,
-                      // clearIcon: const Icon(CupertinoIcons.multiply),
-                      onOptionSelected: (options) {
+                      onSelectionChange: (options) {
 
                       },
                       searchEnabled: true,
-                      searchLabel: "search",
-                      options: competitorsList,
-                      //maxItems: 4,
-                      singleSelectItemStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.textColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
-                      chipConfig:  ChipConfig(
-                        radius:6 ,
-
-                        wrapType: WrapType.scroll,
+                      items: competitorsList,
+                      chipDecoration: ChipDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(6)),
+                        wrap: false,
                         backgroundColor: COLORS.black.withOpacity(0.1),
-                        labelColor: COLORS.textColor,
+                        labelStyle: TextStyle(color: COLORS.textColor),
                         deleteIcon: const Icon(CupertinoIcons.multiply,color: COLORS.black,),
                       ),
-                      optionTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.textColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w400),
-                      // selectedOptionIcon: const Icon(
-                      //   CupertinoIcons.multiply,
-                      //   color: Colors.pink,
-                      // ),
-                      selectedOptionBackgroundColor: COLORS.gray,
-                      selectedOptionTextColor: COLORS.primaryColor,
-                      dropdownMargin: 2,
-                      onOptionRemoved: (index, option) {},
-                      optionBuilder: (context, valueItem, isSelected) {
+                      dropdownItemDecoration: DropdownItemDecoration(
+                        textColor: COLORS.textColor,
+                        selectedBackgroundColor: COLORS.gray,
+                        selectedTextColor: COLORS.primaryColor,
+                      ),
+                      fieldDecoration: FieldDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5)),
+                          borderSide: BorderSide(color: COLORS.gray, width: 1.5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5)),
+                          borderSide: BorderSide(color: COLORS.gray, width: 1.5),
+                        ),
+                      ),
+                      itemBuilder: (item, index, onTap) {
                         return ListTile(
-                          title: Text(valueItem.label),
-                          //subtitle: Text(valueItem.value.toString()),
-                          trailing: isSelected
+                          title: Text(item.label),
+                          trailing: item.selected
                               ? const Icon(Icons.check_circle)
                               : const Icon(Icons.radio_button_unchecked),
+                          onTap: onTap,
                         );
                       },
-                      borderColor: COLORS.gray,
-                      borderWidth: 1.5,
-                      borderRadius:SizeConfig.blockWidth * 1.5,
                     ),
                   ],
 
@@ -391,7 +389,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                   SubmitButtonComponent(onTap:(){
                     setState(() {
                       selectedCompetitorsList.clear();
-                      for(ValueItem item in _controller.selectedOptions)
+                      for(DropdownItem item in _controller.selectedItems)
                       {
                         selectedCompetitorsList.add(item.value.toString());
                       }
@@ -433,7 +431,7 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                         NormalButton(title: "Update", onTap: (){
                           setState(() {
                             selectedCompetitorsList.clear();
-                            for(ValueItem item in _controller.selectedOptions)
+                            for(DropdownItem item in _controller.selectedItems)
                             {
                               selectedCompetitorsList.add(item.value.toString());
                             }

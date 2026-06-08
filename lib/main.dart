@@ -2,6 +2,7 @@ import 'package:fieldsales/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/ui/auth_screens/authentication_screen.dart';
+import 'package:fieldsales/ui/auth_screens/splash_screen.dart';
 import 'package:fieldsales/ui/crm/crm_screen.dart';
 import 'package:fieldsales/ui/home_screen/home_screen.dart';
 import 'package:fieldsales/ui/my_activity/my_activity_screen.dart';
@@ -27,12 +28,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        scaffoldBackgroundColor: COLORS.white
+        scaffoldBackgroundColor: COLORS.white,
+        splashFactory: NoSplash.splashFactory, // Removes splash effect
+        highlightColor: Colors.transparent, // Removes highlight color
+        hoverColor: Colors.transparent,
       ),
-      home: BlocProvider(
+      home:const SplashScreen()
+
+      /* BlocProvider(
         create: (context) => AuthenticationBloc()..add(const InitializeApp()),
         child: const Authentication(),
-      ),
+      ),*/
     );
   }
 }

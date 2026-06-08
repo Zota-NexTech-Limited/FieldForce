@@ -12,6 +12,7 @@ import 'package:fieldsales/components/state_management_components/loading_screen
 import 'package:fieldsales/components/svg_image_component.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/components/text_form_field_component/filter_field.dart';
+import 'package:fieldsales/components/text_form_field_component/not_editable_search_field.dart';
 import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/config.dart';
 import 'package:fieldsales/helper/date_converter.dart';
@@ -22,10 +23,12 @@ import 'package:fieldsales/models/crm_models/new_lead_model.dart';
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_details_screen.dart';
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/add_lead_screen.dart';
 import 'package:fieldsales/ui/crm/lead_screens/add_lead_details_screen/customer_information_screen.dart';
+import 'package:fieldsales/ui/home_screen/filter_screen.dart';
 import 'package:fieldsales/ui/my_activity/schedule_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 class LeadScreen extends StatefulWidget {
   const LeadScreen({super.key});
 
@@ -168,6 +171,7 @@ class _LeadScreenState extends State<LeadScreen> {
                                      confirmDismiss: (direction) async {
                                        if (direction == DismissDirection.endToStart) {
                                          // Call function for left swipe
+                                         launchUrl(Uri.parse('tel:+91 ${leadList[index].leadPhoneNumber!}'));
 
                                        } else {
                                          // Call function for right swipe
@@ -185,7 +189,9 @@ class _LeadScreenState extends State<LeadScreen> {
                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                                          BlocProvider(create: (context)=>GetLeadByIdBloc()..add(TriggerGetLeadByIdEvent(id: leadList[index].leadId!))),
                                          BlocProvider(create: (context)=>EditLeadBloc()),
-                                       ], child: CustomerInformationScreen(id:leadList[index].leadId!,))));
+                                       ], child: CustomerInformationScreen(id:leadList[index].leadId!,onSuccessFunction: (){
+                                         _refreshPage();
+                                       },))));
                                      })
 
                                  );
@@ -201,7 +207,34 @@ class _LeadScreenState extends State<LeadScreen> {
                          ),
                          Positioned(
                              top: SizeConfig.blockHeight*0,
-                             child: SizedBox(
+                             child:  Container(
+                               width: SizeConfig.screenWidth,
+                               padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+                               child: NotEditableSearchField(text: filterController.text.isNotEmpty?filterController.text:"Search",onTap: (){
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterScreen(
+                                   filterText: filterController.text,
+                                   filterType: "",
+                                   fromDate: fromDate,
+                                   toDate: toDate,
+                                   onSearch: (value){
+                                     filterController.text=value['filter_text'];
+                                     fromDate=value["from_date"];
+                                     toDate=value["to_date"];
+                                     print("filterController-----------${filterController.text}");
+
+                                     state.leadList.clear();
+
+                                     leadListBloc.add(FetchLeadListEvent(fromDate: fromDate, toDate: toDate, search:filterController.text));
+
+
+                                   },
+                                   screenName: "lead_screen",
+
+                                 )))  ;
+                               },),
+                             )
+
+                            /* SizedBox(
                                width: SizeConfig.screenWidth,
                                child: Padding(
                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
@@ -232,7 +265,9 @@ class _LeadScreenState extends State<LeadScreen> {
                                    filterText: "",
                                  ),
                                ),
-                             )),
+                             )*/
+
+                         ),
                          if(showNewLeadButton)...[
                            Positioned(
                                bottom: SizeConfig.blockHeight*2,
@@ -243,7 +278,9 @@ class _LeadScreenState extends State<LeadScreen> {
                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                                      BlocProvider(create: (context)=>GetLeadByIdBloc()),
                                      BlocProvider(create: (context)=>EditLeadBloc()),
-                                   ], child: CustomerInformationScreen(id:"",))));
+                                   ], child: CustomerInformationScreen(id:"",onSuccessFunction: (){
+                                     _refreshPage();
+                                   },))));
                                  }),
                                ))
                          ]
