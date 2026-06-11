@@ -6,7 +6,6 @@ import 'package:fieldsales/components/app_bar_component/app_bar_component.dart';
 import 'package:fieldsales/components/button_component/file_upload_button.dart';
 import 'package:fieldsales/components/button_component/normal_button.dart';
 import 'package:fieldsales/components/dropdown_component/single_item_select_dropdown.dart';
-import 'package:fieldsales/components/text_component/input_field_title_text.dart';
 import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/components/text_form_field_component/multy_line_text_form_field.dart';
 import 'package:fieldsales/components/text_form_field_component/normal_textform_field.dart';
@@ -173,262 +172,321 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         },child:  Form(
           key: _formKey,
           child: Scaffold(
-            backgroundColor: COLORS.white,
+            backgroundColor: COLORS.scaffoldBg,
             appBar: appBarComponent(title: "Add Expense", context: context),
             body: Container(
               height: SizeConfig.screenHeight,
               width: SizeConfig.screenWidth,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,),
               child:SingleChildScrollView(
                 physics:const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const  InputFieldTitleText(text: "Product *"),
-                    SizedBox(
-                      width: SizeConfig.screenWidth,
-                      height: SizeConfig.blockHeight*6,
-
-                      child: SingleItemSelectDropdown(isError: isProductDropdownEmpty,selectedValue: selectedProduct, list: productList, onChanged: (value){
-                        setState(() {
-                          selectedProduct=value;
-                          isProductDropdownEmpty=false;
-                        });
-                      }, hint: "Product"),
+                    SizedBox(height: SizeConfig.blockHeight*2.5,),
+                    _sectionHeader(
+                      icon: Icons.receipt_long_outlined,
+                      title: "Expense Details",
+                      subtitle: "Tell us about this expense",
                     ),
-                    const InputFieldTitleText(text: "Station Type *"),
-                    SizedBox(
-                      width: SizeConfig.screenWidth,
-                      height: SizeConfig.blockHeight*6,
+                    SizedBox(height: SizeConfig.blockHeight*1.5,),
+                    _card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _label("Product *"),
+                          SizedBox(
+                            width: SizeConfig.screenWidth,
+                            height: SizeConfig.blockHeight*6,
 
-                      child: SingleItemSelectDropdown(selectedValue: selectedStationType, list: stationTypeList,isError: false, onChanged: (value){
-                        setState(() {
-                          selectedStationType=value;
-                        });
-                      }, hint: "Station Type"),
+                            child: SingleItemSelectDropdown(isError: isProductDropdownEmpty,selectedValue: selectedProduct, list: productList, onChanged: (value){
+                              setState(() {
+                                selectedProduct=value;
+                                isProductDropdownEmpty=false;
+                              });
+                            }, hint: "Product"),
+                          ),
+                          _label("Station Type *"),
+                          SizedBox(
+                            width: SizeConfig.screenWidth,
+                            height: SizeConfig.blockHeight*6,
+
+                            child: SingleItemSelectDropdown(selectedValue: selectedStationType, list: stationTypeList,isError: false, onChanged: (value){
+                              setState(() {
+                                selectedStationType=value;
+                              });
+                            }, hint: "Station Type"),
+                          ),
+                          _label("Reporting Place *"),
+                          NormalTextFormField(
+                              onChanged: (value){},
+                              controller: reportingPlaceController,
+                              hintText: "Reporting Place",
+                              inputType: TextInputType.text,
+                              validator: (value){
+                                if(value==null||value.isEmpty)
+                                {
+                                  return "Reporting Place is Empty";
+                                }
+                                return null;
+                              },
+                              readOnly: false
+                          ),
+                        ],
+                      ),
                     ),
-                    const InputFieldTitleText(text: "Reporting Place *"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: reportingPlaceController,
-                        hintText: "Reporting Place",
-                        inputType: TextInputType.text,
-                        validator: (value){
-                          if(value==null||value.isEmpty)
-                          {
-                            return "Reporting Place is Empty";
-                          }
-                          return null;
-                        },
-                        readOnly: false
+                    SizedBox(height: SizeConfig.blockHeight*2.5,),
+                    _sectionHeader(
+                      icon: Icons.payments_outlined,
+                      title: "Claim & Amount",
+                      subtitle: "Pricing and quantity for this claim",
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const  InputFieldTitleText(text: "Claim Price *"),
-                            SizedBox(
-                                width: SizeConfig.blockWidth*45,
-                                child:NormalTextFormField(
-                                    onChanged: (value){},
-                                    controller: claimPriceController,
-                                    hintText: "Claim Price",
-                                    inputType: TextInputType.number,
-                                    validator: (value){
-                                      RegExp regex = RegExp(r'^[-+]?\d*\.?\d+$');
-                                      if (!regex.hasMatch(value!)) {
-                                        return 'Invalid Claim Price';
-                                      }
-                                    },
-                                    readOnly: false
-                                )
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const InputFieldTitleText(text: "Claim Quantity *"),
-                            SizedBox(
-                              width: SizeConfig.blockWidth*45,
-
-
-                              child:NormalTextFormField(
-                                  onChanged: (value){},
-                                  controller: claimQuantityController,
-                                  hintText: "Claim Quantity",
-                                  inputType: TextInputType.number,
-                                  validator: (value){
-                                      RegExp regex = RegExp(r"^[0-9]+$");
-                                      if (!regex.hasMatch(value!)) {
-                                        return 'Numbers are allowed';
-                                    }
-                                  },
-                                  readOnly: false
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const  InputFieldTitleText(text: "Total"),
-                            SizedBox(
-                                width: SizeConfig.blockWidth*45,
-                                child:NormalTextFormField(
-                                    onChanged: (value){},
-                                    controller: totalController,
-                                    hintText: "Total",
-                                    inputType: TextInputType.text,
-                                    validator: (value){
-                                      if(value==null||value.isEmpty)
-                                      {
-                                        return null;
-                                      }
-                                      else{
-                                        RegExp regex = RegExp(r'^[-+]?\d*\.?\d+$');
-                                        if (!regex.hasMatch(value)) {
-                                          return 'Numbers are allowed';
-                                        }
-                                      }
-                                    },
-                                    readOnly: false
-                                )
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const InputFieldTitleText(text: "Date"),
-                            SizedBox(
-                              width: SizeConfig.blockWidth*45,
-                              height: SizeConfig.blockHeight*6,
-
-                              child:TextFormFieldWithSuffixIcon(
-                                  onChanged:  (value){},
-                                  controller: dateController,
-                                  hintText: "Date",
-                                  readOnly: true,
-                                  inputType: TextInputType.text,
-                                  validator: (value){
-                                    return null;
-                                  },
-                                  onTap: (){
-                                    setState(() {
-                                      showSingleDatePickerHelper(context: context,controller: dateController);
-                                    });
-
-
-                                  },
-                                  suffixIcon: "assets/image/svg_icons/calendar.svg"),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const InputFieldTitleText(text: "Bill Reference *"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: billReferenceController,
-                        hintText: "Bill Reference",
-                        inputType: TextInputType.text,
-                        validator: (value){
-                          if(value==null||value.isEmpty)
-                          {
-                            return "Bill Reference is Empty";
-                          }
-                          return null;
-                        },
-                        readOnly: false
-                    ),
-                    const InputFieldTitleText(text: "Description *"),
-                    MultiLineTextFormField(
-                        onChanged: (value){},
-                        controller: descriptionController,
-                        inputType: TextInputType.text,
-                        validator:  (value){
-                          if(value==null||value.isEmpty)
-                          {
-                            return "Description is Empty";
-                          }
-                          return null;
-                        },
-                        isReadOnly: false,
-                        labelText: "Description"),
-                    SizedBox(height: SizeConfig.blockHeight*2,),
-                    const NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 3, text: "Attach Document *"),
-                    FileUploadButton(onTap:(){
-                      _pickFiles();
-                    } ,actionText: "Upload",leadingText: "Upload Documents",),
-                    if(_paths!=null)...[
-                      SizedBox(height: SizeConfig.blockHeight*2,),
-                      GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            crossAxisSpacing: SizeConfig.blockWidth*0,
-                            mainAxisSpacing: SizeConfig.blockHeight*2
-
-                        ),
-                        shrinkWrap: true,
-                        physics:const NeverScrollableScrollPhysics(),
-                        itemCount: _paths!.length,
-                        itemBuilder:(context, index) {
-                          final path = kIsWeb
-                              ? null
-                              : _paths!
-                              .map((e) => e.path)
-                              .toList()[index]
-                              .toString();
-                          return Stack(
+                    SizedBox(height: SizeConfig.blockHeight*1.5,),
+                    _card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _paths![index].name.contains(".jpg")?Container(
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-
-                                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                                    border: Border.all(color: COLORS.primaryColor)
-                                ),
-                                height: SizeConfig.blockHeight*10,
-                                width: SizeConfig.blockWidth*20,
-                                child: Image.file(File(path!),fit: BoxFit.fill,),
-                              ):Container(
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-
-                                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                                    border: Border.all(color: COLORS.primaryColor)
-                                ),
-                                height: SizeConfig.blockHeight*10,
-                                width: SizeConfig.blockWidth*20,
-                                child: Center(
-                                  child: Icon(Icons.file_present_sharp,color: COLORS.primaryColor,),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _label("Claim Price *"),
+                                    NormalTextFormField(
+                                        onChanged: (value){},
+                                        controller: claimPriceController,
+                                        hintText: "Claim Price",
+                                        inputType: TextInputType.number,
+                                        validator: (value){
+                                          RegExp regex = RegExp(r'^[-+]?\d*\.?\d+$');
+                                          if (!regex.hasMatch(value!)) {
+                                            return 'Invalid Claim Price';
+                                          }
+                                        },
+                                        readOnly: false
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Positioned(
-                                  top: SizeConfig.blockHeight*0.5,
-                                  right: SizeConfig.blockWidth*5 ,
-                                  child: InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          _paths!.removeAt(index);
-                                        });
-                                      },
-                                      child: Icon(CupertinoIcons.delete,color: COLORS.red,size: SizeConfig.blockHeight*3,)))
+                              SizedBox(width: SizeConfig.blockWidth*4,),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _label("Claim Quantity *"),
+                                    NormalTextFormField(
+                                        onChanged: (value){},
+                                        controller: claimQuantityController,
+                                        hintText: "Claim Quantity",
+                                        inputType: TextInputType.number,
+                                        validator: (value){
+                                            RegExp regex = RegExp(r"^[0-9]+$");
+                                            if (!regex.hasMatch(value!)) {
+                                              return 'Numbers are allowed';
+                                          }
+                                        },
+                                        readOnly: false
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
-                          );
-                        },)
-                    ],
-                    SizedBox(height: SizeConfig.blockHeight*2,),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _label("Total"),
+                                    NormalTextFormField(
+                                        onChanged: (value){},
+                                        controller: totalController,
+                                        hintText: "Total",
+                                        inputType: TextInputType.text,
+                                        validator: (value){
+                                          if(value==null||value.isEmpty)
+                                          {
+                                            return null;
+                                          }
+                                          else{
+                                            RegExp regex = RegExp(r'^[-+]?\d*\.?\d+$');
+                                            if (!regex.hasMatch(value)) {
+                                              return 'Numbers are allowed';
+                                            }
+                                          }
+                                        },
+                                        readOnly: false
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: SizeConfig.blockWidth*4,),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _label("Date"),
+                                    SizedBox(
+                                      height: SizeConfig.blockHeight*6,
+                                      child:TextFormFieldWithSuffixIcon(
+                                          onChanged:  (value){},
+                                          controller: dateController,
+                                          hintText: "Date",
+                                          readOnly: true,
+                                          inputType: TextInputType.text,
+                                          validator: (value){
+                                            return null;
+                                          },
+                                          onTap: (){
+                                            setState(() {
+                                              showSingleDatePickerHelper(context: context,controller: dateController);
+                                            });
+
+
+                                          },
+                                          suffixIcon: "assets/image/svg_icons/calendar.svg"),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight*2.5,),
+                    _sectionHeader(
+                      icon: Icons.description_outlined,
+                      title: "Reference & Notes",
+                      subtitle: "Bill reference and a short description",
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight*1.5,),
+                    _card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _label("Bill Reference *"),
+                          NormalTextFormField(
+                              onChanged: (value){},
+                              controller: billReferenceController,
+                              hintText: "Bill Reference",
+                              inputType: TextInputType.text,
+                              validator: (value){
+                                if(value==null||value.isEmpty)
+                                {
+                                  return "Bill Reference is Empty";
+                                }
+                                return null;
+                              },
+                              readOnly: false
+                          ),
+                          _label("Description *"),
+                          MultiLineTextFormField(
+                              onChanged: (value){},
+                              controller: descriptionController,
+                              inputType: TextInputType.text,
+                              validator:  (value){
+                                if(value==null||value.isEmpty)
+                                {
+                                  return "Description is Empty";
+                                }
+                                return null;
+                              },
+                              isReadOnly: false,
+                              labelText: "Description"),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight*2.5,),
+                    _sectionHeader(
+                      icon: Icons.attach_file_outlined,
+                      title: "Attachments",
+                      subtitle: "Upload supporting documents",
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight*1.5,),
+                    _card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _label("Attach Document *"),
+                          FileUploadButton(onTap:(){
+                            _pickFiles();
+                          } ,actionText: "Upload",leadingText: "Upload Documents",),
+                          if(_paths!=null)...[
+                            SizedBox(height: SizeConfig.blockHeight*2,),
+                            GridView.builder(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4,
+                                  crossAxisSpacing: SizeConfig.blockWidth*0,
+                                  mainAxisSpacing: SizeConfig.blockHeight*2
+
+                              ),
+                              shrinkWrap: true,
+                              physics:const NeverScrollableScrollPhysics(),
+                              itemCount: _paths!.length,
+                              itemBuilder:(context, index) {
+                                final path = kIsWeb
+                                    ? null
+                                    : _paths!
+                                    .map((e) => e.path)
+                                    .toList()[index]
+                                    .toString();
+                                return Stack(
+                                  children: [
+                                    _paths![index].name.contains(".jpg")?Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+
+                                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+                                          border: Border.all(color: COLORS.cardBorder)
+                                      ),
+                                      height: SizeConfig.blockHeight*10,
+                                      width: SizeConfig.blockWidth*20,
+                                      child: Image.file(File(path!),fit: BoxFit.fill,),
+                                    ):Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                          color: COLORS.primarySoft,
+                                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+                                          border: Border.all(color: COLORS.cardBorder)
+                                      ),
+                                      height: SizeConfig.blockHeight*10,
+                                      width: SizeConfig.blockWidth*20,
+                                      child: Center(
+                                        child: Icon(Icons.file_present_sharp,color: COLORS.primaryColor,),
+                                      ),
+                                    ),
+                                    Positioned(
+                                        top: SizeConfig.blockHeight*0.5,
+                                        right: SizeConfig.blockWidth*5 ,
+                                        child: InkWell(
+                                            onTap: (){
+                                              setState(() {
+                                                _paths!.removeAt(index);
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                                              decoration: BoxDecoration(
+                                                color: COLORS.dangerSoft,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Icon(CupertinoIcons.delete,color: COLORS.danger,size: SizeConfig.blockHeight*2.4,),
+                                            )))
+                                  ],
+                                );
+                              },)
+                          ],
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight*3,),
 
 
                   ],
@@ -436,11 +494,22 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               ),
             ),
             bottomNavigationBar: Container(
-              height: SizeConfig.blockHeight*8,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
-              child: Column(
-                children: [
-                  NormalButton(title: "ADD", onTap: (){
+              padding: EdgeInsets.fromLTRB(
+                SizeConfig.blockWidth*4,
+                SizeConfig.blockHeight*1.5,
+                SizeConfig.blockWidth*4,
+                SizeConfig.blockHeight*2,
+              ),
+              decoration: BoxDecoration(
+                color: COLORS.white,
+                border: Border(top: BorderSide(color: COLORS.divider)),
+              ),
+              child: SafeArea(
+                top: false,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    NormalButton(title: "ADD", onTap: (){
                     if(selectedProduct==null||selectedProduct!.isEmpty)
                     {
                       setState(() {
@@ -472,13 +541,85 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
 
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ),)
 
 
+    );
+  }
+
+  Widget _card({required Widget child}) {
+    return Container(
+      width: SizeConfig.screenWidth,
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth*4,
+        vertical: SizeConfig.blockHeight*1,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.white,
+        borderRadius: BorderRadius.circular(SizeConfig.blockWidth*4.5),
+        border: Border.all(color: COLORS.cardBorder),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+
+  Widget _sectionHeader({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          height: SizeConfig.blockHeight*5.5,
+          width: SizeConfig.blockHeight*5.5,
+          decoration: BoxDecoration(
+            color: COLORS.primarySoft,
+            borderRadius: BorderRadius.circular(SizeConfig.blockWidth*3),
+          ),
+          child: Icon(icon, color: COLORS.primaryColor, size: SizeConfig.blockHeight*3),
+        ),
+        SizedBox(width: SizeConfig.blockWidth*3,),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize: 2.3, text: title),
+              SizedBox(height: SizeConfig.blockHeight*0.3,),
+              NormalText(fontWeight: FontWeight.w500, color: COLORS.textTertiary, fontSize: 1.8, text: subtitle),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _label(String text) {
+    return Padding(
+      padding: EdgeInsets.only(
+        top: SizeConfig.blockHeight*2,
+        bottom: SizeConfig.blockHeight*1,
+      ),
+      child: NormalText(
+        fontWeight: FontWeight.w600,
+        color: COLORS.textSecondary,
+        fontSize: 2.0,
+        text: text,
+      ),
     );
   }
 }

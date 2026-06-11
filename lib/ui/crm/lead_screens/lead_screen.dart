@@ -4,7 +4,6 @@ import 'package:fieldsales/bloc/create_activity_bloc/create_activity_bloc.dart';
 import 'package:fieldsales/bloc/edit_lead_bloc/edit_lead_bloc.dart';
 import 'package:fieldsales/bloc/get_lead_by_id_bloc/get_lead_by_id_bloc.dart';
 import 'package:fieldsales/bloc/lead_list_bloc/lead_list_bloc.dart';
-import 'package:fieldsales/components/button_component/add_new_button.dart';
 import 'package:fieldsales/components/button_component/circular_button.dart';
 import 'package:fieldsales/components/state_management_components/empty_screen_component.dart';
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
@@ -68,11 +67,40 @@ class _LeadScreenState extends State<LeadScreen> {
                  {
                    leadList=state.leadList;
                    return Scaffold(
-                     backgroundColor: COLORS.backgroundColor,
+                     backgroundColor: COLORS.scaffoldBg,
+                     floatingActionButtonLocation:
+                         FloatingActionButtonLocation.endFloat,
+                     floatingActionButton: AnimatedScale(
+                       duration: const Duration(milliseconds: 200),
+                       curve: Curves.easeOut,
+                       scale: showNewLeadButton ? 1 : 0,
+                       child: FloatingActionButton.extended(
+                         onPressed: () {
+                           Navigator.push(context, MaterialPageRoute(builder: (context) => MultiBlocProvider(providers: [
+                             BlocProvider(create: (context) => GetLeadByIdBloc()),
+                             BlocProvider(create: (context) => EditLeadBloc()),
+                           ], child: CustomerInformationScreen(id: "", onSuccessFunction: () {
+                             _refreshPage();
+                           },))));
+                         },
+                         backgroundColor: COLORS.primaryColor,
+                         foregroundColor: COLORS.white,
+                         elevation: 3,
+                         icon: const Icon(Icons.add_rounded, size: 22),
+                         label: const Text(
+                           "New Lead",
+                           style: TextStyle(
+                             fontFamily: 'Inter',
+                             fontWeight: FontWeight.w600,
+                             fontSize: 14.5,
+                           ),
+                         ),
+                       ),
+                     ),
                      body: Stack(
                        children: [
                          Container(
-                           margin: EdgeInsets.only(top: SizeConfig.blockHeight*12,left: SizeConfig.blockWidth*3,right:SizeConfig.blockWidth*3 ),
+                           margin: EdgeInsets.only(top: SizeConfig.blockHeight*12,left: SizeConfig.blockWidth*4,right:SizeConfig.blockWidth*4 ),
                            width: SizeConfig.screenWidth,
                            height: SizeConfig.screenHeight,
                            child: RefreshIndicator(
@@ -118,52 +146,48 @@ class _LeadScreenState extends State<LeadScreen> {
                                      key:Key(index.toString()),
                                      background: Container(
                                          margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*6),
+                                         alignment: Alignment.centerLeft,
                                          decoration: BoxDecoration(
-                                             color:COLORS.yellow,
-                                             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
+                                             color:COLORS.warning,
+                                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))
                                          ),
-                                         // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
                                          child: Row(
                                            mainAxisAlignment: MainAxisAlignment.start,
                                            children: [
                                              Column(
                                                mainAxisAlignment: MainAxisAlignment.center,
                                                children: [
-                                                 Container(
-                                                   width: SizeConfig.blockWidth*40,
-                                                   //color: COLORS.orange,
-                                                   child: SizedBox(
+                                                 SizedBox(
                                                        height: SizeConfig.blockHeight*3,
                                                        width: SizeConfig.blockWidth*10,
                                                        child: SvgImageHelper(image: "assets/image/svg_icons/my_activity.svg")),
-                                                 ),
-                                                 const NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Schedule Activity")
+                                                 SizedBox(height: SizeConfig.blockHeight*0.6,),
+                                                 const NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 1.9, text: "Schedule Activity")
                                                ],
                                              ),
                                            ],
                                          )),
                                      secondaryBackground: Container(
                                          margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*6),
+                                         alignment: Alignment.centerRight,
                                          decoration: BoxDecoration(
-                                             color:COLORS.green,
-                                             borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
+                                             color:COLORS.success,
+                                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))
                                          ),
-                                         // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
                                          child: Row(
                                            mainAxisAlignment: MainAxisAlignment.end,
                                            children: [
                                              Column(
                                                mainAxisAlignment: MainAxisAlignment.center,
                                                children: [
-                                                 Container(
-                                                   width: SizeConfig.blockWidth*40,
-                                                   //color: COLORS.orange,
-                                                   child: SizedBox(
+                                                 SizedBox(
                                                        height: SizeConfig.blockHeight*3,
                                                        width: SizeConfig.blockWidth*10,
                                                        child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
-                                                 ),
-                                                 NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
+                                                 SizedBox(height: SizeConfig.blockHeight*0.6,),
+                                                 NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 1.9, text: "Call")
                                                ],
                                              ),
                                            ],
@@ -209,7 +233,17 @@ class _LeadScreenState extends State<LeadScreen> {
                              top: SizeConfig.blockHeight*0,
                              child:  Container(
                                width: SizeConfig.screenWidth,
-                               padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+                               padding: EdgeInsets.only(left: SizeConfig.blockWidth*4,right: SizeConfig.blockWidth*4,top: SizeConfig.blockHeight*2,bottom: SizeConfig.blockHeight*1.5),
+                               decoration: BoxDecoration(
+                                 color: COLORS.scaffoldBg,
+                                 boxShadow: [
+                                   BoxShadow(
+                                     color: COLORS.shadow,
+                                     blurRadius: 14,
+                                     offset: const Offset(0, 6),
+                                   ),
+                                 ],
+                               ),
                                child: NotEditableSearchField(text: filterController.text.isNotEmpty?filterController.text:"Search",onTap: (){
                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterScreen(
                                    filterText: filterController.text,
@@ -268,22 +302,6 @@ class _LeadScreenState extends State<LeadScreen> {
                              )*/
 
                          ),
-                         if(showNewLeadButton)...[
-                           Positioned(
-                               bottom: SizeConfig.blockHeight*2,
-                               left: SizeConfig.screenWidth*0.3,
-                               child:  Align(
-                                 alignment: Alignment.bottomCenter,
-                                 child: AddNewButton(title: "New Lead", onTap: (){
-                                   Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
-                                     BlocProvider(create: (context)=>GetLeadByIdBloc()),
-                                     BlocProvider(create: (context)=>EditLeadBloc()),
-                                   ], child: CustomerInformationScreen(id:"",onSuccessFunction: (){
-                                     _refreshPage();
-                                   },))));
-                                 }),
-                               ))
-                         ]
 
                        ],
                      ),
@@ -395,73 +413,119 @@ class _LeadScreenState extends State<LeadScreen> {
 
   Widget leadCard({required String name,required String enquiry,required String date,required String contactName,required String status,required VoidCallback menuTap,required VoidCallback cardTap,})
   {
-    return InkWell(
-      onTap: cardTap,
-      splashColor: COLORS.backgroundColor,
-      child: Container(
-        width: SizeConfig.screenWidth,
-        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
-        margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
-
-        decoration: BoxDecoration(
-          /*boxShadow: [
+    final Color statusBg = status=="new"
+        ? COLORS.dangerSoft
+        : status=="Completed"
+            ? COLORS.successSoft
+            : COLORS.warningSoft;
+    final Color statusFg = status=="new"
+        ? COLORS.danger
+        : status=="Completed"
+            ? COLORS.success
+            : COLORS.warning;
+    return Container(
+      width: SizeConfig.screenWidth,
+      margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.6,),
+      decoration: BoxDecoration(
+          color: COLORS.surface,
+          border: Border.all(color: COLORS.cardBorder),
+          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4.2)),
+          boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              spreadRadius: 0.1,
-              blurRadius: 10,
-              offset: Offset(0, 1),
+              color: COLORS.shadow,
+              blurRadius: 14,
+              offset: const Offset(0, 6),
             ),
-          ],*/
-            color: COLORS.white,
-            border: Border.all(color: COLORS.cardBorder),
-            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
-        ),
-        child:Column(
-            children: [
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ]
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: cardTap,
+          splashColor: COLORS.primarySoft,
+          highlightColor: COLORS.primarySoft.withOpacity(0.4),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
+            child:Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize:2.2, text: toUpperCamelCase(name)),
-                  NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$enquiry"),
-                ],
-              ),
-              Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: date)),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact Name"),
-                      NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize:2.2, text: "${toUpperCamelCase(contactName)}"),
-
+                      Container(
+                        width: SizeConfig.blockWidth*11,
+                        height: SizeConfig.blockWidth*11,
+                        decoration: BoxDecoration(
+                          color: COLORS.primarySoft,
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+                        ),
+                        child: Icon(Icons.person_outline_rounded, color: COLORS.primaryColor, size: SizeConfig.blockHeight*3.2,),
+                      ),
+                      SizedBox(width: SizeConfig.blockWidth*3,),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize:2.2, text: toUpperCamelCase(name)),
+                            SizedBox(height: SizeConfig.blockHeight*0.4,),
+                            NormalText(fontWeight: FontWeight.w500, color: COLORS.textTertiary, fontSize:1.7, text: "#$enquiry"),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2.5,vertical: SizeConfig.blockHeight*0.6),
+                        decoration: BoxDecoration(
+                            color: statusBg,
+                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*5))),
+                        child: NormalText(fontWeight: FontWeight.w600, color: statusFg, fontSize: 1.6, text:toUpperCamelCase(status)),
+                      ),
                     ],
                   ),
+                  SizedBox(height: SizeConfig.blockHeight*1.6,),
+                  Divider(height: 1, color: COLORS.divider,),
+                  SizedBox(height: SizeConfig.blockHeight*1.4,),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1.5,vertical: SizeConfig.blockHeight*0.2),
-                        decoration: BoxDecoration(
-                            color:status=="new"? COLORS.red.withOpacity(0.2):status=="Completed"?COLORS.green.withOpacity(0.2):COLORS.yellow.withOpacity(0.2),
-                            border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
-                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.2)
-                            )),
-                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 1.7, text:toUpperCamelCase(status)),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            NormalText(fontWeight: FontWeight.w500, color: COLORS.textTertiary, fontSize: 1.6, text: "Contact Name"),
+                            SizedBox(height: SizeConfig.blockHeight*0.3,),
+                            NormalText(fontWeight: FontWeight.w600, color: COLORS.textPrimary, fontSize:2, text: "${toUpperCamelCase(contactName)}"),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: SizeConfig.blockWidth*5,),
-                      InkWell(
-                          onTap: menuTap,
-                          child:const SvgImageHelper(image: "assets/image/svg_icons/more_icon.svg"))
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Icon(Icons.event_outlined, color: COLORS.textTertiary, size: SizeConfig.blockHeight*2,),
+                              SizedBox(height: SizeConfig.blockHeight*0.3,),
+                              NormalText(fontWeight: FontWeight.w500, color: COLORS.textTertiary, fontSize: 1.6, text: date),
+                            ],
+                          ),
+                          SizedBox(width: SizeConfig.blockWidth*3,),
+                          InkWell(
+                              onTap: menuTap,
+                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*5)),
+                              child:Padding(
+                                padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                                child: const SvgImageHelper(image: "assets/image/svg_icons/more_icon.svg"),
+                              ))
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-
-            ]
-        ) ,
+                  ),
+                ]
+            ) ,
+          ),
+        ),
       ),
     );
   }

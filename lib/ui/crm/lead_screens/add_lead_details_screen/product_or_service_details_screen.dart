@@ -74,6 +74,54 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
       }
     });
   }
+  Widget _sectionHeader({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.all(SizeConfig.blockWidth*2.5),
+          decoration: BoxDecoration(
+            color: COLORS.primarySoft,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Icon(icon, color: COLORS.primaryColor, size: SizeConfig.blockHeight*3),
+        ),
+        SizedBox(width: SizeConfig.blockWidth*3),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight*2.3,
+                  fontWeight: FontWeight.w700,
+                  color: COLORS.textPrimary,
+                ),
+              ),
+              SizedBox(height: SizeConfig.blockHeight*0.4),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight*1.6,
+                  fontWeight: FontWeight.w400,
+                  color: COLORS.textTertiary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -99,78 +147,108 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
         },child: Form(
           key: _formKey,
           child: Scaffold(
-            backgroundColor: COLORS.white,
+            backgroundColor: COLORS.scaffoldBg,
             appBar: appBarComponent(title: "Product/Service Details",context: context),
             body: Container(
               height: SizeConfig.screenHeight,
               width: SizeConfig.screenWidth,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const InputFieldTitleText(text: "Product / Service Interested *"),
-                    if(readOnly==true)...[
-                      NotEditableDropdownComponent(text: selectedProduct==null?"--":selectedProduct!)
-                    ]else...[
-                      SingleItemSelectDropdown(selectedValue: selectedProduct, list: productList, onChanged: (value){
-                        setState(() {
-                          selectedProduct=value;
-                        });
-                      },
-                          isError: false,hint: "Product / Service customer interested in"),
-                    ],
-
-                    const InputFieldTitleText(text: "Additional details "),
-                    MultiLineTextFormField(onChanged: (value){}, controller: additionalDetailsController, inputType: TextInputType.text, validator: (value){
-                      return null;
-                    }, isReadOnly: readOnly, labelText: "Additional details about the product or service"),
-
-                    const InputFieldTitleText(text: "Quantity "),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: quantityController,
-                        hintText: "Desired quantity of the product (if applicable)",
-                        inputType: TextInputType.phone,
-                        validator: (value){
-                          if(value==null||value.isEmpty)
-                          {
-                            return null;
-                          }
-                          else{
-                            RegExp regex = RegExp(r"^[0-9]+$");
-                            if (!regex.hasMatch(value)) {
-                              return 'Numbers are allowed';
-                            }
-                          }
-                        },
-                        readOnly: readOnly
+                    SizedBox(height: SizeConfig.blockHeight*2,),
+                    _sectionHeader(
+                      icon: Icons.inventory_2_outlined,
+                      title: "Product & Service",
+                      subtitle: "Tell us what the customer is interested in",
                     ),
+                    SizedBox(height: SizeConfig.blockHeight*2,),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.blockWidth*4,
+                        vertical: SizeConfig.blockHeight*1.5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: COLORS.white,
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: COLORS.cardBorder, width: 1),
+                        boxShadow: [
+                          BoxShadow(
+                            color: COLORS.shadow,
+                            blurRadius: 14,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const InputFieldTitleText(text: "Product / Service Interested *"),
+                          if(readOnly==true)...[
+                            NotEditableDropdownComponent(text: selectedProduct==null?"--":selectedProduct!)
+                          ]else...[
+                            SingleItemSelectDropdown(selectedValue: selectedProduct, list: productList, onChanged: (value){
+                              setState(() {
+                                selectedProduct=value;
+                              });
+                            },
+                                isError: false,hint: "Product / Service customer interested in"),
+                          ],
 
-                    const InputFieldTitleText(text: "Budget"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: budgetController,
-                        hintText: "Customer's estimated budget (if applicable)",
-                        inputType: TextInputType.phone,
-                        validator: (value){
-                          if(value==null||value.isEmpty)
-                          {
+                          const InputFieldTitleText(text: "Additional details "),
+                          MultiLineTextFormField(onChanged: (value){}, controller: additionalDetailsController, inputType: TextInputType.text, validator: (value){
                             return null;
-                          }
-                          else{
-                            RegExp regex = RegExp(r'^[-+]?\d*\.?\d+$');
-                            if (!regex.hasMatch(value)) {
-                              return 'Numbers are allowed';
-                            }
-                          }
-                        },
-                        readOnly: readOnly
+                          }, isReadOnly: readOnly, labelText: "Additional details about the product or service"),
+
+                          const InputFieldTitleText(text: "Quantity "),
+                          NormalTextFormField(
+                              onChanged: (value){},
+                              controller: quantityController,
+                              hintText: "Desired quantity of the product (if applicable)",
+                              inputType: TextInputType.phone,
+                              validator: (value){
+                                if(value==null||value.isEmpty)
+                                {
+                                  return null;
+                                }
+                                else{
+                                  RegExp regex = RegExp(r"^[0-9]+$");
+                                  if (!regex.hasMatch(value)) {
+                                    return 'Numbers are allowed';
+                                  }
+                                }
+                              },
+                              readOnly: readOnly
+                          ),
+
+                          const InputFieldTitleText(text: "Budget"),
+                          NormalTextFormField(
+                              onChanged: (value){},
+                              controller: budgetController,
+                              hintText: "Customer's estimated budget (if applicable)",
+                              inputType: TextInputType.phone,
+                              validator: (value){
+                                if(value==null||value.isEmpty)
+                                {
+                                  return null;
+                                }
+                                else{
+                                  RegExp regex = RegExp(r'^[-+]?\d*\.?\d+$');
+                                  if (!regex.hasMatch(value)) {
+                                    return 'Numbers are allowed';
+                                  }
+                                }
+                              },
+                              readOnly: readOnly
+                          ),
+                          SizedBox(height: SizeConfig.blockHeight*2,),
+                        ],
+                      ),
                     ),
-
-
-
 
                     SizedBox(height: SizeConfig.blockHeight*3,),
 
@@ -182,8 +260,22 @@ class _ProductOrServiceDetailsScreenState extends State<ProductOrServiceDetailsS
               ),
             ),
             bottomNavigationBar: Container(
-              height: SizeConfig.blockHeight*8,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              height: SizeConfig.blockHeight*10,
+              padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.blockWidth*4,
+                vertical: SizeConfig.blockHeight*1.5,
+              ),
+              decoration: BoxDecoration(
+                color: COLORS.white,
+                border: Border(top: BorderSide(color: COLORS.divider, width: 1)),
+                boxShadow: [
+                  BoxShadow(
+                    color: COLORS.shadow,
+                    blurRadius: 16,
+                    offset: const Offset(0, -6),
+                  ),
+                ],
+              ),
               child: Column(
                 children: [
                   if(isView==false)...[

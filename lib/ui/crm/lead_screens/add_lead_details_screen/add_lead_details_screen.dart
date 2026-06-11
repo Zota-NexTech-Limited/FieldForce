@@ -53,221 +53,238 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.scaffoldBg,
           appBar: appBarComponent(title: "7337722939", context: context),
-          body: Container(
+          body: SizedBox(
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
             child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                SizeConfig.blockWidth * 4,
+                SizeConfig.blockHeight * 2,
+                SizeConfig.blockWidth * 4,
+                SizeConfig.blockHeight * 4,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*2),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: SizeConfig.blockHeight*8,
-                          width: SizeConfig.blockWidth*14,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                              border: Border.all(color: COLORS.white)
-                          ),
-                          child: Image.asset("assets/image/common/profile_image.png",fit: BoxFit.fill,),
+                  _buildProfileCard(),
+                  SizedBox(height: SizeConfig.blockHeight * 2.5),
+                  _buildSectionCard(
+                    title: "Inquiry Details",
+                    icon: Icons.assignment_outlined,
+                    children: [
+                      const InputFieldTitleText(text: "Inquiry Source"),
+                      SingleItemSelectDropdown(
+                          selectedValue: selectedInquirySource,
+                          list: inquirySourceList,
+                          hint: "Select Inquiry Source",
+                          isError: false,
+                          onChanged: (value){
+                            setState(() {
+                              selectedInquirySource=value;
+                            });
+                          }
+                      ),
+                      const InputFieldTitleText(text: "Inquiry Category"),
+                      SingleItemSelectDropdown(
+                          selectedValue: selectedInquiryCategory,
+                          list: inquiryCategoryList,
+                          hint: "Select Inquiry Category",
+                          isError: false,
+                          onChanged: (value){
+                            setState(() {
+                              selectedInquiryCategory=value;
+                            });
+                          }
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: SizeConfig.blockHeight * 2.5),
+                  _buildSectionCard(
+                    title: "Contact Information",
+                    icon: Icons.person_outline,
+                    children: [
+                      const InputFieldTitleText(text: "Contact Name"),
+                      NormalTextFormField(
+                          onChanged: (value){
+                          },
+                          controller: contactNameController,
+                          hintText: "Contact Name",
+                          inputType: TextInputType.text,
+                          validator: (value){
+                              return null;
+                          },
+                          readOnly: false
+                      ),
+                      const InputFieldTitleText(text: "Profession"),
+                      NormalTextFormField(
+                          onChanged: (value){
+                          },
+                          controller: professionController,
+                          hintText: "profession",
+                          inputType: TextInputType.text,
+                          validator: (value){
+                            return null;
+                          },
+                          readOnly: false
+                      ),
+                      const InputFieldTitleText(text: "Mobile Number"),
+                      TextFormFieldWithSuffixIcon(
+                          onChanged:  (value){
+                          },
+                          readOnly: false,
+                          controller: mobileNumberController,
+                          hintText: "Mobile Number",
+                          inputType: TextInputType.phone,
+                          validator: (value){
+                            return null;
+                          },
+                          onTap: (){},
+                          suffixIcon: "assets/image/svg_icons/phone_icon.svg"),
+                      const InputFieldTitleText(text: "Phone"),
+                      TextFormFieldWithSuffixIcon(
+                          onChanged:  (value){
+
+                          },
+                          controller: phoneController,
+                          hintText: "Phone",
+                          readOnly: false,
+                          inputType: TextInputType.phone,
+                          validator: (value){
+                            return null;
+                          },
+                          onTap: (){},
+                          suffixIcon: "assets/image/svg_icons/phone_icon.svg"),
+                    ],
+                  ),
+                  SizedBox(height: SizeConfig.blockHeight * 2.5),
+                  _buildSectionCard(
+                    title: "Lead Details",
+                    icon: Icons.fact_check_outlined,
+                    children: [
+                      const InputFieldTitleText(text: "Start Date"),
+                      TextFormFieldWithSuffixIcon(
+                          onChanged:  (value){},
+                          controller: startDateController,
+                          hintText: "Start Date",
+                          readOnly: true,
+                          inputType: TextInputType.text,
+                          validator: (value){
+                            return null;
+                          },
+                          onTap: (){
+                           setState(() {
+                             showSingleDatePickerHelper(context: context,controller: startDateController);
+                           });
+                            print("startDateController----------------${startDateController.text}");
+
+                          },
+                          suffixIcon: "assets/image/svg_icons/calendar.svg"),
+                      const InputFieldTitleText(text: "RM Remark"),
+                      NormalTextFormField(
+                          onChanged: (value){
+                          },
+                          controller: rmRemarkController,
+                          hintText: "RM Remark",
+                          inputType: TextInputType.text,
+                          validator: (value){
+                            return null;
+                          },
+                          readOnly: false
+                      ),
+                      const InputFieldTitleText(text: "Financial Status"),
+                      SingleItemSelectDropdown(
+                          selectedValue: selectedFinancialStatus,
+                          list: financialStatusList,
+                          hint: "Select Financial Status",
+                          isError: false,
+                          onChanged: (value){
+                            setState(() {
+                              selectedFinancialStatus=value;
+                            });
+                          }
+                      ),
+                      const InputFieldTitleText(text: "Store Location"),
+                      SingleItemSelectDropdown(
+                          selectedValue: selectedStoreLocation,
+                          list: storeLocationList,
+                          hint: "Select Store Location",
+                          isError: false,
+                          onChanged: (value){
+                            setState(() {
+                              selectedStoreLocation=value;
+                            });
+                          }
+                      ),
+                      const InputFieldTitleText(text: "Welcome Message"),
+                      SingleItemSelectDropdown(
+                          selectedValue: selectedWelcomeMessageSent,
+                          list: welcomeMessageSentList,
+                          hint: "Select Welcome Message",
+                          isError: false,
+                          onChanged: (value){
+                            setState(() {
+                              selectedWelcomeMessageSent=value;
+                            });
+                          }
+                      ),
+                      const InputFieldTitleText(text: " Status"),
+                      SingleItemSelectDropdown(
+                          selectedValue: selectedStatus,
+                          list: statusList,
+                          hint: "Select Status",
+                          isError: false,
+                          onChanged: (value){
+                            setState(() {
+                              selectedStatus=value;
+                            });
+                          }
+                      ),
+                      const InputFieldTitleText(text: "Prospect Status"),
+                      SingleItemSelectDropdown(
+                          selectedValue: selectedProspectStatus,
+                          list: prospectStatusList,
+                          hint: "Select Prospect Status",
+                          isError: false,
+                          onChanged: (value){
+                            setState(() {
+                              selectedProspectStatus=value;
+                            });
+                          }
+                      ),
+                      SizedBox(height: SizeConfig.blockHeight * 2),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.blockWidth * 3,
+                          vertical: SizeConfig.blockHeight * 1.5,
                         ),
-                       SizedBox(width: SizeConfig.blockWidth*2,),
-                       const NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2.4, text: "MaheshKumara M P"),
-                        const Spacer(),
-                        Stack(
+                        decoration: BoxDecoration(
+                          color: COLORS.infoSoft,
+                          borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 3),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              width: SizeConfig.blockWidth*13,
-                              child: CircularPercentIndicator(
-                                radius: SizeConfig.blockWidth*5.5,
-                                lineWidth: SizeConfig.blockWidth*0.3,
-                                percent: 0.4,
-                                progressColor: COLORS.primaryColor,
-                        
+                            Icon(Icons.history, size: SizeConfig.blockHeight * 2.2, color: COLORS.info),
+                            SizedBox(width: SizeConfig.blockWidth * 2),
+                            Expanded(
+                              child: Text(
+                                "Last Updated By Maheshkumara M P (ETHICS) 01/07/2024 02:41:44",
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: SizeConfig.blockHeight * 1.7,
+                                  fontWeight: FontWeight.w500,
+                                  color: COLORS.textSecondary,
+                                ),
                               ),
                             ),
-                            Positioned(
-                                top: SizeConfig.blockHeight*2,
-                                left: SizeConfig.blockWidth*4,
-                                child: NormalText(color:COLORS.textColor ,fontSize: 1.7,fontWeight: FontWeight.w500,text: "40%",))
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: SizeConfig.blockHeight*2,),
-                  const InputFieldTitleText(text: "Inquiry Source"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedInquirySource,
-                      list: inquirySourceList,
-                      hint: "Select Inquiry Source",
-                      isError: false,
-                      onChanged: (value){
-                        setState(() {
-                          selectedInquirySource=value;
-                        });
-                      }
-                  ),
-                  const InputFieldTitleText(text: "Inquiry Category"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedInquiryCategory,
-                      list: inquiryCategoryList,
-                      hint: "Select Inquiry Category",
-                      isError: false,
-                      onChanged: (value){
-                        setState(() {
-                          selectedInquiryCategory=value;
-                        });
-                      }
-                  ),
-                  const InputFieldTitleText(text: "Contact Name"),
-                  NormalTextFormField(
-                      onChanged: (value){
-                      },
-                      controller: contactNameController,
-                      hintText: "Contact Name",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                          return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "Profession"),
-                  NormalTextFormField(
-                      onChanged: (value){
-                      },
-                      controller: professionController,
-                      hintText: "profession",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "Mobile Number"),
-                  TextFormFieldWithSuffixIcon(
-                      onChanged:  (value){
-                      },
-                      readOnly: false,
-                      controller: mobileNumberController,
-                      hintText: "Mobile Number",
-                      inputType: TextInputType.phone,
-                      validator: (value){
-                        return null;
-                      },
-                      onTap: (){},
-                      suffixIcon: "assets/image/svg_icons/phone_icon.svg"),
-                  const InputFieldTitleText(text: "Phone"),
-                  TextFormFieldWithSuffixIcon(
-                      onChanged:  (value){
-                        
-                      },
-                      controller: phoneController,
-                      hintText: "Phone",
-                      readOnly: false,
-                      inputType: TextInputType.phone,
-                      validator: (value){
-                        return null;
-                      },
-                      onTap: (){},
-                      suffixIcon: "assets/image/svg_icons/phone_icon.svg"),
-                  const InputFieldTitleText(text: "Start Date"),
-                  TextFormFieldWithSuffixIcon(
-                      onChanged:  (value){},
-                      controller: startDateController,
-                      hintText: "Start Date",
-                      readOnly: true,
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        return null;
-                      },
-                      onTap: (){
-                       setState(() {
-                         showSingleDatePickerHelper(context: context,controller: startDateController);
-                       });
-                        print("startDateController----------------${startDateController.text}");
-                        
-                      },
-                      suffixIcon: "assets/image/svg_icons/calendar.svg"),
-                  const InputFieldTitleText(text: "RM Remark"),
-                  NormalTextFormField(
-                      onChanged: (value){
-                      },
-                      controller: rmRemarkController,
-                      hintText: "RM Remark",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        return null;
-                      },
-                      readOnly: false
-                  ),
-                  const InputFieldTitleText(text: "Financial Status"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedFinancialStatus,
-                      list: financialStatusList,
-                      hint: "Select Financial Status",
-                      isError: false,
-                      onChanged: (value){
-                        setState(() {
-                          selectedFinancialStatus=value;
-                        });
-                      }
-                  ),
-                  const InputFieldTitleText(text: "Store Location"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedStoreLocation,
-                      list: storeLocationList,
-                      hint: "Select Store Location",
-                      isError: false,
-                      onChanged: (value){
-                        setState(() {
-                          selectedStoreLocation=value;
-                        });
-                      }
-                  ),
-                  const InputFieldTitleText(text: "Welcome Message"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedWelcomeMessageSent,
-                      list: welcomeMessageSentList,
-                      hint: "Select Welcome Message",
-                      isError: false,
-                      onChanged: (value){
-                        setState(() {
-                          selectedWelcomeMessageSent=value;
-                        });
-                      }
-                  ),
-                  const InputFieldTitleText(text: " Status"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedStatus,
-                      list: statusList,
-                      hint: "Select Status",
-                      isError: false,
-                      onChanged: (value){
-                        setState(() {
-                          selectedStatus=value;
-                        });
-                      }
-                  ),
-                  const InputFieldTitleText(text: "Prospect Status"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedProspectStatus,
-                      list: prospectStatusList,
-                      hint: "Select Prospect Status",
-                      isError: false,
-                      onChanged: (value){
-                        setState(() {
-                          selectedProspectStatus=value;
-                        });
-                      }
-                  ),
-                  const InputFieldTitleText(text: "Last Updated By Maheshkumara M P (ETHICS) 01/07/2024 02:41:44"),
-                  SizedBox(height: SizeConfig.blockHeight*2,),
+                  SizedBox(height: SizeConfig.blockHeight * 3),
                   NormalButton(title: "Show History", onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const LeadHistoryScreen()));
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
@@ -279,15 +296,159 @@ class _AddLeadDetailsScreenState extends State<AddLeadDetailsScreen> {
                   NormalButton(title: "Schedule Activity", onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider(create: (context)=>CreateActivityBloc(),child:const ScheduleActivityScreen(),)));
                   }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
-                  SizedBox(height: SizeConfig.blockHeight*5,),
-
-                        
-                        
-                        
+                  SizedBox(height: SizeConfig.blockHeight*3,),
                 ],
               ),
             ),
           ),
         ));
+  }
+
+  Widget _buildProfileCard() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth * 4,
+        vertical: SizeConfig.blockHeight * 2.2,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.surface,
+        borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 4.5),
+        border: Border.all(color: COLORS.cardBorder),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            height: SizeConfig.blockHeight * 8,
+            width: SizeConfig.blockWidth * 16,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 3)),
+              border: Border.all(color: COLORS.cardBorder),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: Image.asset("assets/image/common/profile_image.png", fit: BoxFit.cover),
+          ),
+          SizedBox(width: SizeConfig.blockWidth * 3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "MaheshKumara M P",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: SizeConfig.blockHeight * 2.3,
+                    fontWeight: FontWeight.w700,
+                    color: COLORS.textPrimary,
+                  ),
+                ),
+                SizedBox(height: SizeConfig.blockHeight * 0.5),
+                Text(
+                  "Lead profile completion",
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: SizeConfig.blockHeight * 1.6,
+                    fontWeight: FontWeight.w500,
+                    color: COLORS.textTertiary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: SizeConfig.blockWidth * 2),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              CircularPercentIndicator(
+                radius: SizeConfig.blockWidth * 6,
+                lineWidth: SizeConfig.blockWidth * 1.1,
+                percent: 0.4,
+                circularStrokeCap: CircularStrokeCap.round,
+                backgroundColor: COLORS.primarySoft,
+                progressColor: COLORS.primaryColor,
+              ),
+              Text(
+                "40%",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight * 1.7,
+                  fontWeight: FontWeight.w700,
+                  color: COLORS.primaryColor,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionCard({
+    required String title,
+    required IconData icon,
+    required List<Widget> children,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.fromLTRB(
+        SizeConfig.blockWidth * 4,
+        SizeConfig.blockHeight * 1,
+        SizeConfig.blockWidth * 4,
+        SizeConfig.blockHeight * 2.5,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.surface,
+        borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 4.5),
+        border: Border.all(color: COLORS.cardBorder),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: SizeConfig.blockHeight * 1.5),
+            child: Row(
+              children: [
+                Container(
+                  height: SizeConfig.blockHeight * 4.5,
+                  width: SizeConfig.blockHeight * 4.5,
+                  decoration: BoxDecoration(
+                    color: COLORS.primarySoft,
+                    borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 2.5),
+                  ),
+                  child: Icon(icon, size: SizeConfig.blockHeight * 2.4, color: COLORS.primaryColor),
+                ),
+                SizedBox(width: SizeConfig.blockWidth * 3),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: SizeConfig.blockHeight * 2.1,
+                    fontWeight: FontWeight.w700,
+                    color: COLORS.textPrimary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: SizeConfig.blockHeight * 0.5),
+          Divider(color: COLORS.divider, height: SizeConfig.blockHeight * 2),
+          ...children,
+        ],
+      ),
+    );
   }
 }

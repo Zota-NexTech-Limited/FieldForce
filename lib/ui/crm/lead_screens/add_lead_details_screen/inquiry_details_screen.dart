@@ -148,7 +148,7 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
           },)
 
         ], child:  Scaffold(
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.scaffoldBg,
           appBar: appBarComponent(title: "Inquiry Details",context: context),
           body: Container(
             height: SizeConfig.screenHeight,
@@ -159,63 +159,86 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const InputFieldTitleText(text: "Inquiry Medium *"),
-                  if(readOnly==true)...[
-                    NotEditableDropdownComponent(text: selectedInquiryMedium==null?"--":selectedInquiryMedium!)
-                  ]else...[
-                    SingleItemSelectDropdown(selectedValue: selectedInquiryMedium, list: inquiryMediumList, onChanged: (value){
-                      setState(() {
-                        selectedInquiryMedium=value;
-                        isInquiryMediumEmpty=false;
-                      });
-                    },
-                        isError: isInquiryMediumEmpty,
-                        hint: "Channel inquiry came in"),
-                  ],
+                  SizedBox(height: SizeConfig.blockHeight*2,),
+                  _sectionCard(
+                    icon: Icons.inbox_outlined,
+                    title: "Inquiry Channel",
+                    subtitle: "Where and how the inquiry came in",
+                    children: [
+                      const InputFieldTitleText(text: "Inquiry Medium *"),
+                      if(readOnly==true)...[
+                        NotEditableDropdownComponent(text: selectedInquiryMedium==null?"--":selectedInquiryMedium!)
+                      ]else...[
+                        SingleItemSelectDropdown(selectedValue: selectedInquiryMedium, list: inquiryMediumList, onChanged: (value){
+                          setState(() {
+                            selectedInquiryMedium=value;
+                            isInquiryMediumEmpty=false;
+                          });
+                        },
+                            isError: isInquiryMediumEmpty,
+                            hint: "Channel inquiry came in"),
+                      ],
 
 
-                  const InputFieldTitleText(text: "Inquiry Source *"),
-                  if(readOnly==true)...[
-                    NotEditableDropdownComponent(text: selectedInquirySource==null?"--":selectedInquirySource!)
-                  ]else...[
-                    SingleItemSelectDropdown(selectedValue: selectedInquirySource, list: inquirySourceList, onChanged: (value){
-                      setState(() {
-                        selectedInquirySource=value;
-                        isInquirySourceIsEmpty=false;
-                      });
-                    },
-                        isError: isInquirySourceIsEmpty,
-                        hint: "How the inquiry came in")
-                  ],
-                  const InputFieldTitleText(text: "Inquiry Description"),
-                  MultiLineTextFormField(onChanged: (value){}, controller: inquiryDescriptionController, inputType: TextInputType.text, validator: (value){
-                    return null;
-                  }, isReadOnly: readOnly, labelText: "Detailed description of the customer's needs or questions."),
+                      const InputFieldTitleText(text: "Inquiry Source *"),
+                      if(readOnly==true)...[
+                        NotEditableDropdownComponent(text: selectedInquirySource==null?"--":selectedInquirySource!)
+                      ]else...[
+                        SingleItemSelectDropdown(selectedValue: selectedInquirySource, list: inquirySourceList, onChanged: (value){
+                          setState(() {
+                            selectedInquirySource=value;
+                            isInquirySourceIsEmpty=false;
+                          });
+                        },
+                            isError: isInquirySourceIsEmpty,
+                            hint: "How the inquiry came in")
+                      ],
+                    ],
+                  ),
+                  SizedBox(height: SizeConfig.blockHeight*2,),
+                  _sectionCard(
+                    icon: Icons.notes_outlined,
+                    title: "Inquiry Details",
+                    subtitle: "Capture what the customer is looking for",
+                    children: [
+                      const InputFieldTitleText(text: "Inquiry Description"),
+                      MultiLineTextFormField(onChanged: (value){}, controller: inquiryDescriptionController, inputType: TextInputType.text, validator: (value){
+                        return null;
+                      }, isReadOnly: readOnly, labelText: "Detailed description of the customer's needs or questions."),
 
-                  const InputFieldTitleText(text: "Keywords "),
-                  MultiLineTextFormField(onChanged: (value){}, controller: keywordsController, inputType: TextInputType.text, validator: (value){
-                    return null;
-                  }, isReadOnly: readOnly, labelText: "Relevant keywords or search terms used by the customer"),
+                      const InputFieldTitleText(text: "Keywords "),
+                      MultiLineTextFormField(onChanged: (value){}, controller: keywordsController, inputType: TextInputType.text, validator: (value){
+                        return null;
+                      }, isReadOnly: readOnly, labelText: "Relevant keywords or search terms used by the customer"),
 
-                  const InputFieldTitleText(text: "Customer Requirements "),
-                  MultiLineTextFormField(onChanged: (value){}, controller: customerRequirementsController, inputType: TextInputType.text, validator: (value){
-                    return null;
-                  }, isReadOnly: readOnly, labelText: "Specific requirements or preferences expressed by the customer"),
+                      const InputFieldTitleText(text: "Customer Requirements "),
+                      MultiLineTextFormField(onChanged: (value){}, controller: customerRequirementsController, inputType: TextInputType.text, validator: (value){
+                        return null;
+                      }, isReadOnly: readOnly, labelText: "Specific requirements or preferences expressed by the customer"),
+                    ],
+                  ),
+                  SizedBox(height: SizeConfig.blockHeight*2,),
+                  _sectionCard(
+                    icon: Icons.timeline_outlined,
+                    title: "Insights & Follow-up",
+                    subtitle: "Competitor notes and next actions",
+                    children: [
+                      const InputFieldTitleText(text: "Competitor Information  "),
+                      MultiLineTextFormField(onChanged: (value){}, controller: competitorInformationController, inputType: TextInputType.text, validator: (value){
+                        return null;
+                      }, isReadOnly: readOnly, labelText: "Information about competitors mentioned by the customer"),
 
-                  const InputFieldTitleText(text: "Competitor Information  "),
-                  MultiLineTextFormField(onChanged: (value){}, controller: competitorInformationController, inputType: TextInputType.text, validator: (value){
-                    return null;
-                  }, isReadOnly: readOnly, labelText: "Information about competitors mentioned by the customer"),
+                      const InputFieldTitleText(text: "Next Steps "),
+                      MultiLineTextFormField(onChanged: (value){}, controller: nextStepsController, inputType: TextInputType.text, validator: (value){
+                        return null;
+                      }, isReadOnly: readOnly, labelText: "Specific requirements or preferences expressed by the customer"),
 
-                  const InputFieldTitleText(text: "Next Steps "),
-                  MultiLineTextFormField(onChanged: (value){}, controller: nextStepsController, inputType: TextInputType.text, validator: (value){
-                    return null;
-                  }, isReadOnly: readOnly, labelText: "Specific requirements or preferences expressed by the customer"),
-
-                  const InputFieldTitleText(text: "Notes "),
-                  MultiLineTextFormField(onChanged: (value){}, controller: notesController, inputType: TextInputType.text, validator: (value){
-                    return null;
-                  }, isReadOnly: readOnly, labelText: "Additional comments or observations"),
+                      const InputFieldTitleText(text: "Notes "),
+                      MultiLineTextFormField(onChanged: (value){}, controller: notesController, inputType: TextInputType.text, validator: (value){
+                        return null;
+                      }, isReadOnly: readOnly, labelText: "Additional comments or observations"),
+                    ],
+                  ),
 
 
 
@@ -232,8 +255,19 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
           ),
 
           bottomNavigationBar: Container(
-            height: SizeConfig.blockHeight*8,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+            height: SizeConfig.blockHeight*9,
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*1),
+            decoration: BoxDecoration(
+              color: COLORS.white,
+              border: Border(top: BorderSide(color: COLORS.divider, width: 1)),
+              boxShadow: [
+                BoxShadow(
+                  color: COLORS.shadow,
+                  blurRadius: 14,
+                  offset: const Offset(0, -4),
+                ),
+              ],
+            ),
             child: Column(
               children: [
                 if(isView==false)...[
@@ -321,5 +355,84 @@ class _InquiryDetailsScreenState extends State<InquiryDetailsScreen> {
 
 
        );
+  }
+
+  Widget _sectionCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required List<Widget> children,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth*4,
+        vertical: SizeConfig.blockHeight*1.5,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: COLORS.cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: SizeConfig.blockWidth*10,
+                height: SizeConfig.blockWidth*10,
+                decoration: BoxDecoration(
+                  color: COLORS.primarySoft,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: COLORS.primaryColor, size: SizeConfig.blockWidth*5),
+              ),
+              SizedBox(width: SizeConfig.blockWidth*3),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: SizeConfig.blockHeight*2.1,
+                        fontWeight: FontWeight.w700,
+                        color: COLORS.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight*0.4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: SizeConfig.blockHeight*1.6,
+                        fontWeight: FontWeight.w400,
+                        color: COLORS.textTertiary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1),
+            child: Divider(color: COLORS.divider, height: 1),
+          ),
+          ...children,
+          SizedBox(height: SizeConfig.blockHeight*1),
+        ],
+      ),
+    );
   }
 }

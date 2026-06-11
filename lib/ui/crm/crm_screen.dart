@@ -47,39 +47,76 @@ class _CRMScreenState extends State<CRMScreen>  with SingleTickerProviderStateMi
           backgroundColor: COLORS.backgroundColor,
           body: Column(
             children: [
-              SizedBox(height: SizeConfig.blockHeight*2,),
+              SizedBox(height: SizeConfig.blockHeight * 2),
+              // Modern segmented tab control inside a soft card.
               Container(
-                margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
+                margin: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.blockWidth * 4,
+                ),
+                padding: EdgeInsets.all(SizeConfig.blockWidth * 1.2),
                 decoration: BoxDecoration(
-                    color: COLORS.white,
-                    borderRadius: BorderRadius.only(topLeft:  Radius.circular(SizeConfig.blockWidth*2),topRight: Radius.circular(SizeConfig.blockWidth*2))
+                  color: COLORS.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: COLORS.cardBorder),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: COLORS.shadow,
+                      blurRadius: 14,
+                      offset: Offset(0, 6),
+                    ),
+                  ],
                 ),
                 child: TabBar(
                   controller: _tabController,
-                  labelColor: COLORS.textColor,
-                  indicatorColor: COLORS.primaryColor,
-                  dividerColor: COLORS.white,
+                  labelColor: COLORS.white,
+                  dividerColor: Colors.transparent,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  padding: EdgeInsets.all(SizeConfig.blockWidth * 0),
-                  labelPadding: EdgeInsets.all(SizeConfig.blockWidth * 0),
-                  unselectedLabelColor: COLORS.textColor.withOpacity(0.5).withOpacity(0.6),
-                  onTap: (value){
-                    setState(() {
-
-                    });
+                  indicatorPadding: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
+                  labelPadding: EdgeInsets.zero,
+                  splashBorderRadius: BorderRadius.circular(12),
+                  overlayColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                  indicator: BoxDecoration(
+                    color: COLORS.primaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: COLORS.shadow,
+                        blurRadius: 12,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  unselectedLabelColor: COLORS.textSecondary,
+                  onTap: (value) {
+                    setState(() {});
                   },
                   labelStyle: TextStyle(
-                    color: COLORS.white,
-                    fontSize: SizeConfig.blockWidth *4,
+                    fontSize: SizeConfig.blockWidth * 3.6,
                     fontFamily: Config.fountFamilyPrimary,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.4,
                   ),
-                  tabs: const [
-                    Tab(text: "LEAD"),
-                    Tab(text: "OPPORTUNITY"),
+                  unselectedLabelStyle: TextStyle(
+                    fontSize: SizeConfig.blockWidth * 3.6,
+                    fontFamily: Config.fountFamilyPrimary,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.4,
+                  ),
+                  tabs: [
+                    Tab(
+                      height: SizeConfig.blockHeight * 5.5,
+                      child: const Center(child: Text("LEAD")),
+                    ),
+                    Tab(
+                      height: SizeConfig.blockHeight * 5.5,
+                      child: const Center(child: Text("OPPORTUNITY")),
+                    ),
                   ],
                 ),
               ),
+              SizedBox(height: SizeConfig.blockHeight * 1.5),
               Expanded(
                 child: DefaultTabController(
                   length: 2,

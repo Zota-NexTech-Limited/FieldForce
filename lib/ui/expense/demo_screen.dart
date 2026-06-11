@@ -1,3 +1,4 @@
+import 'package:fieldsales/helper/colors.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -166,324 +167,476 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     });
   }
 
+  TextStyle get _sectionTitleStyle => const TextStyle(
+        fontFamily: 'Inter',
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+        color: COLORS.textPrimary,
+      );
+
+  InputDecoration _fieldDecoration({required String label, String? hint}) {
+    return InputDecoration(
+      labelText: label,
+      hintText: hint,
+      filled: true,
+      fillColor: COLORS.surfaceMuted,
+      contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: COLORS.cardBorder),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: COLORS.cardBorder),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: COLORS.primaryColor, width: 1.6),
+      ),
+    );
+  }
+
+  Widget _card({required String title, required List<Widget> children}) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: COLORS.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: COLORS.cardBorder),
+        boxShadow: const [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: _sectionTitleStyle),
+          const SizedBox(height: 16),
+          ...children,
+        ],
+      ),
+    );
+  }
+
+  Widget _actionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+    Color? color,
+  }) {
+    final Color base = color ?? COLORS.primaryColor;
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, size: 20),
+      label: Text(
+        label,
+        style: const TextStyle(
+          fontFamily: 'Inter',
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: base,
+        foregroundColor: COLORS.white,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+      ),
+    );
+  }
+
+  Widget _resultRow({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    Color? iconColor,
+    Color? iconBg,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: iconBg ?? COLORS.primarySoft,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, size: 20, color: iconColor ?? COLORS.primaryColor),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: COLORS.textPrimary,
+                  ),
+                ),
+                if (subtitle.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
+                      fontSize: 12.5,
+                      color: COLORS.textSecondary,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       scaffoldMessengerKey: _scaffoldMessengerKey,
-      themeMode: ThemeMode.dark,
-      darkTheme: ThemeData(
+      themeMode: ThemeMode.light,
+      theme: ThemeData(
         useMaterial3: true,
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: COLORS.scaffoldBg,
         snackBarTheme: SnackBarThemeData(
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: COLORS.textPrimary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       ),
       home: Scaffold(
         key: _scaffoldKey,
+        backgroundColor: COLORS.scaffoldBg,
         appBar: AppBar(
-          title: const Text('File Picker example app'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Configuration',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Wrap(
-                  spacing: 10.0,
-                  runSpacing: 10.0,
-                  children: [
-                    SizedBox(
-                      width: 400,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Dialog Title',
-                        ),
-                        controller: _dialogTitleController,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 400,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Initial Directory',
-                        ),
-                        controller: _initialDirectoryController,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 400,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Default File Name',
-                        ),
-                        controller: _defaultFileNameController,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 400,
-                      child: DropdownButtonFormField<FileType>(
-                        value: _pickingType,
-                        icon: const Icon(Icons.expand_more),
-                        alignment: Alignment.centerLeft,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        items: FileType.values
-                            .map(
-                              (fileType) => DropdownMenuItem<FileType>(
-                            child: Text(fileType.toString()),
-                            value: fileType,
-                          ),
-                        )
-                            .toList(),
-                        onChanged: (value) => setState(
-                              () {
-                            _pickingType = value!;
-                            if (_pickingType != FileType.custom) {
-                              _fileExtensionController.text = _extension = '';
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    _pickingType == FileType.custom
-                        ? SizedBox(
-                      width: 400,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'File Extension',
-                            hintText: 'jpg, png, gif'),
-                        autovalidateMode: AutovalidateMode.always,
-                        controller: _fileExtensionController,
-                        keyboardType: TextInputType.text,
-                        maxLength: 15,
-                      ),
-                    )
-                        : SizedBox(),
-                  ],
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Wrap(
-                  alignment: WrapAlignment.start,
-                  runAlignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  direction: Axis.horizontal,
-                  spacing: 10.0,
-                  runSpacing: 10.0,
-                  children: [
-                    SizedBox(
-                      width: 400.0,
-                      child: SwitchListTile.adaptive(
-                        title: Text(
-                          'Lock parent window',
-                          textAlign: TextAlign.left,
-                        ),
-                        onChanged: (bool value) =>
-                            setState(() => _lockParentWindow = value),
-                        value: _lockParentWindow,
-                      ),
-                    ),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints.tightFor(width: 400.0),
-                      child: SwitchListTile.adaptive(
-                        title: Text(
-                          'Pick multiple files',
-                          textAlign: TextAlign.left,
-                        ),
-                        onChanged: (bool value) =>
-                            setState(() => _multiPick = value),
-                        value: _multiPick,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  'Actions',
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                  child: Wrap(
-                    spacing: 10.0,
-                    runSpacing: 10.0,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 120,
-                        child: FloatingActionButton.extended(
-                            onPressed: () => _pickFiles(),
-                            label:
-                            Text(_multiPick ? 'Pick files' : 'Pick file'),
-                            icon: const Icon(Icons.description)),
-                      ),
-                      SizedBox(
-                        width: 120,
-                        child: FloatingActionButton.extended(
-                          onPressed: () => _selectFolder(),
-                          label: const Text('Pick folder'),
-                          icon: const Icon(Icons.folder),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 120,
-                        child: FloatingActionButton.extended(
-                          onPressed: () => _saveFile(),
-                          label: const Text('Save file'),
-                          icon: const Icon(Icons.save_as),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: FloatingActionButton.extended(
-                          onPressed: () => _clearCachedFiles(),
-                          label: const Text('Clear temporary files'),
-                          icon: const Icon(Icons.delete_forever),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  'File Picker Result',
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                Builder(
-                  builder: (BuildContext context) => _isLoading
-                      ? Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 40.0,
-                            ),
-                            child: const CircularProgressIndicator(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                      : _userAborted
-                      ? Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: SizedBox(
-                            width: 300,
-                            child: ListTile(
-                              leading: Icon(
-                                Icons.error_outline,
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 40.0),
-                              title: const Text(
-                                'User has aborted the dialog',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                      : _directoryPath != null
-                      ? ListTile(
-                    title: const Text('Directory path'),
-                    subtitle: Text(_directoryPath!),
-                  )
-                      : _paths != null
-                      ? Container(
-                    color: Colors.red,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20.0,
-                    ),
-                    height:
-                    MediaQuery.of(context).size.height *
-                        0.50,
-                    child: Scrollbar(
-                        child: ListView.separated(
-                          itemCount:
-                          _paths != null && _paths!.isNotEmpty
-                              ? _paths!.length
-                              : 1,
-                          itemBuilder:
-                              (BuildContext context, int index) {
-                            final bool isMultiPath =
-                                _paths != null &&
-                                    _paths!.isNotEmpty;
-                            final String name = 'File $index: ' +
-                                (isMultiPath
-                                    ? _paths!
-                                    .map((e) => e.name)
-                                    .toList()[index]
-                                    : _fileName ?? '...');
-                            final path = kIsWeb
-                                ? null
-                                : _paths!
-                                .map((e) => e.path)
-                                .toList()[index]
-                                .toString();
-
-                            return ListTile(
-                              title: Text(
-                                name,
-                              ),
-                              subtitle: Text(path ?? ''),
-                            );
-                          },
-                          separatorBuilder:
-                              (BuildContext context, int index) =>
-                          const Divider(),
-                        )),
-                  )
-                      : _saveAsFileName != null
-                      ? ListTile(
-                    title: const Text('Save file'),
-                    subtitle: Text(_saveAsFileName!),
-                  )
-                      : const SizedBox(),
-                ),
-                SizedBox(
-                  height: 40.0,
-                ),
-              ],
+          backgroundColor: COLORS.surface,
+          foregroundColor: COLORS.textPrimary,
+          elevation: 0,
+          scrolledUnderElevation: 0.5,
+          shadowColor: COLORS.shadow,
+          title: const Text(
+            'File Picker',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w700,
+              color: COLORS.textPrimary,
             ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 18, 16, 32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _card(
+                title: 'Configuration',
+                children: [
+                  Wrap(
+                    spacing: 12.0,
+                    runSpacing: 12.0,
+                    children: [
+                      SizedBox(
+                        width: 400,
+                        child: TextField(
+                          decoration:
+                              _fieldDecoration(label: 'Dialog Title'),
+                          controller: _dialogTitleController,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 400,
+                        child: TextField(
+                          decoration:
+                              _fieldDecoration(label: 'Initial Directory'),
+                          controller: _initialDirectoryController,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 400,
+                        child: TextField(
+                          decoration:
+                              _fieldDecoration(label: 'Default File Name'),
+                          controller: _defaultFileNameController,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 400,
+                        child: DropdownButtonFormField<FileType>(
+                          value: _pickingType,
+                          icon: const Icon(Icons.expand_more),
+                          alignment: Alignment.centerLeft,
+                          decoration: _fieldDecoration(label: 'File Type'),
+                          items: FileType.values
+                              .map(
+                                (fileType) => DropdownMenuItem<FileType>(
+                                  child: Text(fileType.toString()),
+                                  value: fileType,
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) => setState(
+                            () {
+                              _pickingType = value!;
+                              if (_pickingType != FileType.custom) {
+                                _fileExtensionController.text =
+                                    _extension = '';
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                      _pickingType == FileType.custom
+                          ? SizedBox(
+                              width: 400,
+                              child: TextFormField(
+                                decoration: _fieldDecoration(
+                                  label: 'File Extension',
+                                  hint: 'jpg, png, gif',
+                                ),
+                                autovalidateMode: AutovalidateMode.always,
+                                controller: _fileExtensionController,
+                                keyboardType: TextInputType.text,
+                                maxLength: 15,
+                              ),
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    alignment: WrapAlignment.start,
+                    runAlignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    direction: Axis.horizontal,
+                    spacing: 12.0,
+                    runSpacing: 4.0,
+                    children: [
+                      SizedBox(
+                        width: 400.0,
+                        child: SwitchListTile.adaptive(
+                          contentPadding: EdgeInsets.zero,
+                          activeColor: COLORS.primaryColor,
+                          title: const Text(
+                            'Lock parent window',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w500,
+                              color: COLORS.textPrimary,
+                            ),
+                          ),
+                          onChanged: (bool value) =>
+                              setState(() => _lockParentWindow = value),
+                          value: _lockParentWindow,
+                        ),
+                      ),
+                      ConstrainedBox(
+                        constraints:
+                            const BoxConstraints.tightFor(width: 400.0),
+                        child: SwitchListTile.adaptive(
+                          contentPadding: EdgeInsets.zero,
+                          activeColor: COLORS.primaryColor,
+                          title: const Text(
+                            'Pick multiple files',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w500,
+                              color: COLORS.textPrimary,
+                            ),
+                          ),
+                          onChanged: (bool value) =>
+                              setState(() => _multiPick = value),
+                          value: _multiPick,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              _card(
+                title: 'Actions',
+                children: [
+                  Wrap(
+                    spacing: 12.0,
+                    runSpacing: 12.0,
+                    children: <Widget>[
+                      _actionButton(
+                        icon: Icons.description,
+                        label: _multiPick ? 'Pick files' : 'Pick file',
+                        onPressed: () => _pickFiles(),
+                      ),
+                      _actionButton(
+                        icon: Icons.folder,
+                        label: 'Pick folder',
+                        onPressed: () => _selectFolder(),
+                      ),
+                      _actionButton(
+                        icon: Icons.save_as,
+                        label: 'Save file',
+                        color: COLORS.success,
+                        onPressed: () => _saveFile(),
+                      ),
+                      _actionButton(
+                        icon: Icons.delete_forever,
+                        label: 'Clear temporary files',
+                        color: COLORS.danger,
+                        onPressed: () => _clearCachedFiles(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              _card(
+                title: 'File Picker Result',
+                children: [
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    child: Builder(
+                      key: ValueKey<String>(
+                        '$_isLoading|$_userAborted|$_directoryPath|'
+                        '${_paths?.length}|$_saveAsFileName',
+                      ),
+                      builder: (BuildContext context) => _isLoading
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 40.0),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : _userAborted
+                              ? Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 28.0,
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: _resultRow(
+                                    icon: Icons.error_outline,
+                                    iconColor: COLORS.warning,
+                                    iconBg: COLORS.warningSoft,
+                                    title: 'User has aborted the dialog',
+                                    subtitle: '',
+                                  ),
+                                )
+                              : _directoryPath != null
+                                  ? _resultRow(
+                                      icon: Icons.folder_open,
+                                      title: 'Directory path',
+                                      subtitle: _directoryPath!,
+                                    )
+                                  : _paths != null
+                                      ? Container(
+                                          decoration: BoxDecoration(
+                                            color: COLORS.surfaceMuted,
+                                            borderRadius:
+                                                BorderRadius.circular(14),
+                                            border: Border.all(
+                                              color: COLORS.cardBorder,
+                                            ),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0,
+                                          ),
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.50,
+                                          child: Scrollbar(
+                                            child: ListView.separated(
+                                              itemCount: _paths != null &&
+                                                      _paths!.isNotEmpty
+                                                  ? _paths!.length
+                                                  : 1,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                final bool isMultiPath =
+                                                    _paths != null &&
+                                                        _paths!.isNotEmpty;
+                                                final String name =
+                                                    'File $index: ' +
+                                                        (isMultiPath
+                                                            ? _paths!
+                                                                .map((e) =>
+                                                                    e.name)
+                                                                .toList()[index]
+                                                            : _fileName ??
+                                                                '...');
+                                                final path = kIsWeb
+                                                    ? null
+                                                    : _paths!
+                                                        .map((e) => e.path)
+                                                        .toList()[index]
+                                                        .toString();
+
+                                                return _resultRow(
+                                                  icon: Icons
+                                                      .insert_drive_file_outlined,
+                                                  title: name,
+                                                  subtitle: path ?? '',
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                          int index) =>
+                                                      const Divider(
+                                                height: 1,
+                                                color: COLORS.divider,
+                                                indent: 14,
+                                                endIndent: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : _saveAsFileName != null
+                                          ? _resultRow(
+                                              icon: Icons.save_outlined,
+                                              iconColor: COLORS.success,
+                                              iconBg: COLORS.successSoft,
+                                              title: 'Save file',
+                                              subtitle: _saveAsFileName!,
+                                            )
+                                          : Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 24.0,
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'No result yet',
+                                                style: TextStyle(
+                                                  fontFamily: 'Inter',
+                                                  color: COLORS.textTertiary,
+                                                ),
+                                              ),
+                                            ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

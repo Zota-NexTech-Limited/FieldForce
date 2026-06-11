@@ -140,110 +140,136 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
         }): Form(
           key: _formKey,
           child: Scaffold(
-            backgroundColor: COLORS.white,
+            backgroundColor: COLORS.scaffoldBg,
             appBar: appBarComponent(title: "Customer Information",context: context),
             body: Container(
               height: SizeConfig.screenHeight,
               width: SizeConfig.screenWidth,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const InputFieldTitleText(text: "Full Name *"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: fullNameController,
-                        hintText: "Name of the inquirer or company",
-                        inputType: TextInputType.text,
-                        validator: (value){
-                          if(value==null||value.isEmpty)
-                          {
-                            return "Full Name is Empty";
-                          }
-                          return null;
-                        },
-                        readOnly: readOnly
+                    SizedBox(height: SizeConfig.blockHeight*2,),
+                    _buildScreenHeader(),
+                    SizedBox(height: SizeConfig.blockHeight*2.5,),
+                    _buildSectionCard(
+                      icon: Icons.person_outline_rounded,
+                      title: "Contact",
+                      subtitle: "Who you are talking to",
+                      children: [
+                        const InputFieldTitleText(text: "Full Name *"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: fullNameController,
+                            hintText: "Name of the inquirer or company",
+                            inputType: TextInputType.text,
+                            validator: (value){
+                              if(value==null||value.isEmpty)
+                              {
+                                return "Full Name is Empty";
+                              }
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                        const InputFieldTitleText(text: "Contact Name *"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: contactNameController,
+                            hintText: "Name of the primary contact person",
+                            inputType: TextInputType.text,
+                            validator: (value){
+                              if(value==null||value.isEmpty)
+                              {
+                                return "Contact Name is Empty";
+                              }
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                        const InputFieldTitleText(text: "Contact Title *"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: contactTitleController,
+                            hintText: "Job title of the contact person",
+                            inputType: TextInputType.text,
+                            validator: (value){
+                              if(value==null||value.isEmpty)
+                              {
+                                return "Contact Title is Empty";
+                              }
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                      ],
                     ),
-                    const InputFieldTitleText(text: "Contact Name *"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: contactNameController,
-                        hintText: "Name of the primary contact person",
-                        inputType: TextInputType.text,
-                        validator: (value){
-                          if(value==null||value.isEmpty)
-                          {
-                            return "Contact Name is Empty";
-                          }
-                          return null;
-                        },
-                        readOnly: readOnly
-                    ),
-                    const InputFieldTitleText(text: "Contact Title *"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: contactTitleController,
-                        hintText: "Job title of the contact person",
-                        inputType: TextInputType.text,
-                        validator: (value){
-                          if(value==null||value.isEmpty)
-                          {
-                            return "Contact Title is Empty";
-                          }
-                          return null;
-                        },
-                        readOnly: readOnly
-                    ),
-                    const InputFieldTitleText(text: "Company Name"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: companyNameController,
-                        hintText: "Name of the company (if applicable)",
-                        inputType: TextInputType.text,
-                        validator: (value){
+                    SizedBox(height: SizeConfig.blockHeight*2.5,),
+                    _buildSectionCard(
+                      icon: Icons.business_outlined,
+                      title: "Company",
+                      subtitle: "Optional organisation details",
+                      children: [
+                        const InputFieldTitleText(text: "Company Name"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: companyNameController,
+                            hintText: "Name of the company (if applicable)",
+                            inputType: TextInputType.text,
+                            validator: (value){
 
-                          return null;
-                        },
-                        readOnly: readOnly
-                    ),
-                    const InputFieldTitleText(text: "Company Size"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: companySizeController,
-                        hintText: "Size of the company (if applicable)",
-                        inputType: TextInputType.text,
-                        validator: (value){
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                        const InputFieldTitleText(text: "Company Size"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: companySizeController,
+                            hintText: "Size of the company (if applicable)",
+                            inputType: TextInputType.text,
+                            validator: (value){
 
-                          return null;
-                        },
-                        readOnly: readOnly
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                        const InputFieldTitleText(text: "Industry"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: industryController,
+                            hintText: "Industry the company operates in (if applicable)",
+                            inputType: TextInputType.text,
+                            validator: (value){
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                      ],
                     ),
-                    const InputFieldTitleText(text: "Industry"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: industryController,
-                        hintText: "Industry the company operates in (if applicable)",
-                        inputType: TextInputType.text,
-                        validator: (value){
-                          return null;
-                        },
-                        readOnly: readOnly
+                    SizedBox(height: SizeConfig.blockHeight*2.5,),
+                    _buildSectionCard(
+                      icon: Icons.campaign_outlined,
+                      title: "Source",
+                      subtitle: "How the customer was acquired",
+                      children: [
+                        const InputFieldTitleText(text: "Customer Source *"),
+                        if(readOnly==true)...[
+                          NotEditableDropdownComponent(text: selectedCustomerSource==null?"--":selectedCustomerSource!)
+                        ]else...[
+                          SingleItemSelectDropdown(selectedValue: selectedCustomerSource, list: customerSourceList, onChanged: (value){
+                            setState(() {
+                              selectedCustomerSource=value;
+                              isCustomerSourceDropdownEmpty=false;
+                            });
+                          },
+                              isError: isCustomerSourceDropdownEmpty,
+                              hint: "Select how the customer was acquired"),
+                        ],
+                      ],
                     ),
-                    const InputFieldTitleText(text: "Customer Source *"),
-                    if(readOnly==true)...[
-                      NotEditableDropdownComponent(text: selectedCustomerSource==null?"--":selectedCustomerSource!)
-                    ]else...[
-                      SingleItemSelectDropdown(selectedValue: selectedCustomerSource, list: customerSourceList, onChanged: (value){
-                        setState(() {
-                          selectedCustomerSource=value;
-                          isCustomerSourceDropdownEmpty=false;
-                        });
-                      },
-                          isError: isCustomerSourceDropdownEmpty,
-                          hint: "Select how the customer was acquired"),
-                    ],
 
                     SizedBox(height: SizeConfig.blockHeight*3,),
 
@@ -254,9 +280,25 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
             ),
 
             bottomNavigationBar: Container(
-              height: SizeConfig.blockHeight*8,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              padding: EdgeInsets.fromLTRB(
+                SizeConfig.blockWidth*4,
+                SizeConfig.blockHeight*1.5,
+                SizeConfig.blockWidth*4,
+                SizeConfig.blockHeight*1.5,
+              ),
+              decoration: BoxDecoration(
+                color: COLORS.white,
+                border: Border(top: BorderSide(color: COLORS.divider, width: 1)),
+                boxShadow: [
+                  BoxShadow(
+                    color: COLORS.shadow,
+                    blurRadius: 16,
+                    offset: const Offset(0, -6),
+                  ),
+                ],
+              ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   if(isView==false)...[
                     NormalButtonWithIcon(title: "Next Step", onTap: (){
@@ -361,6 +403,114 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
         ))
 
 
+    );
+  }
+
+  Widget _buildScreenHeader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Customer Information",
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: SizeConfig.blockHeight*2.8,
+            fontWeight: FontWeight.w700,
+            color: COLORS.textPrimary,
+          ),
+        ),
+        SizedBox(height: SizeConfig.blockHeight*0.6,),
+        Text(
+          "Capture the lead's contact and company details.",
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: SizeConfig.blockHeight*1.7,
+            fontWeight: FontWeight.w400,
+            color: COLORS.textSecondary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required List<Widget> children,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth*4.5,
+        vertical: SizeConfig.blockHeight*0.5,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: COLORS.cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: SizeConfig.blockHeight*2,),
+          Row(
+            children: [
+              Container(
+                width: SizeConfig.blockHeight*5,
+                height: SizeConfig.blockHeight*5,
+                decoration: BoxDecoration(
+                  color: COLORS.primarySoft,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  color: COLORS.primaryColor,
+                  size: SizeConfig.blockHeight*2.8,
+                ),
+              ),
+              SizedBox(width: SizeConfig.blockWidth*3,),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: SizeConfig.blockHeight*2.1,
+                        fontWeight: FontWeight.w700,
+                        color: COLORS.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight*0.3,),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: SizeConfig.blockHeight*1.55,
+                        fontWeight: FontWeight.w400,
+                        color: COLORS.textTertiary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: SizeConfig.blockHeight*0.5,),
+          Divider(color: COLORS.divider, height: SizeConfig.blockHeight*3,),
+          ...children,
+          SizedBox(height: SizeConfig.blockHeight*2,),
+        ],
+      ),
     );
   }
 }

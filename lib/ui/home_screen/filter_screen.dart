@@ -40,11 +40,12 @@ import 'package:flutter/material.dart';
    Widget build(BuildContext context) {
      return SafeArea(
        child: Scaffold(
-         backgroundColor: COLORS.backgroundColor,
+         backgroundColor: COLORS.scaffoldBg,
          body:Container(
            width: SizeConfig.screenWidth,
-           padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+           padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
            child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
              children: [
                SizedBox(
                  height: SizeConfig.blockHeight*7,
@@ -89,26 +90,44 @@ import 'package:flutter/material.dart';
 
 
 
-
                  ),
                ),
-               SizedBox(height: SizeConfig.blockHeight*2,),
+               SizedBox(height: SizeConfig.blockHeight*3,),
+               Padding(
+                 padding: EdgeInsets.only(left: SizeConfig.blockWidth*1,bottom: SizeConfig.blockHeight*1.2),
+                 child: NormalText(
+                   text: widget.screenName=="lead_screen" ? "Date Range" : "Filter By",
+                   color: COLORS.textSecondary,
+                   fontSize: 1.8,
+                   fontWeight: FontWeight.w600,
+                 ),
+               ),
                Container(
-                 padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                 width: SizeConfig.screenWidth,
+                 padding: EdgeInsets.all(SizeConfig.blockWidth*3),
                  decoration: BoxDecoration(
-                   color: COLORS.grayFilterBackColor,
-                   borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                   color: COLORS.white,
+                   borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4.5)),
+                   border: Border.all(color: COLORS.cardBorder,width: 1),
+                   boxShadow: [
+                     BoxShadow(
+                       color: COLORS.shadow,
+                       blurRadius: 14,
+                       offset: const Offset(0, 6),
+                     ),
+                   ],
                  ),
                  child:widget.screenName=="lead_screen"?
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
-                     filterDatePickerCard(text: "From Date :$fromDate", filterText: "from_date", width:SizeConfig.blockWidth*45),
-                     filterDatePickerCard(text: "To Date :$toDate", filterText: "to_date", width:SizeConfig.blockWidth*45),
+                     Expanded(child: filterDatePickerCard(text: "From Date :$fromDate", filterText: "from_date", width:SizeConfig.blockWidth*45)),
+                     SizedBox(width: SizeConfig.blockWidth*3,),
+                     Expanded(child: filterDatePickerCard(text: "To Date :$toDate", filterText: "to_date", width:SizeConfig.blockWidth*45)),
                    ],
                  ):
                  Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   mainAxisAlignment: MainAxisAlignment.start,
                    children: [
                      filterCard(width:SizeConfig.blockWidth*40,text: "Lead",filterText: "" ),
                    ],
@@ -123,30 +142,32 @@ import 'package:flutter/material.dart';
 
    Widget filterCard({required String text,required String filterText,required double width})
    {
+     final bool isSelected = selectedFilterType==filterText;
      return  InkWell(
+       borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
        onTap: (){
          setState(() {
            selectedFilterType=filterText;
          });
        },
-       child: Container(
-
+       child: AnimatedContainer(
+         duration: const Duration(milliseconds: 200),
+         curve: Curves.easeOut,
          width: width,
-        padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*0.7),
+         padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1.4,horizontal: SizeConfig.blockWidth*3),
          decoration: BoxDecoration(
-
-             color: selectedFilterType==filterText?COLORS.white:COLORS.grayFilterBackColor,
-             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1)),
-           boxShadow:selectedFilterType==filterText? [
+             color: isSelected?COLORS.primaryColor:COLORS.surfaceMuted,
+             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+             border: Border.all(color: isSelected?COLORS.primaryColor:COLORS.cardBorder,width: 1),
+           boxShadow:isSelected? [
              BoxShadow(
-               color: COLORS.black.withOpacity(0.3),
-               spreadRadius: 0,
-               blurRadius: 1,
-               offset: Offset(0, 1),
+               color: COLORS.shadow,
+               blurRadius: 10,
+               offset: const Offset(0, 4),
              ),
            ]:[],
          ),
-         child: Center(child: NormalText(color:selectedFilterType==filterText?COLORS.black:COLORS.grayFilterTextColor,text: text,fontSize:2,fontWeight: FontWeight.w500,)),
+         child: Center(child: NormalText(color:isSelected?COLORS.white:COLORS.textSecondary,text: text,fontSize:1.9,fontWeight: FontWeight.w600,)),
        ),
      );
    }
@@ -154,6 +175,7 @@ import 'package:flutter/material.dart';
    Widget filterDatePickerCard({required String text,required String filterText,required double width})
    {
      return  InkWell(
+       borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
        onTap: (){
          setState(() {
            showSingleDatePickerHelper2(context: context,onDateSelected: (selectedDate){
@@ -172,23 +194,21 @@ import 'package:flutter/material.dart';
          });
        },
        child: Container(
-
          width: width,
-         padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*0.7),
+         padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1.4,horizontal: SizeConfig.blockWidth*3),
          decoration: BoxDecoration(
-
-           color: COLORS.white,
-           borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1)),
-           boxShadow: [
-             BoxShadow(
-               color: COLORS.black.withOpacity(0.3),
-               spreadRadius: 0,
-               blurRadius: 1,
-               offset: Offset(0, 1),
-             ),
+           color: COLORS.surfaceMuted,
+           borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+           border: Border.all(color: COLORS.cardBorder,width: 1),
+         ),
+         child: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             Flexible(child: NormalText(color:COLORS.textPrimary,text: text,fontSize:1.7,fontWeight: FontWeight.w600,)),
+             SizedBox(width: SizeConfig.blockWidth*1,),
+             Icon(Icons.calendar_today_rounded,size: SizeConfig.blockWidth*4,color: COLORS.primaryColor,),
            ],
          ),
-         child: Center(child: NormalText(color:COLORS.black,text: text,fontSize:2,fontWeight: FontWeight.w500,)),
        ),
      );
    }

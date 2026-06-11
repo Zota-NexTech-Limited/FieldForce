@@ -24,12 +24,22 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: COLORS.white,
-      body:Container(
+      backgroundColor: COLORS.scaffoldBg,
+      body:SingleChildScrollView(
+        child: Container(
         width: SizeConfig.screenWidth,
-        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1,vertical: SizeConfig.blockHeight*2),
+        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*3),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: EdgeInsets.only(left: SizeConfig.blockWidth*1, bottom: SizeConfig.blockHeight*1),
+              child: NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize: 2.6, text: "Menu"),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: SizeConfig.blockWidth*1, bottom: SizeConfig.blockHeight*2.5),
+              child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textTertiary, fontSize: 1.7, text: "Quick access to your daily tools"),
+            ),
             tabCard(onTap: (){
               setState(() {
                 selectedTab="Home";
@@ -78,33 +88,69 @@ class _MenuScreenState extends State<MenuScreen> {
           ],
         ),
 
+      ),
       ) ,
     );
   }
 
   Widget tabCard({required VoidCallback onTap,required String title,required String icon,})
   {
-    return  InkWell(
-      splashColor: COLORS.white,
-      onTap:onTap ,
-      child: Container(
-        width: SizeConfig.screenWidth,
-        margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*2),
-        padding:EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*1.5) ,
-        decoration: BoxDecoration(
-            color:selectedTab==title?COLORS.backgroundColor:COLORS.white,
-            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
-
-        ),
-        child: Row(
-          children: [
-            SizedBox(
-                height: SizeConfig.blockHeight*4,
-                width: SizeConfig.blockWidth*6,
-                child: SvgImageHelper(image:icon)),
-            SizedBox(width: SizeConfig.blockWidth*2,),
-            NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 2.2, text: title)
-          ],
+    final bool isSelected = selectedTab == title;
+    return Padding(
+      padding: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.6),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(SizeConfig.blockWidth*4),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(SizeConfig.blockWidth*4),
+          splashColor: COLORS.primarySoft,
+          highlightColor: COLORS.primarySoft,
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            width: SizeConfig.screenWidth,
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4, vertical: SizeConfig.blockHeight*2),
+            decoration: BoxDecoration(
+              color: isSelected ? COLORS.primarySoft : COLORS.surface,
+              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4)),
+              border: Border.all(color: isSelected ? COLORS.primaryColor : COLORS.cardBorder, width: 1),
+              boxShadow: [
+                BoxShadow(
+                  color: COLORS.shadow,
+                  blurRadius: 14,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  height: SizeConfig.blockWidth*11,
+                  width: SizeConfig.blockWidth*11,
+                  decoration: BoxDecoration(
+                    color: isSelected ? COLORS.white : COLORS.primarySoft,
+                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+                  ),
+                  padding: EdgeInsets.all(SizeConfig.blockWidth*2.5),
+                  child: SvgImageHelper(image: icon),
+                ),
+                SizedBox(width: SizeConfig.blockWidth*4),
+                Expanded(
+                  child: NormalText(
+                    fontWeight: FontWeight.w600,
+                    color: isSelected ? COLORS.primaryDark : COLORS.textPrimary,
+                    fontSize: 2.0,
+                    text: title,
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: isSelected ? COLORS.primaryColor : COLORS.textTertiary,
+                  size: SizeConfig.blockWidth*6,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

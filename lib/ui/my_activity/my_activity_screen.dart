@@ -168,7 +168,28 @@ bool isSelectedEventsInitialized=false;
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                     decoration: BoxDecoration( color: COLORS.white,borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),bottomRight:  Radius.circular(SizeConfig.blockWidth*2)) ) ,
+                    margin: EdgeInsets.fromLTRB(
+                      SizeConfig.blockWidth * 3,
+                      SizeConfig.blockHeight * 1.5,
+                      SizeConfig.blockWidth * 3,
+                      SizeConfig.blockHeight * 0.5,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.blockWidth * 2,
+                      vertical: SizeConfig.blockHeight * 1,
+                    ),
+                    decoration: BoxDecoration(
+                      color: COLORS.white,
+                      borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 4.5),
+                      border: Border.all(color: COLORS.cardBorder),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: COLORS.shadow,
+                          blurRadius: 14,
+                          offset: Offset(0, 6),
+                        ),
+                      ],
+                    ),
                     child: TableCalendar<Activity>(
                       firstDay: kFirstDay,
                       lastDay: kLastDay,
@@ -184,32 +205,37 @@ bool isSelectedEventsInitialized=false;
                       headerStyle:  HeaderStyle(
                         formatButtonVisible: false,
                         titleCentered: true,
-                        titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.iconColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                        titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.6,color:COLORS.textPrimary,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w700),
                         decoration: const BoxDecoration(color: COLORS.white,),
                         rightChevronIcon:  Container(
-                          padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                          padding: EdgeInsets.all(SizeConfig.blockWidth*1.6),
                             decoration: BoxDecoration(
-                              border: Border.all(color: COLORS.blueExtraLight),
-                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                              color: COLORS.primarySoft,
+                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))
                             ),
-                            child: Icon(Icons.arrow_forward_ios,color:COLORS.iconColor,size: SizeConfig.blockHeight*2.5,)),
+                            child: Icon(Icons.arrow_forward_ios,color:COLORS.primaryColor,size: SizeConfig.blockHeight*2,)),
                         leftChevronIcon: Container(
-                            padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                            padding: EdgeInsets.all(SizeConfig.blockWidth*1.6),
                             decoration: BoxDecoration(
-                                border: Border.all(color: COLORS.blueExtraLight),
-                                borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                                color: COLORS.primarySoft,
+                                borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))
                             ),
-                            child: Icon(Icons.arrow_back_ios_new,color:COLORS.iconColor,size: SizeConfig.blockHeight*2.5,)),
+                            child: Icon(Icons.arrow_back_ios_new,color:COLORS.primaryColor,size: SizeConfig.blockHeight*2,)),
 
+                      ),
+                      daysOfWeekStyle: DaysOfWeekStyle(
+                        weekdayStyle: TextStyle(fontSize: SizeConfig.blockHeight*1.6,color:COLORS.textTertiary,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w600),
+                        weekendStyle: TextStyle(fontSize: SizeConfig.blockHeight*1.6,color:COLORS.textTertiary,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w600),
                       ),
                       calendarStyle: CalendarStyle(
                         outsideDaysVisible: false,
                         defaultTextStyle:   textStyleComponent,//all exept sat and sunday
                         weekendTextStyle:textStyleComponent,//weelkend text style
-                        selectedTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.onPrimaryColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
+                        selectedTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.onPrimaryColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w700),
                         selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle),//decoration of selected date
-                        todayDecoration:BoxDecoration(color:COLORS.primaryColor.withOpacity(0.4),shape:BoxShape.circle ),
-                        markerDecoration:  BoxDecoration(color: COLORS.primaryColor,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
+                        todayTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.primaryColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w700),
+                        todayDecoration:BoxDecoration(color:COLORS.primarySoft,shape:BoxShape.circle ),
+                        markerDecoration:  BoxDecoration(color: COLORS.primaryColor,shape:BoxShape.circle),//event show
 
 
                         //  weekNumberTextStyle: const TextStyle(color: Colors.red),
@@ -242,65 +268,84 @@ bool isSelectedEventsInitialized=false;
                           color: COLORS.backgroundColor,
                           child: ListView.builder(
                             itemCount: value.length,
+                            padding: EdgeInsets.fromLTRB(
+                              SizeConfig.blockWidth * 3,
+                              SizeConfig.blockHeight * 1,
+                              SizeConfig.blockWidth * 3,
+                              SizeConfig.blockHeight * 2,
+                            ),
                             itemBuilder: (context, index) {
                               return Container(
-                                margin:  EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.blockWidth*2,
-                                  vertical: SizeConfig.blockHeight*1,
+                                margin:  EdgeInsets.only(
+                                  bottom: SizeConfig.blockHeight*1.5,
                                 ),
-                                padding:  EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.blockWidth*2,
-                                  vertical: SizeConfig.blockHeight*2,
-                                ),
+                                padding:  EdgeInsets.all(SizeConfig.blockWidth*3.5),
                                 decoration: BoxDecoration(
-                                    /*boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.3),
-                                        spreadRadius: 0.1,
-                                        blurRadius: 4,
-                                        offset: Offset(0, 1),
+                                        color: COLORS.shadow,
+                                        blurRadius: 12,
+                                        offset: Offset(0, 6),
                                       ),
-                                    ],*/
+                                    ],
                                     border: Border.all(color: COLORS.cardBorder),
                                     color: COLORS.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
+                                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2, text: toUpperCamelCase(value[index].activityName!)),
-                                        subTitleText(text: "Description"),
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 1.8, text: value[index].activitySummary!),
-
-
-                                      ],
+                                    Container(
+                                      padding: EdgeInsets.all(SizeConfig.blockWidth*2.4),
+                                      decoration: BoxDecoration(
+                                        color: COLORS.primarySoft,
+                                        borderRadius: BorderRadius.circular(SizeConfig.blockWidth*3),
+                                      ),
+                                      child: Icon(
+                                        Icons.event_note_rounded,
+                                        color: COLORS.primaryColor,
+                                        size: SizeConfig.blockHeight*2.6,
+                                      ),
                                     ),
-
-                                    Column(
-                                      children: [
-                                        subTitleText(text:DateFormetConvertHelper(date: value[index].updateDate!) ),
-                                        SizedBox(height: SizeConfig.blockHeight*1,),
-                                        SizedBox(
-                                          width: SizeConfig.blockWidth*18,
-                                          height:SizeConfig.blockHeight*3.5,
-                                          child:  ElevatedButton(
-                                            child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize:1.3, text: "To Submit") ,
-                                            style: ButtonStyle(
-
-                                                elevation: WidgetStatePropertyAll(0),
-                                                padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),),
-                                                backgroundColor: MaterialStatePropertyAll(COLORS.green.withOpacity(.3)),
-                                                shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)))),
-                                                 side: WidgetStatePropertyAll(BorderSide(color: COLORS.green))
-                                            ),
-                                            onPressed: (){},
+                                    SizedBox(width: SizeConfig.blockWidth*3),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize: 2, text: toUpperCamelCase(value[index].activityName!)),
+                                          SizedBox(height: SizeConfig.blockHeight*0.6),
+                                          subTitleText(text: "Description"),
+                                          SizedBox(height: SizeConfig.blockHeight*0.3),
+                                          NormalText(fontWeight: FontWeight.w500, color: COLORS.textSecondary, fontSize: 1.8, text: value[index].activitySummary!),
+                                          SizedBox(height: SizeConfig.blockHeight*1.4),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.access_time_rounded,
+                                                color: COLORS.textTertiary,
+                                                size: SizeConfig.blockHeight*1.8,
+                                              ),
+                                              SizedBox(width: SizeConfig.blockWidth*1.2),
+                                              NormalText(fontWeight: FontWeight.w500, color: COLORS.textTertiary, fontSize: 1.5, text: DateFormetConvertHelper(date: value[index].updateDate!)),
+                                            ],
                                           ),
-                                        )
-                                      ],
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: SizeConfig.blockWidth*2),
+                                    SizedBox(
+                                      height:SizeConfig.blockHeight*4,
+                                      child:  ElevatedButton(
+                                        child: NormalText(fontWeight: FontWeight.w600, color: COLORS.success, fontSize:1.4, text: "To Submit") ,
+                                        style: ButtonStyle(
+                                            elevation: WidgetStatePropertyAll(0),
+                                            padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),),
+                                            backgroundColor: MaterialStatePropertyAll(COLORS.successSoft),
+                                            shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3.5)))),
+                                            side: WidgetStatePropertyAll(BorderSide.none)
+                                        ),
+                                        onPressed: (){},
+                                      ),
                                     )
                                   ],
                                 ),

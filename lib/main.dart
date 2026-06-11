@@ -1,5 +1,5 @@
 import 'package:fieldsales/bloc/authentication_bloc/authentication_bloc.dart';
-import 'package:fieldsales/helper/colors.dart';
+import 'package:fieldsales/helper/app_theme.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/ui/auth_screens/authentication_screen.dart';
 import 'package:fieldsales/ui/auth_screens/splash_screen.dart';
@@ -25,14 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Field Sales',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        scaffoldBackgroundColor: COLORS.white,
-        splashFactory: NoSplash.splashFactory, // Removes splash effect
-        highlightColor: Colors.transparent, // Removes highlight color
-        hoverColor: Colors.transparent,
-      ),
+      theme: AppTheme.light,
       home:const SplashScreen()
 
       /* BlocProvider(

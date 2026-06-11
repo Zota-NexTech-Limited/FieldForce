@@ -65,123 +65,266 @@ class _AddLeaveScreenState extends State<AddLeaveScreen> {
 
           });
         },child:  Scaffold(
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.scaffoldBg,
           appBar: appBarComponent(title: "Add Leave", context: context),
           body: SingleChildScrollView(
             child: Container(
-              height: SizeConfig.screenHeight,
               width: SizeConfig.screenWidth,
-              padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.blockWidth*2,
+              padding: EdgeInsets.fromLTRB(
+                SizeConfig.blockWidth*4,
+                SizeConfig.blockHeight*2,
+                SizeConfig.blockWidth*4,
+                SizeConfig.blockHeight*4,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const InputFieldTitleText(text: "Leave Type *"),
-                  SingleItemSelectDropdown(
-                      selectedValue: selectedLeaveType,
-                      list: leaveTypeList,
-                      onChanged: (value){
-                        setState(() {
-                          selectedLeaveType=value;
-                        });
-                      },
-                      isError: false,
-                      hint: "Select Leave Type"),
-                  const InputFieldTitleText(text: "From Date"),
-                  TextFormFieldWithSuffixIcon(
-                      onChanged:  (value){},
-                      controller: fromDateController,
-                      hintText: "From Date",
-                      readOnly: true,
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        return null;
-                      },
-                      onTap: (){
-                        setState(() {
-                          showSingleDatePickerHelper(context: context,controller: fromDateController);
-                        });
-                        print("fromDateController----------------${fromDateController.text}");
-
-                      },
-                      suffixIcon: "assets/image/svg_icons/calendar.svg"),
-                  const InputFieldTitleText(text: "To Date"),
-                  TextFormFieldWithSuffixIcon(
-                      onChanged:  (value){},
-                      controller: toDateController,
-                      hintText: "To Date",
-                      readOnly: true,
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        return null;
-                      },
-                      onTap: (){
-                        setState(() {
-                          showSingleDatePickerHelper(context: context,controller: toDateController);
-                        });
-                        print("toDateController----------------${toDateController.text}");
-
-                      },
-                      suffixIcon: "assets/image/svg_icons/calendar.svg"),
-                  const InputFieldTitleText(text: "Description"),
-                  MultiLineTextFormField(
-                      onChanged: (value){},
-                      controller: descriptionController,
-                      inputType: TextInputType.text,
-                      validator:(value){return null;} ,
-                      isReadOnly: false,
-                      labelText: "Description"
-                  ),
-                  SizedBox(height: SizeConfig.blockHeight*2,),
-                  Row(
+                  _buildHeader(),
+                  SizedBox(height: SizeConfig.blockHeight*2.5,),
+                  _buildCard(
                     children: [
-                      Checkbox(
-
-                        side: BorderSide(color:COLORS.gray,width: SizeConfig.blockWidth*0.5) ,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5))),
-                          value: isHalfDay,
-                          activeColor: COLORS.primaryColor,
+                      _sectionLabel("Leave Type *"),
+                      SizedBox(height: SizeConfig.blockHeight*1,),
+                      SingleItemSelectDropdown(
+                          selectedValue: selectedLeaveType,
+                          list: leaveTypeList,
                           onChanged: (value){
                             setState(() {
-                              isHalfDay=value!;
-
+                              selectedLeaveType=value;
                             });
-                          }),
-                      NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2.2, text:"Half Day"),
+                          },
+                          isError: false,
+                          hint: "Select Leave Type"),
                     ],
                   ),
-                  SizedBox(height: SizeConfig.blockHeight*3,),
+                  SizedBox(height: SizeConfig.blockHeight*2,),
+                  _buildCard(
+                    children: [
+                      _sectionLabel("Duration"),
+                      SizedBox(height: SizeConfig.blockHeight*1,),
+                      const InputFieldTitleText(text: "From Date"),
+                      TextFormFieldWithSuffixIcon(
+                          onChanged:  (value){},
+                          controller: fromDateController,
+                          hintText: "From Date",
+                          readOnly: true,
+                          inputType: TextInputType.text,
+                          validator: (value){
+                            return null;
+                          },
+                          onTap: (){
+                            setState(() {
+                              showSingleDatePickerHelper(context: context,controller: fromDateController);
+                            });
+                            print("fromDateController----------------${fromDateController.text}");
 
+                          },
+                          suffixIcon: "assets/image/svg_icons/calendar.svg"),
+                      const InputFieldTitleText(text: "To Date"),
+                      TextFormFieldWithSuffixIcon(
+                          onChanged:  (value){},
+                          controller: toDateController,
+                          hintText: "To Date",
+                          readOnly: true,
+                          inputType: TextInputType.text,
+                          validator: (value){
+                            return null;
+                          },
+                          onTap: (){
+                            setState(() {
+                              showSingleDatePickerHelper(context: context,controller: toDateController);
+                            });
+                            print("toDateController----------------${toDateController.text}");
+
+                          },
+                          suffixIcon: "assets/image/svg_icons/calendar.svg"),
+                      SizedBox(height: SizeConfig.blockHeight*2,),
+                      _buildHalfDayTile(),
+                    ],
+                  ),
+                  SizedBox(height: SizeConfig.blockHeight*2,),
+                  _buildCard(
+                    children: [
+                      _sectionLabel("Description"),
+                      SizedBox(height: SizeConfig.blockHeight*0.5,),
+                      MultiLineTextFormField(
+                          onChanged: (value){},
+                          controller: descriptionController,
+                          inputType: TextInputType.text,
+                          validator:(value){return null;} ,
+                          isReadOnly: false,
+                          labelText: "Description"
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
           bottomNavigationBar: Container(
-            height: SizeConfig.blockHeight*8,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
-            child: Column(
-              children: [
-                NormalButton(title: "Submit Leave", onTap: (){
-                  setState(() {
-
-                    Leave leaveDetails=Leave(
-                      leaveType: selectedLeaveType,
-                      leaveFromDate:DateFormat('yyyy-MM-dd').parse(fromDateController.text).add(Duration(hours: 5, minutes: 30)) ,
-                      leaveToDate: DateFormat('yyyy-MM-dd').parse(toDateController.text).add(Duration(hours: 5, minutes: 30)),
-                      description: descriptionController.text,
-                      isHalfday: isHalfDay
-                    );
-                    addLeaveBloc.add(AddNewLeaveEvent(leaveDetails: leaveDetails));
-                  });
-                }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig.blockWidth*4,
+              SizeConfig.blockHeight*1.5,
+              SizeConfig.blockWidth*4,
+              SizeConfig.blockHeight*2,
+            ),
+            decoration: BoxDecoration(
+              color: COLORS.white,
+              border: Border(top: BorderSide(color: COLORS.divider, width: 1)),
+              boxShadow: [
+                BoxShadow(
+                  color: COLORS.shadow,
+                  blurRadius: 16,
+                  offset: const Offset(0, -6),
+                ),
               ],
+            ),
+            child: SafeArea(
+              top: false,
+              child: NormalButton(title: "Submit Leave", onTap: (){
+                setState(() {
+
+                  Leave leaveDetails=Leave(
+                    leaveType: selectedLeaveType,
+                    leaveFromDate:DateFormat('yyyy-MM-dd').parse(fromDateController.text).add(Duration(hours: 5, minutes: 30)) ,
+                    leaveToDate: DateFormat('yyyy-MM-dd').parse(toDateController.text).add(Duration(hours: 5, minutes: 30)),
+                    description: descriptionController.text,
+                    isHalfday: isHalfDay
+                  );
+                  addLeaveBloc.add(AddNewLeaveEvent(leaveDetails: leaveDetails));
+                });
+              }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
             ),
           ),
         ),)
 
 
 
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      children: [
+        Container(
+          width: SizeConfig.blockWidth*12,
+          height: SizeConfig.blockWidth*12,
+          decoration: BoxDecoration(
+            color: COLORS.primarySoft,
+            borderRadius: BorderRadius.circular(SizeConfig.blockWidth*3.5),
+          ),
+          child: Icon(
+            Icons.event_busy_rounded,
+            color: COLORS.primaryColor,
+            size: SizeConfig.blockWidth*6,
+          ),
+        ),
+        SizedBox(width: SizeConfig.blockWidth*3.5,),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Request Leave",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight*2.6,
+                  fontWeight: FontWeight.w700,
+                  color: COLORS.textPrimary,
+                ),
+              ),
+              SizedBox(height: SizeConfig.blockHeight*0.4,),
+              Text(
+                "Fill in the details to submit your request",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight*1.7,
+                  fontWeight: FontWeight.w400,
+                  color: COLORS.textTertiary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCard({required List<Widget> children}) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth*4,
+        vertical: SizeConfig.blockHeight*1,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.surface,
+        borderRadius: BorderRadius.circular(SizeConfig.blockWidth*4.5),
+        border: Border.all(color: COLORS.cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
+    );
+  }
+
+  Widget _sectionLabel(String text) {
+    return Padding(
+      padding: EdgeInsets.only(top: SizeConfig.blockHeight*1.5),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: SizeConfig.blockHeight*1.9,
+          fontWeight: FontWeight.w600,
+          color: COLORS.textSecondary,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHalfDayTile() {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth*3,
+        vertical: SizeConfig.blockHeight*0.5,
+      ),
+      decoration: BoxDecoration(
+        color: isHalfDay ? COLORS.primarySoft : COLORS.surfaceMuted,
+        borderRadius: BorderRadius.circular(SizeConfig.blockWidth*3),
+        border: Border.all(
+          color: isHalfDay ? COLORS.primaryLight : COLORS.outline,
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Checkbox(
+            side: BorderSide(color:COLORS.gray,width: SizeConfig.blockWidth*0.5) ,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5))),
+              value: isHalfDay,
+              activeColor: COLORS.primaryColor,
+              onChanged: (value){
+                setState(() {
+                  isHalfDay=value!;
+
+                });
+              }),
+          SizedBox(width: SizeConfig.blockWidth*1,),
+          Expanded(
+            child: NormalText(fontWeight: FontWeight.w600, color: COLORS.textPrimary, fontSize: 2.0, text:"Half Day"),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -9,7 +9,6 @@ import 'package:fieldsales/components/dropdown_component/single_item_select_drop
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
 import 'package:fieldsales/components/text_component/input_field_title_text.dart';
-import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/components/text_form_field_component/normal_textform_field.dart';
 import 'package:fieldsales/components/text_form_field_component/textformfield_with_suffix_icon.dart';
 import 'package:fieldsales/helper/colors.dart';
@@ -131,79 +130,94 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
         child: isLoading==true?LoadingScreen():isError==true?ErrorScreen(onPressed: (){}): Form(
           key: _formKey,
           child: Scaffold(
+          backgroundColor: COLORS.scaffoldBg,
           appBar: appBarComponent(title: "Add Opportunity", context: context),
           body:Container(
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const InputFieldTitleText(text: "Opportunity Name *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: opportunityNameController,
-                      hintText: "Enter Name Here",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Opportunity Name is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: readOnly
+                  SizedBox(height: SizeConfig.blockHeight*2),
+                  _buildSectionHeader(
+                    icon: Icons.flag_outlined,
+                    title: "Opportunity Details",
+                    subtitle: "Tell us about this opportunity",
                   ),
-                  const InputFieldTitleText(text: "Opportunity Value *"),
-                  NormalTextFormField(
-                      onChanged: (value){},
-                      controller: opportunityValueController,
-                      hintText: "Enter Opportunity Value Here",
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Opportunity Value is Empty";
-                        }
-                        return null;
-                      },
-                      readOnly: readOnly
-                  ),
-                  const InputFieldTitleText(text: "Close Date *"),
-                  TextFormFieldWithSuffixIcon(
-                      onChanged:  (value){},
-                      controller: closeDateController,
-                      hintText: "Close Date",
-                      readOnly: true,
-                      inputType: TextInputType.text,
-                      validator: (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Opportunity Value is Empty";
-                        }
-                        return null;
-                      },
-                      onTap:(){
-                        if(readOnly==false)
-                        {
-                          setState(() {
-                            showSingleDatePickerHelper(context: context,controller: closeDateController);
-                          });
-                          print("closeDateController----------------${closeDateController.text}");
-                        }
+                  SizedBox(height: SizeConfig.blockHeight*2),
+                  _buildCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const InputFieldTitleText(text: "Opportunity Name *"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: opportunityNameController,
+                            hintText: "Enter Name Here",
+                            inputType: TextInputType.text,
+                            validator: (value){
+                              if(value==null||value.isEmpty)
+                              {
+                                return "Opportunity Name is Empty";
+                              }
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                        const InputFieldTitleText(text: "Opportunity Value *"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: opportunityValueController,
+                            hintText: "Enter Opportunity Value Here",
+                            inputType: TextInputType.text,
+                            validator: (value){
+                              if(value==null||value.isEmpty)
+                              {
+                                return "Opportunity Value is Empty";
+                              }
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                        const InputFieldTitleText(text: "Close Date *"),
+                        TextFormFieldWithSuffixIcon(
+                            onChanged:  (value){},
+                            controller: closeDateController,
+                            hintText: "Close Date",
+                            readOnly: true,
+                            inputType: TextInputType.text,
+                            validator: (value){
+                              if(value==null||value.isEmpty)
+                              {
+                                return "Opportunity Value is Empty";
+                              }
+                              return null;
+                            },
+                            onTap:(){
+                              if(readOnly==false)
+                              {
+                                setState(() {
+                                  showSingleDatePickerHelper(context: context,controller: closeDateController);
+                                });
+                                print("closeDateController----------------${closeDateController.text}");
+                              }
 
 
-                      },
-                      suffixIcon: "assets/image/svg_icons/calendar.svg"),
-                  const InputFieldTitleText(text: "Stage"),
-                  if(readOnly==true)...[
-                    NotEditableDropdownComponent(text: selectedStage==null?"--":selectedStage!),
-                  ]else...[
-                    SingleItemSelectDropdown(selectedValue: selectedStage, list: stageList, onChanged: (value){setState(() {
-                      selectedStage=value!;
-                    });}, hint: "Select stage", isError: false),
-                  ],
+                            },
+                            suffixIcon: "assets/image/svg_icons/calendar.svg"),
+                        const InputFieldTitleText(text: "Stage"),
+                        if(readOnly==true)...[
+                          NotEditableDropdownComponent(text: selectedStage==null?"--":selectedStage!),
+                        ]else...[
+                          SingleItemSelectDropdown(selectedValue: selectedStage, list: stageList, onChanged: (value){setState(() {
+                            selectedStage=value!;
+                          });}, hint: "Select stage", isError: false),
+                        ],
+                      ],
+                    ),
+                  ),
                   /*  const InputFieldTitleText(text: "Probability of Close"),
                   NormalTextFormField(
                       onChanged: (value){
@@ -226,14 +240,46 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                       },
                       readOnly: readOnly
                   ),*/
-                  const InputFieldTitleText(text: "Probability of Close"),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: SizeConfig.screenWidth*0.8,
-                        child: SfSlider(
+                  SizedBox(height: SizeConfig.blockHeight*2.5),
+                  _buildCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Probability of Close",
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: SizeConfig.blockHeight*2,
+                                fontWeight: FontWeight.w600,
+                                color: COLORS.textSecondary,
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.blockWidth*3,
+                                vertical: SizeConfig.blockHeight*0.7,
+                              ),
+                              decoration: BoxDecoration(
+                                color: COLORS.primarySoft,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                "${(probabilityOfClose.toInt())} / 10",
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: SizeConfig.blockHeight*1.9,
+                                  fontWeight: FontWeight.w700,
+                                  color: COLORS.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockHeight*1),
+                        SfSlider(
                           min: 0,
                           max: 10,
                           value: probabilityOfClose,
@@ -245,6 +291,7 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                           stepSize: 1,
                           minorTicksPerInterval: 1,
                           activeColor: COLORS.primaryColor,
+                          inactiveColor: COLORS.divider,
                           onChanged: (dynamic value){
                             setState(() {
                               if(readOnly==false)
@@ -255,15 +302,8 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                           },
 
                         ),
-                      ),
-                      Container(
-                        height: SizeConfig.blockHeight*3.5,
-                        width: SizeConfig.blockWidth*10,
-                        color: COLORS.gray,
-                        child: Center(child: NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 2, text: "${(probabilityOfClose.toInt())}")),
-                      )
-
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(height: SizeConfig.blockHeight*9,),
 
@@ -272,8 +312,19 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
             ),
           ) ,
             bottomNavigationBar: Container(
-              height: SizeConfig.blockHeight*8,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              height: SizeConfig.blockHeight*9,
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*1),
+              decoration: BoxDecoration(
+                color: COLORS.surface,
+                border: Border(top: BorderSide(color: COLORS.divider, width: 1)),
+                boxShadow: [
+                  BoxShadow(
+                    color: COLORS.shadow,
+                    blurRadius: 12,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
               child: Column(
                 children: [
                   if(isView==false)...[
@@ -329,6 +380,77 @@ class _AddOpportunityScreenState extends State<AddOpportunityScreen> {
                 ),
         ),)
 
+    );
+  }
+
+  Widget _buildCard({required Widget child}) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth*4,
+        vertical: SizeConfig.blockHeight*1.5,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: COLORS.cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+
+  Widget _buildSectionHeader({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.all(SizeConfig.blockWidth*2.5),
+          decoration: BoxDecoration(
+            color: COLORS.primarySoft,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon, color: COLORS.primaryColor, size: SizeConfig.blockHeight*2.8),
+        ),
+        SizedBox(width: SizeConfig.blockWidth*3),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight*2.4,
+                  fontWeight: FontWeight.w700,
+                  color: COLORS.textPrimary,
+                ),
+              ),
+              SizedBox(height: SizeConfig.blockHeight*0.4),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight*1.7,
+                  fontWeight: FontWeight.w400,
+                  color: COLORS.textTertiary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

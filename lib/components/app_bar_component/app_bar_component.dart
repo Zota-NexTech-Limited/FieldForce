@@ -1,19 +1,38 @@
-import 'package:fieldsales/components/text_component/normal_text.dart';
 import 'package:fieldsales/helper/colors.dart';
-import 'package:fieldsales/helper/size_config.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-AppBar appBarComponent({required String title,required BuildContext context}){
-  return AppBar(backgroundColor: COLORS.primaryColor,
-    titleSpacing: SizeConfig.blockWidth*1,
-    leading: InkWell(
-      onTap: (){
-        Navigator.pop(context);
-        },
-        child:  Icon(Icons.arrow_back_sharp,size: SizeConfig.blockHeight*4,color: COLORS.onPrimaryColor,)),
+/// Modern, consistent app bar used across screens.
+///
+/// Signature preserved: `appBarComponent(title:, context:)`.
+AppBar appBarComponent({required String title, required BuildContext context}) {
+  return AppBar(
+    backgroundColor: COLORS.primaryColor,
+    foregroundColor: COLORS.onPrimaryColor,
+    surfaceTintColor: Colors.transparent,
+    elevation: 0,
+    scrolledUnderElevation: 2,
+    shadowColor: COLORS.shadow,
     centerTitle: false,
-    leadingWidth: SizeConfig.blockWidth*12,
-    title: NormalText(fontWeight: FontWeight.w700, color: COLORS.onPrimaryColor, fontSize: 2.7,  text: title) ,
+    titleSpacing: 4,
+    leadingWidth: 52,
+    leading: IconButton(
+      onPressed: () => Navigator.pop(context),
+      splashRadius: 22,
+      icon: Icon(
+        Icons.arrow_back_ios_new_rounded,
+        size: 20,
+        color: COLORS.onPrimaryColor,
+      ),
+    ),
+    title: Text(
+      title,
+      style: TextStyle(
+        fontFamily: 'Inter',
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+        letterSpacing: 0.2,
+        color: COLORS.onPrimaryColor,
+      ),
+    ),
   );
 }

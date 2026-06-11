@@ -160,127 +160,142 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         ], child: Form(
           key: _formKey,
           child: Scaffold(
-            backgroundColor: COLORS.white,
+            backgroundColor: COLORS.scaffoldBg,
             appBar: appBarComponent(title: "Contact Details",context: context),
             body: Container(
               height: SizeConfig.screenHeight,
               width: SizeConfig.screenWidth,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const InputFieldTitleText(text: "Phone Number *"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: phoneNumberController,
-                        hintText: "Enter Customer Mobile Number",
-                        inputType: TextInputType.phone,
-                        validator: (value){
-                          RegExp regex = RegExp(r"^\d{10}$");
-                          if (!regex.hasMatch(value!)) {
-                            return 'Phone Number is not valid';
+                    SizedBox(height: SizeConfig.blockHeight*2),
+                    _sectionCard(
+                      icon: Icons.contact_phone_outlined,
+                      title: "Contact Information",
+                      subtitle: "How can we reach this lead",
+                      children: [
+                        const InputFieldTitleText(text: "Phone Number *"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: phoneNumberController,
+                            hintText: "Enter Customer Mobile Number",
+                            inputType: TextInputType.phone,
+                            validator: (value){
+                              RegExp regex = RegExp(r"^\d{10}$");
+                              if (!regex.hasMatch(value!)) {
+                                return 'Phone Number is not valid';
+                              }
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+
+                        const InputFieldTitleText(text: "Email address *"),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: emailAddressController,
+                            hintText: "Enter Customer Email Address",
+                            inputType: TextInputType.emailAddress,
+                            validator: (value){
+                              String pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+                              RegExp regex = RegExp(pattern);
+                              if (value!.trim().isEmpty) {
+                                return 'Email is Empty';
+                              } else if (!regex.hasMatch(value)) {
+                                return 'Email is not valid';
+                              }
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+
+                        const InputFieldTitleText(text: "Website "),
+                        NormalTextFormField(
+                            onChanged: (value){},
+                            controller: websiteController,
+                            hintText: "Website URL here",
+                            inputType: TextInputType.text,
+                            validator: (value){
+                              // if(value==null||value.isEmpty)
+                              // {
+                              //   return "Website is Empty";
+                              // }
+                              return null;
+                            },
+                            readOnly: readOnly
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: SizeConfig.blockHeight*2),
+
+                    _sectionCard(
+                      icon: Icons.location_on_outlined,
+                      title: "Address",
+                      subtitle: "Location details for this lead",
+                      children: [
+                        const InputFieldTitleText(text: "PinCode *"),
+                        NormalTextFormField(
+                            onChanged: (value){
+                              setState(() {
+                                if(value.length==6){
+                                  getAddressByPinCodeBloc.add(FetchAddressByPinCodeEvent(pinCode: pinCodeController.text));
+                                }
+                              });
+                            },
+                            controller: pinCodeController,
+                            hintText: "000 000",
+                            inputType: TextInputType.phone,
+                            validator: (value){
+                              RegExp regex = RegExp(r"^\d{6}$");
+                              if (!regex.hasMatch(value!)) {
+                                return 'PinCode is Not Valid';
+                              }
+                              return null;
+
+                            },
+                            readOnly: readOnly
+                        ),
+                        const InputFieldTitleText(text: "State *"),
+                        if(readOnly==true)...[
+                          NotEditableDropdownComponent(text: selectedState==null?"--":selectedState!)
+                        ]else...[
+                          SingleItemSelectDropdown(selectedValue: selectedState, list: stateList,
+                              isError: isStateDropdownIsEmpty,
+                              onChanged: (value){
+                                setState(() {
+                                  selectedState=value;
+                                  isStateDropdownIsEmpty=false;
+                                });
+                              }, hint: "State"),
+                        ],
+                        const InputFieldTitleText(text: "City *"),
+                        if(readOnly==true)...[
+                          NotEditableDropdownComponent(text: selectedCity==null?"--":selectedCity!)
+                        ]else...[
+                          SingleItemSelectDropdown(selectedValue: selectedCity, list: cityList,
+                              isError: isCityDropdownIsEmpty,
+                              onChanged: (value){
+                                setState(() {
+                                  selectedCity=value;
+                                  isCityDropdownIsEmpty=false;
+
+                                });
+                              }, hint: "City"),
+                        ],
+                        const InputFieldTitleText(text: "Address *"),
+                        MultiLineTextFormField(onChanged: (value){}, controller: addressController, inputType: TextInputType.text, validator: (value){
+                          if(value==null||value.isEmpty)
+                          {
+                            return " Address is Empty";
                           }
                           return null;
-                        },
-                        readOnly: readOnly
+                        }, isReadOnly: readOnly, labelText: "Address"),
+                      ],
                     ),
-
-                    const InputFieldTitleText(text: "Email address *"),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: emailAddressController,
-                        hintText: "Enter Customer Email Address",
-                        inputType: TextInputType.emailAddress,
-                        validator: (value){
-                          String pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-                          RegExp regex = RegExp(pattern);
-                          if (value!.trim().isEmpty) {
-                            return 'Email is Empty';
-                          } else if (!regex.hasMatch(value)) {
-                            return 'Email is not valid';
-                          }
-                          return null;
-                        },
-                        readOnly: readOnly
-                    ),
-
-                    const InputFieldTitleText(text: "Website "),
-                    NormalTextFormField(
-                        onChanged: (value){},
-                        controller: websiteController,
-                        hintText: "Website URL here",
-                        inputType: TextInputType.text,
-                        validator: (value){
-                          // if(value==null||value.isEmpty)
-                          // {
-                          //   return "Website is Empty";
-                          // }
-                          return null;
-                        },
-                        readOnly: readOnly
-                    ),
-
-                    const InputFieldTitleText(text: "Address"),
-
-                    const InputFieldTitleText(text: "PinCode *"),
-                    NormalTextFormField(
-                        onChanged: (value){
-                          setState(() {
-                            if(value.length==6){
-                              getAddressByPinCodeBloc.add(FetchAddressByPinCodeEvent(pinCode: pinCodeController.text));
-                            }
-                          });
-                        },
-                        controller: pinCodeController,
-                        hintText: "000 000",
-                        inputType: TextInputType.phone,
-                        validator: (value){
-                          RegExp regex = RegExp(r"^\d{6}$");
-                          if (!regex.hasMatch(value!)) {
-                            return 'PinCode is Not Valid';
-                          }
-                          return null;
-
-                        },
-                        readOnly: readOnly
-                    ),
-                    const InputFieldTitleText(text: "State *"),
-                    if(readOnly==true)...[
-                      NotEditableDropdownComponent(text: selectedState==null?"--":selectedState!)
-                    ]else...[
-                      SingleItemSelectDropdown(selectedValue: selectedState, list: stateList,
-                          isError: isStateDropdownIsEmpty,
-                          onChanged: (value){
-                            setState(() {
-                              selectedState=value;
-                              isStateDropdownIsEmpty=false;
-                            });
-                          }, hint: "State"),
-                    ],
-                    const InputFieldTitleText(text: "City *"),
-                    if(readOnly==true)...[
-                      NotEditableDropdownComponent(text: selectedCity==null?"--":selectedCity!)
-                    ]else...[
-                      SingleItemSelectDropdown(selectedValue: selectedCity, list: cityList,
-                          isError: isCityDropdownIsEmpty,
-                          onChanged: (value){
-                            setState(() {
-                              selectedCity=value;
-                              isCityDropdownIsEmpty=false;
-
-                            });
-                          }, hint: "City"),
-                    ],
-                    const InputFieldTitleText(text: "Address *"),
-                    MultiLineTextFormField(onChanged: (value){}, controller: addressController, inputType: TextInputType.text, validator: (value){
-                      if(value==null||value.isEmpty)
-                      {
-                        return " Address is Empty";
-                      }
-                      return null;
-                    }, isReadOnly: readOnly, labelText: "Address"),
 
                     SizedBox(height: SizeConfig.blockHeight*3,),
 
@@ -291,9 +306,22 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
               ),
             ),
             bottomNavigationBar: Container(
-              height: SizeConfig.blockHeight*8,
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+              decoration: BoxDecoration(
+                color: COLORS.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: COLORS.shadow,
+                    blurRadius: 14,
+                    offset: const Offset(0, -4),
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.blockWidth*4,
+                vertical: SizeConfig.blockHeight*1.2,
+              ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   if(isView==false)...[
                     NormalButtonWithIcon(title: "Next Step", onTap: (){
@@ -390,5 +418,84 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
 
 
        );
+  }
+
+  Widget _sectionCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required List<Widget> children,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.fromLTRB(
+        SizeConfig.blockWidth*4,
+        SizeConfig.blockHeight*1,
+        SizeConfig.blockWidth*4,
+        SizeConfig.blockHeight*2.5,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: COLORS.cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: SizeConfig.blockHeight*1.5),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: COLORS.primarySoft,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: COLORS.primaryColor, size: 22),
+              ),
+              SizedBox(width: SizeConfig.blockWidth*3),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: SizeConfig.blockHeight*2.2,
+                        fontWeight: FontWeight.w700,
+                        color: COLORS.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: SizeConfig.blockHeight*1.6,
+                        fontWeight: FontWeight.w400,
+                        color: COLORS.textTertiary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1.5),
+            child: Divider(height: 1, thickness: 1, color: COLORS.divider),
+          ),
+          ...children,
+        ],
+      ),
+    );
   }
 }

@@ -74,11 +74,11 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                   );
                 },
                 child: Scaffold(
-                  backgroundColor: COLORS.backgroundColor,
+                  backgroundColor: COLORS.scaffoldBg,
                   body: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: SizeConfig.blockHeight*11,left: SizeConfig.blockWidth*3,right: SizeConfig.blockWidth*3),
+                        margin: EdgeInsets.only(top: SizeConfig.blockHeight*11,left: SizeConfig.blockWidth*4,right: SizeConfig.blockWidth*4),
                         width: SizeConfig.screenWidth,
                         height: SizeConfig.screenHeight,
                         child:state.opportunityList.isNotEmpty?ListView.builder(
@@ -106,55 +106,43 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                             return Dismissible(
                               key:Key(index.toString()),
                               background: Container(
-                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.8,),
+                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*6),
+                                  alignment: Alignment.centerLeft,
                                   decoration: BoxDecoration(
-                                      color:COLORS.yellow,
-                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),topLeft:  Radius.circular(SizeConfig.blockWidth*2))
+                                      color:COLORS.warningSoft,
+                                      borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))
                                   ),
-                                  // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: SizeConfig.blockWidth*40,
-                                            //color: COLORS.orange,
-                                            child: SizedBox(
-                                                height: SizeConfig.blockHeight*3,
-                                                width: SizeConfig.blockWidth*10,
-                                                child: SvgImageHelper(image: "assets/image/svg_icons/my_activity.svg")),
-                                          ),
-                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Schedule Activity")
-                                        ],
-                                      ),
+                                      SizedBox(
+                                          height: SizeConfig.blockHeight*3,
+                                          width: SizeConfig.blockWidth*8,
+                                          child: SvgImageHelper(image: "assets/image/svg_icons/my_activity.svg")),
+                                      SizedBox(width: SizeConfig.blockWidth*3,),
+                                      NormalText(fontWeight: FontWeight.w600, color: COLORS.warning, fontSize: 2, text: "Schedule Activity")
                                     ],
                                   )),
                               secondaryBackground: Container(
-                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
+                                  margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.8,),
+                                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*6),
+                                  alignment: Alignment.centerRight,
                                   decoration: BoxDecoration(
-                                      color:COLORS.green,
-                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(SizeConfig.blockWidth*2),topRight:  Radius.circular(SizeConfig.blockWidth*2))
+                                      color:COLORS.successSoft,
+                                      borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4))
                                   ),
-                                  // padding: EdgeInsets.only(left: SizeConfig.blockWidth*10),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: SizeConfig.blockWidth*40,
-                                            //color: COLORS.orange,
-                                            child: SizedBox(
-                                                height: SizeConfig.blockHeight*3,
-                                                width: SizeConfig.blockWidth*10,
-                                                child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
-                                          ),
-                                          NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "Call")
-                                        ],
-                                      ),
+                                      NormalText(fontWeight: FontWeight.w600, color: COLORS.success, fontSize: 2, text: "Call"),
+                                      SizedBox(width: SizeConfig.blockWidth*3,),
+                                      SizedBox(
+                                          height: SizeConfig.blockHeight*3,
+                                          width: SizeConfig.blockWidth*8,
+                                          child: SvgImageHelper(image: "assets/image/svg_icons/call_icon.svg")),
                                     ],
                                   )), // Background for left swipe
                               confirmDismiss: (direction) async {
@@ -196,7 +184,17 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                           top: SizeConfig.blockHeight*0,
                           child:  Container(
                             width: SizeConfig.screenWidth,
-                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
+                            decoration: BoxDecoration(
+                              color: COLORS.scaffoldBg,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: COLORS.shadow,
+                                  blurRadius: 14,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ],
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
                             child: NotEditableSearchField(text: filterController.text.isNotEmpty?filterController.text:"Search",onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterScreen(
                                 filterText: filterController.text,
@@ -259,13 +257,29 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
                            left: SizeConfig.screenWidth*0.3,
                            child:  Align(
                              alignment: Alignment.bottomCenter,
-                             child: AddNewButton(title: "New Opportunity", onTap: (){
+                             child: AnimatedOpacity(
+                             opacity: showNewOpportunityButton?1:0,
+                             duration: const Duration(milliseconds: 200),
+                             child: Container(
+                               decoration: BoxDecoration(
+                                 borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4)),
+                                 boxShadow: [
+                                   BoxShadow(
+                                     color: COLORS.shadow,
+                                     blurRadius: 16,
+                                     offset: const Offset(0, 6),
+                                   ),
+                                 ],
+                               ),
+                               child: AddNewButton(title: "New Opportunity", onTap: (){
                                Navigator.push(context, MaterialPageRoute(builder: (context)=> MultiBlocProvider(providers: [
                                  BlocProvider(create: (context)=>GetOpportunityByIdBloc()),
                                  BlocProvider(create: (context)=>EditOpportunityBloc()),
                                ], child: AddOpportunityScreen(pageRefreshFunction: _refreshPage,),)
                                ));
                              }),
+                             ),
+                             ),
                            )
                        )
                      ]
@@ -289,72 +303,106 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
 
   Widget opportunityCard({required String name,required String source,required String stage,required String contact,required String status,required VoidCallback menuTap,required VoidCallback cardTap,})
   {
-    return InkWell(
-      onTap: cardTap,
-      splashColor: COLORS.backgroundColor,
-      child: Container(
-        width: SizeConfig.screenWidth,
-        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
-        margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.5,),
-
-        decoration: BoxDecoration(
-          /*boxShadow: [
+    final Color statusBg = status=="new"? COLORS.infoSoft : status=="Completed"? COLORS.successSoft : COLORS.warningSoft;
+    final Color statusFg = status=="new"? COLORS.info : status=="Completed"? COLORS.success : COLORS.warning;
+    return Container(
+      width: SizeConfig.screenWidth,
+      margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.8,),
+      decoration: BoxDecoration(
+          border: Border.all(color: COLORS.cardBorder),
+          color: COLORS.surface,
+          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4.5)),
+          boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              spreadRadius: 0.1,
-              blurRadius: 10,
-              offset: Offset(0, 1),
+              color: COLORS.shadow,
+              blurRadius: 14,
+              offset: const Offset(0, 6),
             ),
-          ],*/
-            border: Border.all(color: COLORS.cardBorder),
-            color: COLORS.white,
-            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
-        ),
-        child:Column(
-            children: [
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ]
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4.5)),
+        child: InkWell(
+          onTap: cardTap,
+          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4.5)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
+            child:Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize:2.2, text: toUpperCamelCase(name)),
-                  NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize:1.8, text: "#$source"),
-                ],
-              ),
-              Align(alignment:Alignment.topRight,child: NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: stage)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      NormalText(fontWeight: FontWeight.w500, color: COLORS.gray, fontSize: 1.8, text: "Contact"),
-                      NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize:2.2, text: "${toUpperCamelCase(contact)}"),
-
+                      Container(
+                        width: SizeConfig.blockWidth*11,
+                        height: SizeConfig.blockWidth*11,
+                        decoration: BoxDecoration(
+                          color: COLORS.primarySoft,
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+                        ),
+                        child: Icon(Icons.trending_up_rounded, color: COLORS.primaryColor, size: SizeConfig.blockHeight*3,),
+                      ),
+                      SizedBox(width: SizeConfig.blockWidth*3,),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize:2.2, text: toUpperCamelCase(name)),
+                            SizedBox(height: SizeConfig.blockHeight*0.4,),
+                            NormalText(fontWeight: FontWeight.w500, color: COLORS.textTertiary, fontSize:1.7, text: "#$source"),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: SizeConfig.blockWidth*2,),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2.5,vertical: SizeConfig.blockHeight*0.6),
+                        decoration: BoxDecoration(
+                            color: statusBg,
+                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))),
+                        child: NormalText(fontWeight: FontWeight.w600, color: statusFg, fontSize: 1.6, text:toUpperCamelCase(status)),
+                      ),
                     ],
                   ),
+                  SizedBox(height: SizeConfig.blockHeight*1.4,),
                   Row(
                     children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1.5,vertical: SizeConfig.blockHeight*0.2),
-                        decoration: BoxDecoration(
-                            color:status=="new"? COLORS.red.withOpacity(0.2):status=="Completed"?COLORS.green.withOpacity(0.2):COLORS.yellow.withOpacity(0.2),
-                            border: Border.all(color:status=="new"? COLORS.red:status=="Completed"?COLORS.green:COLORS.yellow ,width: SizeConfig.blockWidth*0.1),
-                            borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.2)
-                            )),
-                        child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize: 1.7, text:toUpperCamelCase(status)),
+                      Icon(Icons.flag_outlined, color: COLORS.textTertiary, size: SizeConfig.blockHeight*2.2,),
+                      SizedBox(width: SizeConfig.blockWidth*2,),
+                      NormalText(fontWeight: FontWeight.w600, color: COLORS.textSecondary, fontSize: 1.8, text: stage),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: SizeConfig.blockHeight*1.4),
+                    child: Divider(height: 1, color: COLORS.divider,),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            NormalText(fontWeight: FontWeight.w600, color: COLORS.textTertiary, fontSize: 1.6, text: "Contact"),
+                            SizedBox(height: SizeConfig.blockHeight*0.3,),
+                            NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize:2, text: "${toUpperCamelCase(contact)}"),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: SizeConfig.blockWidth*5,),
                       InkWell(
                           onTap: menuTap,
-                          child:const SvgImageHelper(image: "assets/image/svg_icons/more_icon.svg"))
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
+                          child: Padding(
+                            padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                            child: const SvgImageHelper(image: "assets/image/svg_icons/more_icon.svg"),
+                          ))
                     ],
-                  )
-                ],
-              ),
-
-            ]
-        ) ,
+                  ),
+                ]
+            ) ,
+          ),
+        ),
       ),
     );
   }
@@ -365,19 +413,23 @@ class _OpportunityScreenState extends State<OpportunityScreen> {
 
     showMenu<String>(
       context: context,
-      color: COLORS.white,
+      color: COLORS.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+        side: BorderSide(color: COLORS.cardBorder),
+      ),
       position:RelativeRect.fromDirectional(textDirection: TextDirection.ltr, start: SizeConfig.blockHeight*1, top: SizeConfig.blockHeight*30, end: 0, bottom: 0),
       items: [
         PopupMenuItem(
           value: "Lead",
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*2,vertical: SizeConfig.blockHeight*1),
+              padding: EdgeInsets.symmetric(horizontal:SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*1),
               decoration: BoxDecoration(
-                  color: COLORS.backgroundColor,
-                  borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1))
+                  color: COLORS.primarySoft,
+                  borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
               ),
 
-              child: NormalText(text: "Lead",color: COLORS.textColor,fontSize: 2,fontWeight: FontWeight.w600,)),
+              child: NormalText(text: "Lead",color: COLORS.primaryColor,fontSize: 2,fontWeight: FontWeight.w600,)),
         ),
 
       ],

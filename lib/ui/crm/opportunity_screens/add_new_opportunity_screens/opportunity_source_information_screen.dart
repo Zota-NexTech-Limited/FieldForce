@@ -161,48 +161,62 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
           })
 
         ], child:  Scaffold(
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.scaffoldBg,
           appBar: appBarComponent(title: "Source Information", context: context),
           body: Container(
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const InputFieldTitleText(text: "Source *"),
-                  if(readOnly==true)...[
-                    NotEditableDropdownComponent(text: selectedSource.toString())
-                   ]else...[
-                    SingleItemSelectDropdown(
-                        selectedValue: selectedSource,
-                        list: sourceList,
-                        onChanged: (value)
-                        {
-                          setState(() {
-                            selectedSource=value!;
-                          });
-                        },
-                        hint: "Select Source",
-                        isError: false),
-                  ],
+                  SizedBox(height: SizeConfig.blockHeight*2),
+                  _buildSectionCard(
+                    icon: Icons.travel_explore_rounded,
+                    title: "Source",
+                    subtitle: "Where did this opportunity originate?",
+                    children: [
+                      const InputFieldTitleText(text: "Source *"),
+                      if(readOnly==true)...[
+                        NotEditableDropdownComponent(text: selectedSource.toString())
+                       ]else...[
+                        SingleItemSelectDropdown(
+                            selectedValue: selectedSource,
+                            list: sourceList,
+                            onChanged: (value)
+                            {
+                              setState(() {
+                                selectedSource=value!;
+                              });
+                            },
+                            hint: "Select Source",
+                            isError: false),
+                      ],
 
-                  const InputFieldTitleText(text: "Source Details"),
-                  MultiLineTextFormField(
-                      onChanged:  (value){},
-                      controller: sourceDetailsController,
-                      inputType: TextInputType.text,
-                      validator:  (value){
-                        if(value==null||value.isEmpty)
-                        {
-                          return "Contact Name is Empty";
-                        }
-                        return null;
-                      },
-                      isReadOnly: readOnly,
-                      labelText: "Source Details Details Here"
+                      const InputFieldTitleText(text: "Source Details"),
+                      MultiLineTextFormField(
+                          onChanged:  (value){},
+                          controller: sourceDetailsController,
+                          inputType: TextInputType.text,
+                          validator:  (value){
+                            if(value==null||value.isEmpty)
+                            {
+                              return "Contact Name is Empty";
+                            }
+                            return null;
+                          },
+                          isReadOnly: readOnly,
+                          labelText: "Source Details Details Here"
+                      ),
+                    ],
                   ),
+                  SizedBox(height: SizeConfig.blockHeight*2),
+                  _buildSectionCard(
+                    icon: Icons.inventory_2_outlined,
+                    title: "Products & Competitors",
+                    subtitle: "Products involved and the competition",
+                    children: [
                   const InputFieldTitleText(text: "Products/Services Involved"),
                   NormalTextFormField(
                       onChanged:(value){
@@ -294,9 +308,11 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                    Container(
                      width: SizeConfig.screenWidth,
                      height: SizeConfig.blockHeight*7,
+                     padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),
                      decoration: BoxDecoration(
-                       border: Border.all(color: COLORS.gray,width: 1.5),
-                       borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5))
+                       color: COLORS.surfaceMuted,
+                       border: Border.all(color: COLORS.cardBorder,width: 1),
+                       borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 3))
                      ),
                      child: ListView.builder(
                        scrollDirection: Axis.horizontal,
@@ -305,17 +321,19 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                        return Container(
                          margin: EdgeInsets.symmetric(
                              horizontal: SizeConfig.blockWidth*1,
-                             vertical: SizeConfig.blockHeight*1
+                             vertical: SizeConfig.blockHeight*1.2
                          ),
                          padding: EdgeInsets.symmetric(
-                             horizontal: SizeConfig.blockWidth*2,
+                             horizontal: SizeConfig.blockWidth*3,
                              vertical: SizeConfig.blockHeight*1
                          ),
+                         alignment: Alignment.center,
                          decoration: BoxDecoration(
-                             border: Border.all(color: COLORS.gray,width: 1.5),
-                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5))
+                             color: COLORS.primarySoft,
+                             border: Border.all(color: COLORS.primaryLight,width: 1),
+                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 5))
                          ),
-                         child: NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.5, text: _controller.selectedItems[index].label),
+                         child: NormalText(fontWeight: FontWeight.w600, color: COLORS.primaryColor, fontSize: 1.5, text: _controller.selectedItems[index].label),
                        );
                      },),
                    )
@@ -328,39 +346,46 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                       searchEnabled: true,
                       items: competitorsList,
                       chipDecoration: ChipDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(6)),
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
                         wrap: false,
-                        backgroundColor: COLORS.black.withOpacity(0.1),
-                        labelStyle: TextStyle(color: COLORS.textColor),
-                        deleteIcon: const Icon(CupertinoIcons.multiply,color: COLORS.black,),
+                        backgroundColor: COLORS.primarySoft,
+                        labelStyle: TextStyle(color: COLORS.primaryColor,fontWeight: FontWeight.w600,fontFamily: 'Inter'),
+                        deleteIcon: Icon(CupertinoIcons.multiply,color: COLORS.primaryColor,size: 16,),
                       ),
                       dropdownItemDecoration: DropdownItemDecoration(
-                        textColor: COLORS.textColor,
-                        selectedBackgroundColor: COLORS.gray,
+                        textColor: COLORS.textPrimary,
+                        selectedBackgroundColor: COLORS.primarySoft,
                         selectedTextColor: COLORS.primaryColor,
                       ),
                       fieldDecoration: FieldDecoration(
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5)),
-                          borderSide: BorderSide(color: COLORS.gray, width: 1.5),
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 3)),
+                          borderSide: BorderSide(color: COLORS.outline, width: 1),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 1.5)),
-                          borderSide: BorderSide(color: COLORS.gray, width: 1.5),
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth * 3)),
+                          borderSide: BorderSide(color: COLORS.primaryColor, width: 1.5),
                         ),
                       ),
                       itemBuilder: (item, index, onTap) {
                         return ListTile(
-                          title: Text(item.label),
+                          title: Text(item.label,style: const TextStyle(fontFamily: 'Inter')),
                           trailing: item.selected
-                              ? const Icon(Icons.check_circle)
-                              : const Icon(Icons.radio_button_unchecked),
+                              ? Icon(Icons.check_circle,color: COLORS.primaryColor)
+                              : Icon(Icons.radio_button_unchecked,color: COLORS.textTertiary),
                           onTap: onTap,
                         );
                       },
                     ),
                   ],
-
+                    ],
+                  ),
+                  SizedBox(height: SizeConfig.blockHeight*2),
+                  _buildSectionCard(
+                    icon: Icons.notes_rounded,
+                    title: "Next Steps & Notes",
+                    subtitle: "Plan the follow-up and capture notes",
+                    children: [
                   const InputFieldTitleText(text: "Next Steps "),
                   MultiLineTextFormField(onChanged: (value){}, controller: nextStepsController, inputType: TextInputType.text, validator: (value){
                     return null;
@@ -370,6 +395,8 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
                   MultiLineTextFormField(onChanged: (value){}, controller: notesController, inputType: TextInputType.text, validator: (value){
                     return null;
                   }, isReadOnly: readOnly, labelText: "Enter Notes Here"),
+                    ],
+                  ),
 
                  SizedBox(height: SizeConfig.blockHeight*2,)
 
@@ -381,8 +408,19 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
 
           ),
           bottomNavigationBar: Container(
-            height: SizeConfig.blockHeight*8,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+            height: SizeConfig.blockHeight*10,
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*1.5),
+            decoration: BoxDecoration(
+              color: COLORS.white,
+              border: const Border(top: BorderSide(color: COLORS.divider,width: 1)),
+              boxShadow: [
+                BoxShadow(
+                  color: COLORS.shadow,
+                  blurRadius: 16,
+                  offset: const Offset(0,-6),
+                )
+              ],
+            ),
             child: Column(
               children: [
                 if(isView==false)...[
@@ -456,6 +494,81 @@ class _OpportunitySourceInformationScreenState extends State<OpportunitySourceIn
 
 
 
+    );
+  }
+
+  Widget _buildSectionCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required List<Widget> children,
+  }) {
+    return Container(
+      width: SizeConfig.screenWidth,
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth * 4,
+        vertical: SizeConfig.blockHeight * 2,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: COLORS.cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(SizeConfig.blockWidth * 2.5),
+                decoration: BoxDecoration(
+                  color: COLORS.primarySoft,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: COLORS.primaryColor, size: SizeConfig.blockWidth * 5),
+              ),
+              SizedBox(width: SizeConfig.blockWidth * 3),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                        fontSize: SizeConfig.blockWidth * 4.2,
+                        color: COLORS.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight * 0.4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w400,
+                        fontSize: SizeConfig.blockWidth * 3,
+                        color: COLORS.textTertiary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: SizeConfig.blockHeight * 1),
+          Divider(height: 1, color: COLORS.divider),
+          SizedBox(height: SizeConfig.blockHeight * 0.5),
+          ...children,
+        ],
+      ),
     );
   }
 }

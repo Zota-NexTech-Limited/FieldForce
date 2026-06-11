@@ -51,6 +51,79 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
     super.initState();
     createActivityBloc=BlocProvider.of<CreateActivityBloc>(context);
   }
+  Widget _sectionHeader() {
+    return Row(
+      children: [
+        Container(
+          width: SizeConfig.blockWidth * 11,
+          height: SizeConfig.blockWidth * 11,
+          decoration: BoxDecoration(
+            color: COLORS.primarySoft,
+            borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 3),
+          ),
+          child: Icon(
+            Icons.event_note_rounded,
+            color: COLORS.primaryColor,
+            size: SizeConfig.blockWidth * 6,
+          ),
+        ),
+        SizedBox(width: SizeConfig.blockWidth * 3.5),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Schedule Activity",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight * 2.4,
+                  fontWeight: FontWeight.w700,
+                  color: COLORS.textPrimary,
+                ),
+              ),
+              SizedBox(height: SizeConfig.blockHeight * 0.4),
+              Text(
+                "Fill in the details to add a new activity",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: SizeConfig.blockHeight * 1.7,
+                  fontWeight: FontWeight.w400,
+                  color: COLORS.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _formCard({required List<Widget> children}) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth * 4,
+        vertical: SizeConfig.blockHeight * 1,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.white,
+        borderRadius: BorderRadius.circular(SizeConfig.blockWidth * 4.5),
+        border: Border.all(color: COLORS.cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -72,99 +145,111 @@ class _ScheduleActivityScreenState extends State<ScheduleActivityScreen> {
 
           });
         },child:  Scaffold(
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.scaffoldBg,
           appBar: appBarComponent(title: "Add My Activity", context: context),
-          body: Container(
-            height: SizeConfig.screenHeight,
-            width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.blockWidth*3,
+          body: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig.blockWidth * 4,
+              SizeConfig.blockHeight * 2,
+              SizeConfig.blockWidth * 4,
+              SizeConfig.blockHeight * 3,
             ),
-            child: ListView(
-             // crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const InputFieldTitleText(text: "Activity"),
-                SingleItemSelectDropdown(
-                    selectedValue: selectedActivity,
-                    list: activityList,
-                    onChanged: (value){
-                      setState(() {
-                        selectedActivity=value;
-                      });
-                    },
-                    isError: false,
-                    hint: "Select Activity"),
-                const InputFieldTitleText(text: "Due Date"),
-                TextFormFieldWithSuffixIcon(
-                    onChanged:  (value){},
-                    controller: dueDateController,
-                    hintText: "due Date",
-                    readOnly: true,
-                    inputType: TextInputType.text,
-                    validator: (value){
-                      return null;
-                    },
-                    onTap: (){
-                      setState(() {
-                        showSingleDatePickerHelper(context: context,controller: dueDateController);
-                      });
-                      print("startDateController----------------${dueDateController.text}");
+                _sectionHeader(),
+                SizedBox(height: SizeConfig.blockHeight * 2),
+                _formCard(
+                  children: [
+                    const InputFieldTitleText(text: "Activity"),
+                    SingleItemSelectDropdown(
+                        selectedValue: selectedActivity,
+                        list: activityList,
+                        onChanged: (value){
+                          setState(() {
+                            selectedActivity=value;
+                          });
+                        },
+                        isError: false,
+                        hint: "Select Activity"),
+                    const InputFieldTitleText(text: "Due Date"),
+                    TextFormFieldWithSuffixIcon(
+                        onChanged:  (value){},
+                        controller: dueDateController,
+                        hintText: "due Date",
+                        readOnly: true,
+                        inputType: TextInputType.text,
+                        validator: (value){
+                          return null;
+                        },
+                        onTap: (){
+                          setState(() {
+                            showSingleDatePickerHelper(context: context,controller: dueDateController);
+                          });
+                          print("startDateController----------------${dueDateController.text}");
 
-                    },
-                    suffixIcon: "assets/image/svg_icons/calendar.svg"),
-                const InputFieldTitleText(text: "Assigned To"),
-                SingleItemSelectDropdown(
-                    selectedValue: selectedAssignedTo,
-                    list: assignedToList,
-                    onChanged: (value){
-                      setState(() {
-                        selectedAssignedTo=value;
-                      });
-                    },
-                    isError: false,
-                    hint: "Assigned To"),
-                const InputFieldTitleText(text: "Summary"),
-                MultiLineTextFormField(
-                    onChanged: (value){},
-                    controller: summaryController,
-                    inputType: TextInputType.text,
-                    validator:(value){return null;} ,
-                    isReadOnly: false,
-                    labelText: "Summary"
+                        },
+                        suffixIcon: "assets/image/svg_icons/calendar.svg"),
+                    const InputFieldTitleText(text: "Assigned To"),
+                    SingleItemSelectDropdown(
+                        selectedValue: selectedAssignedTo,
+                        list: assignedToList,
+                        onChanged: (value){
+                          setState(() {
+                            selectedAssignedTo=value;
+                          });
+                        },
+                        isError: false,
+                        hint: "Assigned To"),
+                    const InputFieldTitleText(text: "Summary"),
+                    MultiLineTextFormField(
+                        onChanged: (value){},
+                        controller: summaryController,
+                        inputType: TextInputType.text,
+                        validator:(value){return null;} ,
+                        isReadOnly: false,
+                        labelText: "Summary"
+                    ),
+                    const InputFieldTitleText(text: "Note"),
+                    MultiLineTextFormField(
+                        onChanged: (value){},
+                        controller: noteController,
+                        inputType: TextInputType.text,
+                        validator:(value){return null;} ,
+                        isReadOnly: false,
+                        labelText: "Note"
+                    ),
+                    SizedBox(height: SizeConfig.blockHeight * 1.5),
+                  ],
                 ),
-                const InputFieldTitleText(text: "Note"),
-                MultiLineTextFormField(
-                    onChanged: (value){},
-                    controller: noteController,
-                    inputType: TextInputType.text,
-                    validator:(value){return null;} ,
-                    isReadOnly: false,
-                    labelText: "Note"
-                ),
-                SizedBox(height: SizeConfig.blockHeight*3,),
-
-
               ],
             ),
           ),
           bottomNavigationBar: Container(
-            height: SizeConfig.blockHeight*8,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
-            child: Column(
-              children: [
-                NormalButton(title: "Schedule", onTap: (){
-                  setState(() {
-                    CreateActivityModel activityDetails=CreateActivityModel(
-                        activityName: selectedActivity,
-                        activityDueDate: dueDateController.text,
-                        activityAssignTo: selectedAssignedTo,
-                        activitySummary: summaryController.text,
-                        activityNotes: noteController.text
-                    );
-                    createActivityBloc.add(CreateNewActivityEvent(activityDetails: activityDetails));
-                  });
-                }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth)
-              ],
+            padding: EdgeInsets.fromLTRB(
+              SizeConfig.blockWidth * 4,
+              SizeConfig.blockHeight * 1.5,
+              SizeConfig.blockWidth * 4,
+              SizeConfig.blockHeight * 1.5,
+            ),
+            decoration: BoxDecoration(
+              color: COLORS.white,
+              border: Border(top: BorderSide(color: COLORS.divider, width: 1)),
+            ),
+            child: SafeArea(
+              top: false,
+              child: NormalButton(title: "Schedule", onTap: (){
+                setState(() {
+                  CreateActivityModel activityDetails=CreateActivityModel(
+                      activityName: selectedActivity,
+                      activityDueDate: dueDateController.text,
+                      activityAssignTo: selectedAssignedTo,
+                      activitySummary: summaryController.text,
+                      activityNotes: noteController.text
+                  );
+                  createActivityBloc.add(CreateNewActivityEvent(activityDetails: activityDetails));
+                });
+              }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth),
             ),
           ),
         ),)

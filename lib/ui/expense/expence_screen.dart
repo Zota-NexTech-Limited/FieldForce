@@ -2,8 +2,6 @@ import 'dart:collection';
 
 import 'package:fieldsales/bloc/add_expense/add_expense_bloc.dart';
 import 'package:fieldsales/bloc/expense_list_bloc/expense_list_bloc.dart';
-import 'package:fieldsales/components/button_component/circular_button.dart';
-import 'package:fieldsales/components/button_component/normal_button.dart';
 import 'package:fieldsales/components/state_management_components/error_screen.dart';
 import 'package:fieldsales/components/state_management_components/loading_screen.dart';
 import 'package:fieldsales/components/svg_image_component.dart';
@@ -14,7 +12,6 @@ import 'package:fieldsales/helper/date_converter.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/models/expense/expense_list_model.dart';
 import 'package:fieldsales/ui/expense/add_expense_screen.dart';
-import 'package:fieldsales/ui/expense/demo_screen.dart';
 import 'package:fieldsales/ui/my_activity/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -155,29 +152,62 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
               isSelectedEventsInitialized=true;
 
               return  Scaffold(
-                appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*13), child: Container(
+                backgroundColor: COLORS.scaffoldBg,
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.endFloat,
+                floatingActionButton: FloatingActionButton.extended(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => BlocProvider(create: (context) => AddExpenseBloc(), child: AddExpenseScreen())));
+                  },
+                  backgroundColor: COLORS.primaryColor,
+                  foregroundColor: COLORS.white,
+                  elevation: 3,
+                  icon: const Icon(Icons.add_rounded, size: 22),
+                  label: const Text(
+                    "Add Expense",
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14.5,
+                    ),
+                  ),
+                ),
+                appBar:PreferredSize(preferredSize: Size(SizeConfig.screenWidth, SizeConfig.blockHeight*8), child: Container(
                   width: SizeConfig.screenWidth,
-                  color: COLORS.backgroundColor,
-                  child: Container(
-                    //margin: EdgeInsets.only(bottom:SizeConfig.blockHeight*3),
-                    color: COLORS.secondaryColor,
-                    padding: EdgeInsets.all(SizeConfig.blockHeight*2),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
-                            child: Icon(Icons.arrow_back)),
-                        SizedBox(width: SizeConfig.blockWidth*5,),
-                        NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2.7, text:"Expence"),
-                       // const Spacer(),
-                        //SvgImageHelper(image: "assets/image/svg_icons/notification.svg"),
-                        //SizedBox(width: SizeConfig.blockWidth*6,),
-                        //SvgImageHelper(image: "assets/image/svg_icons/settings_icon.svg"),
-
-
-                      ],
+                  decoration: BoxDecoration(
+                    color: COLORS.surface,
+                    boxShadow: [
+                      BoxShadow(
+                        color: COLORS.shadow,
+                        blurRadius: 14,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: SafeArea(
+                    bottom: false,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4, vertical: SizeConfig.blockHeight*1.6),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            borderRadius: BorderRadius.circular(SizeConfig.blockWidth*3),
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(SizeConfig.blockWidth*2),
+                              decoration: BoxDecoration(
+                                color: COLORS.surfaceMuted,
+                                borderRadius: BorderRadius.circular(SizeConfig.blockWidth*3),
+                              ),
+                              child: Icon(Icons.arrow_back, color: COLORS.textPrimary, size: SizeConfig.blockHeight*2.6),
+                            ),
+                          ),
+                          SizedBox(width: SizeConfig.blockWidth*4,),
+                          NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize: 2.6, text:"Expense"),
+                        ],
+                      ),
                     ),
                   ),
                 )),
@@ -186,18 +216,28 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                     Container(
                       width: SizeConfig.screenWidth,
                       height: SizeConfig.screenHeight,
-                      color: COLORS.backgroundColor,
+                      color: COLORS.scaffoldBg,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
-                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
+                            margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
+                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*5, vertical: SizeConfig.blockHeight*2),
                             width: SizeConfig.screenWidth,
-                            height: SizeConfig.blockHeight*8,
                             decoration: BoxDecoration(
-                                color: COLORS.primaryColor,
-                                borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [COLORS.primaryColor, COLORS.primaryDark],
+                                ),
+                                borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4.5)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: COLORS.primaryColor.withOpacity(0.30),
+                                    blurRadius: 18,
+                                    offset: const Offset(0, 8),
+                                  ),
+                                ],
                             ),
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -205,28 +245,45 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                               children: [
 
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 2, text: "Total Claim") ,
-                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.onPrimaryColor, fontSize: 2, text: "₹0/Day") ,
+                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 1.8, text: "Total Claim") ,
+                                    SizedBox(height: SizeConfig.blockHeight*0.6,),
+                                    NormalText(fontWeight: FontWeight.w700, color: COLORS.onPrimaryColor, fontSize: 2.4, text: "₹0/Day") ,
                                   ],
                                 ),
-                                Spacer(),
+                                Container(
+                                  width: 1,
+                                  height: SizeConfig.blockHeight*5,
+                                  color: COLORS.onPrimaryColor.withOpacity(0.25),
+                                ),
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 2, text: "Total Approved") ,
-                                    NormalText(fontWeight: FontWeight.w600, color: COLORS.onPrimaryColor, fontSize: 2, text: "₹0/Day") ,
+                                    NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 1.8, text: "Total Approved") ,
+                                    SizedBox(height: SizeConfig.blockHeight*0.6,),
+                                    NormalText(fontWeight: FontWeight.w700, color: COLORS.onPrimaryColor, fontSize: 2.4, text: "₹0/Day") ,
                                   ],
                                 )
                               ],
                             ),
                           ),
                           Container(
-
+                            margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4),
+                            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*2, vertical: SizeConfig.blockHeight*1),
                             decoration: BoxDecoration(
-                              color: COLORS.white,
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(SizeConfig.blockWidth*2),bottomRight:  Radius.circular(SizeConfig.blockWidth*2))
+                              color: COLORS.surface,
+                              border: Border.all(color: COLORS.cardBorder),
+                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4.5)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: COLORS.shadow,
+                                  blurRadius: 14,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ],
                             ),
 
                             child: TableCalendar<Expense>(
@@ -244,32 +301,32 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                               headerStyle:  HeaderStyle(
                                 formatButtonVisible: false,
                                 titleCentered: true,
-                                titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.8,color:COLORS.iconColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500),
-                                decoration: const BoxDecoration(color: COLORS.white,),
+                                titleTextStyle: TextStyle(fontSize: SizeConfig.blockHeight*2.4,color:COLORS.textPrimary,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w700),
+                                decoration: const BoxDecoration(color: COLORS.surface,),
                                 rightChevronIcon:  Container(
-                                    padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                                    padding: EdgeInsets.all(SizeConfig.blockWidth*1.5),
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: COLORS.blueExtraLight),
-                                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                                        color: COLORS.primarySoft,
+                                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
                                     ),
-                                    child: Icon(Icons.arrow_forward_ios,color:COLORS.iconColor,size: SizeConfig.blockHeight*2.5,)),
+                                    child: Icon(Icons.arrow_forward_ios,color:COLORS.primaryColor,size: SizeConfig.blockHeight*2.2,)),
                                 leftChevronIcon: Container(
-                                    padding: EdgeInsets.all(SizeConfig.blockWidth*1),
+                                    padding: EdgeInsets.all(SizeConfig.blockWidth*1.5),
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: COLORS.blueExtraLight),
-                                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2))
+                                        color: COLORS.primarySoft,
+                                        borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2.5))
                                     ),
-                                    child: Icon(Icons.arrow_back_ios_new,color:COLORS.iconColor,size: SizeConfig.blockHeight*2.5,)),
+                                    child: Icon(Icons.arrow_back_ios_new,color:COLORS.primaryColor,size: SizeConfig.blockHeight*2.2,)),
 
                               ),
                               calendarStyle: CalendarStyle(
                                 outsideDaysVisible: false,
-                                selectedTextStyle:TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.onPrimaryColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500) ,
+                                selectedTextStyle:TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.onPrimaryColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w600) ,
                                 defaultTextStyle:   textStyleComponent,//all exept sat and sunday
                                 weekendTextStyle:textStyleComponent,//weelkend text style
                                 selectedDecoration:  BoxDecoration(color:COLORS.primaryColor,shape:BoxShape.circle ),//decoration of selected date
-                                todayDecoration:BoxDecoration(color:COLORS.primaryColor.withOpacity(0.4),shape:BoxShape.circle ),
-                                markerDecoration:  BoxDecoration(color: COLORS.primaryColor,borderRadius: BorderRadius.all(Radius.circular(10))),//event show
+                                todayDecoration:BoxDecoration(color:COLORS.primaryColor.withOpacity(0.35),shape:BoxShape.circle ),
+                                markerDecoration:  BoxDecoration(color: COLORS.primaryColor,shape:BoxShape.circle),//event show
 
 
                                 //  weekNumberTextStyle: const TextStyle(color: Colors.red),
@@ -293,68 +350,83 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
 
                             ),
                           ),
-                          const SizedBox(height: 8.0),
+                          SizedBox(height: SizeConfig.blockHeight*1.5),
                           Expanded(
                             child: ValueListenableBuilder<List<Expense>>(
                               valueListenable: _selectedEvents,
                               builder: (context, value, _) {
                                 return value.length==0?SingleChildScrollView(physics:NeverScrollableScrollPhysics(),child: EmptyScreen(text: "Expense Not Found!",distanceFromTop: 0)): ListView.builder(
+                                  padding: EdgeInsets.only(
+                                    left: SizeConfig.blockWidth*4,
+                                    right: SizeConfig.blockWidth*4,
+                                    top: SizeConfig.blockHeight*0.5,
+                                    bottom: SizeConfig.blockHeight*11,
+                                  ),
                                   itemCount: value.length,
                                   itemBuilder: (context, index) {
                                     return Container(
-                                      margin:  EdgeInsets.symmetric(
-                                        horizontal: SizeConfig.blockWidth*2,
-                                        vertical: SizeConfig.blockHeight*1,
+                                      margin:  EdgeInsets.only(
+                                        bottom: SizeConfig.blockHeight*1.6,
                                       ),
                                       padding:  EdgeInsets.symmetric(
-                                        horizontal: SizeConfig.blockWidth*2,
+                                        horizontal: SizeConfig.blockWidth*4,
                                         vertical: SizeConfig.blockHeight*2,
                                       ),
                                       decoration: BoxDecoration(
-                                        /*boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.3),
-                                        spreadRadius: 0.1,
-                                        blurRadius: 4,
-                                        offset: Offset(0, 1),
-                                      ),
-                                    ],*/
                                           border: Border.all(color: COLORS.cardBorder),
-                                          color: COLORS.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.8))
+                                          color: COLORS.surface,
+                                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4)),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: COLORS.shadow,
+                                              blurRadius: 12,
+                                              offset: const Offset(0, 6),
+                                            ),
+                                          ],
                                       ),
                                       child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              //NormalText(fontWeight: FontWeight.w600, color: COLORS.black, fontSize: 2, text: "${value[index]}"),
-                                              NormalText(fontWeight: FontWeight.w600, color: COLORS.textColor, fontSize: 2, text: value[index].expenseProduct!),
-                                              subTitleText(text: "Claim Amount : ₹ ${ value[index].expenseClaimPrice!}"),
-                                              subTitleText(text: "Approved Amount : ₹ ${ value[index].expenseTotalPrice!}"),
-
-
-
-                                            ],
+                                          Container(
+                                            margin: EdgeInsets.only(top: SizeConfig.blockHeight*0.3, right: SizeConfig.blockWidth*3),
+                                            padding: EdgeInsets.all(SizeConfig.blockWidth*2.6),
+                                            decoration: BoxDecoration(
+                                              color: COLORS.primarySoft,
+                                              borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)),
+                                            ),
+                                            child: Icon(Icons.receipt_long_outlined, color: COLORS.primaryColor, size: SizeConfig.blockHeight*2.8),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize: 2, text: value[index].expenseProduct!),
+                                                SizedBox(height: SizeConfig.blockHeight*0.8,),
+                                                subTitleText(text: "Claim Amount : ₹ ${ value[index].expenseClaimPrice!}"),
+                                                SizedBox(height: SizeConfig.blockHeight*0.4,),
+                                                subTitleText(text: "Approved Amount : ₹ ${ value[index].expenseTotalPrice!}"),
+                                              ],
+                                            ),
                                           ),
 
                                           Column(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               subTitleText(text:DateFormetConvertHelper(date: value[index].createdDate!.toString()) ),
-                                              SizedBox(height: SizeConfig.blockHeight*1,),
+                                              SizedBox(height: SizeConfig.blockHeight*1.4,),
                                               SizedBox(
-                                                width: SizeConfig.blockWidth*18,
-                                                height:SizeConfig.blockHeight*3.5,
+                                                width: SizeConfig.blockWidth*20,
+                                                height:SizeConfig.blockHeight*4,
                                                 child:  ElevatedButton(
-                                                  child: NormalText(fontWeight: FontWeight.w500, color: COLORS.textColor, fontSize:1.3, text: "To Submit") ,
+                                                  child: NormalText(fontWeight: FontWeight.w600, color: COLORS.success, fontSize:1.4, text: "To Submit") ,
                                                   style: ButtonStyle(
 
                                                       elevation: WidgetStatePropertyAll(0),
                                                       padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*1),),
-                                                      backgroundColor: MaterialStatePropertyAll(COLORS.green.withOpacity(.3)),
-                                                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)))),
-                                                      side: WidgetStatePropertyAll(BorderSide(color: COLORS.green))
+                                                      backgroundColor: MaterialStatePropertyAll(COLORS.successSoft),
+                                                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3)))),
+                                                      side: WidgetStatePropertyAll(BorderSide(color: COLORS.success.withOpacity(0.4)))
                                                   ),
                                                   onPressed: (){},
                                                 ),
@@ -374,52 +446,6 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
                         ],
                       ),
                     ),
-                    Positioned(
-                        bottom: SizeConfig.blockHeight*2,
-
-                        child: Container(
-                          width: SizeConfig.screenWidth,
-                          padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*0.5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*0.5),
-                                width: SizeConfig.blockWidth*70,
-                                height: SizeConfig.blockHeight*7,
-                                decoration: BoxDecoration(
-                                    color: COLORS.primaryColor,
-                                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*3))
-                                ),
-                                child:  Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-
-                                    Column(
-                                      children: [
-                                        NormalText(fontWeight: FontWeight.w400, color: COLORS.onPrimaryColor, fontSize: 2, text: "Total Claim") ,
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.onPrimaryColor, fontSize: 2, text: "₹0/Day") ,
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      children: [
-                                        NormalText(fontWeight: FontWeight.w400, color: COLORS.white, fontSize: 2, text: "Total Approved") ,
-                                        NormalText(fontWeight: FontWeight.w600, color: COLORS.white, fontSize: 2, text: "₹0/Day") ,
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              CircularButtonComponent(icon: Icons.add,onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider(create: (context)=>AddExpenseBloc(),child:  AddExpenseScreen(),)));
-                              },),
-
-                            ],
-                          ),
-                        )),
-
-
                   ],
                 ),
               );
@@ -441,7 +467,7 @@ class _ExpenceScreenState extends State<ExpenceScreen> {
 
   TextStyle textStyleComponent=TextStyle(fontSize: SizeConfig.blockHeight*2,color:COLORS.textColor,fontFamily: Config.fountFamilyPrimary,fontWeight:FontWeight.w500);
   Widget subTitleText({required String text}){
-    return  NormalText(fontWeight: FontWeight.w400, color: COLORS.textColor, fontSize: 1.6, text: text);
+    return  NormalText(fontWeight: FontWeight.w400, color: COLORS.textSecondary, fontSize: 1.6, text: text);
   }
 }
 

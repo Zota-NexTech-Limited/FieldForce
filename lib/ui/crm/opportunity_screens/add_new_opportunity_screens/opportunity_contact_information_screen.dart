@@ -8,6 +8,7 @@ import 'package:fieldsales/components/dropdown_component/not_editable_dropdown.d
 import 'package:fieldsales/components/dropdown_component/single_item_select_dropdown.dart';
 import 'package:fieldsales/components/text_component/input_field_title_text.dart';
 import 'package:fieldsales/components/text_form_field_component/normal_textform_field.dart';
+import 'package:fieldsales/helper/colors.dart';
 import 'package:fieldsales/helper/size_config.dart';
 import 'package:fieldsales/models/crm_models/opportinuty_model.dart';
 import 'package:fieldsales/ui/crm/opportunity_screens/add_new_opportunity_screens/opportunity_source_information_screen.dart';
@@ -99,14 +100,19 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
       Form(
         key: _formKey,
         child: Scaffold(
-          appBar: appBarComponent(title: "contact Information", context: context),
+          backgroundColor: COLORS.scaffoldBg,
+          appBar: appBarComponent(title: "Contact Information", context: context),
           body: Container(
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3),
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4),
             child: ListView(
               //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: SizeConfig.blockHeight*2),
+                _sectionHeader(),
+                SizedBox(height: SizeConfig.blockHeight*2),
+                _formCard([
                 const InputFieldTitleText(text: "Contact Name *"),
                 NormalTextFormField(
                     onChanged: (value){
@@ -188,14 +194,25 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
                       hint: "Select Industry",
                       isError: false),
                 ],
-
-
+                ]),
+                SizedBox(height: SizeConfig.blockHeight*3),
               ],
             ),
           ),
           bottomNavigationBar: Container(
-            height: SizeConfig.blockHeight*8,
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,),
+            height: SizeConfig.blockHeight*10,
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4, vertical: SizeConfig.blockHeight*1.2),
+            decoration: BoxDecoration(
+              color: COLORS.surface,
+              border: Border(top: BorderSide(color: COLORS.divider, width: 1)),
+              boxShadow: [
+                BoxShadow(
+                  color: COLORS.shadow,
+                  blurRadius: 16,
+                  offset: const Offset(0, -6),
+                ),
+              ],
+            ),
             child: Column(
               children: [
                 if(isView==false)...[
@@ -262,6 +279,82 @@ class _OpportunityContactInformationScreenState extends State<OpportunityContact
       )
 
 
+    );
+  }
+
+  Widget _sectionHeader() {
+    return Row(
+      children: [
+        Container(
+          height: SizeConfig.blockHeight*5.5,
+          width: SizeConfig.blockHeight*5.5,
+          decoration: BoxDecoration(
+            color: COLORS.primarySoft,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Icon(
+            Icons.contact_phone_outlined,
+            color: COLORS.primaryColor,
+            size: SizeConfig.blockHeight*3,
+          ),
+        ),
+        SizedBox(width: SizeConfig.blockWidth*3),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Contact Information",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w700,
+                  fontSize: SizeConfig.blockHeight*2.3,
+                  color: COLORS.textPrimary,
+                ),
+              ),
+              SizedBox(height: SizeConfig.blockHeight*0.4),
+              Text(
+                "Tell us who to reach and how",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w500,
+                  fontSize: SizeConfig.blockHeight*1.6,
+                  color: COLORS.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _formCard(List<Widget> children) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.blockWidth*4,
+        vertical: SizeConfig.blockHeight*1,
+      ),
+      decoration: BoxDecoration(
+        color: COLORS.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: COLORS.cardBorder, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: COLORS.shadow,
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...children,
+          SizedBox(height: SizeConfig.blockHeight*2),
+        ],
+      ),
     );
   }
 }

@@ -35,22 +35,48 @@ class _AuthenticationState extends State<Authentication> {
     return BlocBuilder(
         bloc: authenticationBloc,
         builder: (context, state) {
+          Widget current;
+          Key currentKey;
+
           if (state is AuthenticationLoading) {
             print("Auth is Loading1");
-            return const LoadingScreen();
-          }
-
-          if(state is AuthenticationLoginRequired)
-            {
-              return  BlocProvider(create: (context)=>LoginBloc(),child: SignInScreen(),);
-            }
-
-          if (state is AuthenticationHomeScreen) {
+            currentKey = const ValueKey('auth_loading');
+            current = const LoadingScreen();
+          } else if (state is AuthenticationLoginRequired) {
+            currentKey = const ValueKey('auth_login_required');
+            current = BlocProvider(
+              create: (context) => LoginBloc(),
+              child: SignInScreen(),
+            );
+          } else if (state is AuthenticationHomeScreen) {
             print("Login Required3");
-            return BottomNavigationScreen();
+            currentKey = const ValueKey('auth_home');
+            current = BottomNavigationScreen();
+          } else {
+            print("Login Required4");
+            currentKey = const ValueKey('auth_login_default');
+            current = BlocProvider(
+              create: (context) => LoginBloc(),
+              child: SignInScreen(),
+            );
           }
-          print("Login Required4");
-          return  BlocProvider(create: (context)=>LoginBloc(),child: SignInScreen(),);
+
+          return Container(
+            color: COLORS.scaffoldBg,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              switchInCurve: Curves.easeOut,
+              switchOutCurve: Curves.easeIn,
+              transitionBuilder: (child, animation) => FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+              child: KeyedSubtree(
+                key: currentKey,
+                child: current,
+              ),
+            ),
+          );
         });
   }
 }

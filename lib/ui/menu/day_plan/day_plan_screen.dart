@@ -17,98 +17,124 @@ class _DayPlanScreenState extends State<DayPlanScreen> {
   Widget build(BuildContext context) {
     return SafeArea(child:
     Scaffold(
+      backgroundColor: COLORS.scaffoldBg,
       appBar: appBarComponent(
         context: context,
         title: "Day Plan"
       ),
       body: Container(
         width: SizeConfig.screenWidth,
-        color:COLORS.white,
+        color: COLORS.scaffoldBg,
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*2),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2.2,  text: "Work With"),
-           SizedBox(height: SizeConfig.blockHeight*2,),
-           SizedBox(
-             height: SizeConfig.screenHeight*0.73,
-             child: ListView.builder(
-               physics: BouncingScrollPhysics(),
-               itemCount: 10,
-               shrinkWrap: true,
-               itemBuilder: (context, index) {
-               return  InkWell(
-                 onTap: (){
-                   setState(() {
-                     if(selectedIndexList.contains(index))
-                     {
-                       int removeIndex=selectedIndexList.indexWhere((number)=>number==index);
-                       selectedIndexList.removeAt(removeIndex);
-                     }else{
-                       selectedIndexList.add(index);
-                     }
-                   });
-                 },
-                 child: Container(
-                   margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1),
-                   padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3,vertical: SizeConfig.blockHeight*2),
-                   decoration: BoxDecoration(
-                       color: selectedIndexList.contains(index)?COLORS.backgroundColor:COLORS.white,
-                       borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*2)),
-                       border: Border.all(color: selectedIndexList.contains(index)?COLORS.primaryColor: COLORS.cardBorder)
-                   ),
-                   child: Row(
-                     children: [
-                       Container(
+            NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize: 2.4,  text: "Work With"),
+            SizedBox(height: SizeConfig.blockHeight*0.6,),
+            NormalText(fontWeight: FontWeight.w400, color: COLORS.textTertiary, fontSize: 1.6,  text: "Select team members to plan your day"),
+            SizedBox(height: SizeConfig.blockHeight*2,),
+            Expanded(
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: 10,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final bool isSelected = selectedIndexList.contains(index);
+                  return InkWell(
+                    borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4)),
+                    onTap: (){
+                      setState(() {
+                        if(selectedIndexList.contains(index))
+                        {
+                          int removeIndex=selectedIndexList.indexWhere((number)=>number==index);
+                          selectedIndexList.removeAt(removeIndex);
+                        }else{
+                          selectedIndexList.add(index);
+                        }
+                      });
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
+                      curve: Curves.easeOut,
+                      margin: EdgeInsets.only(bottom: SizeConfig.blockHeight*1.4),
+                      padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*3.5,vertical: SizeConfig.blockHeight*1.8),
+                      decoration: BoxDecoration(
+                          color: isSelected ? COLORS.primarySoft : COLORS.surface,
+                          borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*4)),
+                          border: Border.all(
+                            color: isSelected ? COLORS.primaryColor : COLORS.cardBorder,
+                            width: isSelected ? 1.4 : 1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: COLORS.shadow,
+                              blurRadius: 14,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: SizeConfig.blockHeight*6,
+                            width: SizeConfig.blockWidth*12,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: isSelected ? COLORS.primaryColor : COLORS.surfaceMuted,
+                                borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*10))
+                            ),
+                            child: Icon(
+                              Icons.person_rounded,
+                              color: isSelected ? COLORS.white : COLORS.iconColor,
+                              size: SizeConfig.blockHeight*3,
+                            ),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockWidth*4,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                NormalText(fontWeight: FontWeight.w700, color: COLORS.textPrimary, fontSize: 1.9,  text: "Alice Johnson"),
+                                SizedBox(height: SizeConfig.blockHeight*0.4,),
+                                NormalText(fontWeight: FontWeight.w400, color: COLORS.textSecondary, fontSize: 1.55,  text: "Assistant Manager"),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: SizeConfig.blockWidth*2,),
+                          Checkbox(
+                              side: BorderSide(color:COLORS.outline,width: SizeConfig.blockWidth*0.4) ,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5))),
+                              value: selectedIndexList.contains(index),
+                              activeColor: COLORS.primaryColor,
+                              onChanged: (value){
+                                setState(() {
 
-                         height: SizeConfig.blockHeight*6,
-                         width: SizeConfig.blockWidth*11,
-                         decoration: BoxDecoration(
-                             color: COLORS.cardBorder,
-                             borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*10))
-                         ),
 
-                       ),
-                       SizedBox(
-                         width: SizeConfig.blockWidth*5,
-                       ),
-                       Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           NormalText(fontWeight: FontWeight.w700, color: COLORS.textColor, fontSize: 2,  text: "Alice Johnson"),
-                           NormalText(fontWeight: FontWeight.w400, color: COLORS.gray, fontSize: 1.6,  text: "Assistant Manager"),
-
-                         ],
-                       ),
-                       Spacer(),
-                       Checkbox(
-
-                           side: BorderSide(color:COLORS.gray,width: SizeConfig.blockWidth*0.5) ,
-                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(SizeConfig.blockWidth*1.5))),
-                           value: selectedIndexList.contains(index),
-                           activeColor: COLORS.primaryColor,
-                           onChanged: (value){
-                             setState(() {
-
-
-                             });
-                           }),
-                     ],
-                   ),
-                 ),
-               );
-             },),
-           ),
+                                });
+                              }),
+                        ],
+                      ),
+                    ),
+                  );
+                },),
+            ),
 
           ],
         ),
       ),
       bottomNavigationBar: Container(
-        height: SizeConfig.blockHeight*9,
-        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*1),
-        child:  NormalButton(title: "Start Day", onTap: (){
+        padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockWidth*4,vertical: SizeConfig.blockHeight*1.6),
+        decoration: BoxDecoration(
+          color: COLORS.surface,
+          border: Border(top: BorderSide(color: COLORS.divider)),
+        ),
+        child: Center(
+          child: NormalButton(title: "Start Day", onTap: (){
 
-        }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.7),
+          }, height: SizeConfig.blockHeight*7, width: SizeConfig.screenWidth*0.92),
+        ),
       ),
     ));
   }
